@@ -1,0 +1,42 @@
+<!doctype html>
+
+<html ng-app="myApp" ng-controller="MainController">
+    <head>
+        <title>ClassLens</title>
+        <script src="node_modules/angular/angular.js"></script>
+        <script src="node_modules/angular-route/angular-route.js"></script>
+        <script src="node_modules/angular-resource/angular-resource.js"></script>
+
+        <script src="node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/tether/dist/js/tether.min.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
+
+        <script src="mainController.js"></script>
+        <link rel="stylesheet" type="text/css" href="main.css" />
+
+        <script src="components/header/headerController.js"></script>
+        <link rel="stylesheet" type="text/css" href="components/header/header.css" />
+
+        <script src="components/explore/exploreController.js"></script>
+        <link rel="stylesheet" type="text/css" href="components/explore/explore.css" />
+
+        <script src="components/class/classController.js"></script>
+        <link rel="stylesheet" type="text/css" href="components/class/class.css" />
+
+        <script src="components/bookmarks/bookmarksController.js"></script>
+        <link rel="stylesheet" type="text/css" href="components/bookmarks/bookmarks.css" />
+
+        <script src="components/review/reviewController.js"></script>
+        <link rel="stylesheet" type="text/css" href="components/review/review.css" />
+
+        <script src="components/review-class/reviewClassController.js"></script>
+        <link rel="stylesheet" type="text/css" href="components/review-class/review-class.css" />
+
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:200,400,700" rel="stylesheet">
+    </head>
+    <body>
+    	<div ng-include="'components/header/header-template.html'" ng-controller="HeaderController"></div>
+        <div ng-view></div>
+    </body>
+</html>
