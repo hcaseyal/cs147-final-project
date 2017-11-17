@@ -1,0 +1,20 @@
+.node {
+  fill: steelblue;
+  stroke: none;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
+text {
+  font: 24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.node:hover circle {
+  fill: orange;
+}
