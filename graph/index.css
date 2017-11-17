@@ -1,45 +1,13 @@
-.speciesSelect {
-	position: absolute;
-	width: 250px;
-	left: 10px;
-	top: 10px;
+text {
+  font: 24px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  pointer-events: none;
 }
 
-.diameterSelect {
-	position: absolute;
-	width: 120px;
-	left: 600px;
-	top: 10px;
+circle {
+  fill: #ccc;
 }
 
-.diameterSlider {
-	position: absolute;
-	left: 730px;
-	top: 10px;
-	width: 100px;
-}
-
-.diameterText {
-	position: absolute;
-	left: 850px;
-	top: 10px;
-}
-
-.detailText {
-	position: absolute;
-	color: gray;
-	left: 1000px;
-	top: 10px;
-}
-
-.checkbox {
-	position: absolute;
-	left: 300px;
-	top: 10px;
-}
-
-.checkboxText {
-	position: absolute;
-	left: 320px;
-	top: 10px;
+.node:hover circle {
+  fill: orange;
 }
