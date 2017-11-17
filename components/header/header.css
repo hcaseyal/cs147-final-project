@@ -1,0 +1,70 @@
+.full-header {
+	height: 220px;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	background-image: linear-gradient(43deg, #5EBAF1 8%, #2979FB 91%);
+}
+
+.full-header-name {
+	font-family: OpenSans-Bold;
+	font-size: 45px;
+	color: #FFFFFF;
+}
+
+.review-explore-container {
+	width: 300px;
+	display: flex;
+	justify-content: space-between;
+	font-size: 25px;
+	letter-spacing: 4px;
+	color: #FFFFFF;
+	margin-bottom: 15px;
+}
+
+.active-button {
+	font-family: OpenSans-ExtraBold;
+	color: #FFFFFF;	
+}
+
+.disabled-button {
+	font-family: OpenSans-Light;
+	color: rgba(255,255,255,0.50);
+}
+
+.disabled-button:hover {
+	color: #FFFFFF;
+}
+
+.search-bar-container {
+	display: flex;
+}
+
+.search-bar {
+	width: 300px;
+	height: 35px;
+	background: rgba(255,255,255,0.15);
+	border: 1px solid #FFFFFF;
+	border-radius: 5px;
+	color: #FFFFFF;
+	font-family: OpenSans-Light;
+	margin-right: 10px;
+	margin-left: 35px;
+}
+
+.header {
+	height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	background-image: linear-gradient(-111deg, #2979FB 16%, #5EBAF1 81%);
+	padding: 0 20px;
+}
+
+.header-name {
+	font-family: OpenSans-Bold;
+	font-size: 32px;
+	color: #FFFFFF;
+}
