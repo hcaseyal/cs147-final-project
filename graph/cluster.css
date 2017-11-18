@@ -15,6 +15,12 @@ text {
   pointer-events: none;
 }
 
-.node:hover circle {
+.node:hover {
   fill: orange;
+}
+
+#nodes-svg-container {
+	position:absolute;
+	top: 100px;
+	left: 100px;
 }

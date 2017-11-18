@@ -13,7 +13,7 @@ var svg = d3.select("body").append("svg")
   .append("g")
     .attr("transform", "translate(0," + -bleed + ")");
 
-d3.json("data/sample.json", function(error, json) {
+d3.json("sample.json", function(error, json) {
   if (error) throw error;
 
   var node = svg.selectAll(".node")

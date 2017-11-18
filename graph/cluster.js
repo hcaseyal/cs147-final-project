@@ -1,3 +1,7 @@
+var svg = d3.select('svg'),
+  width = +svg.attr("width"),
+  height = +svg.attr("height")
+
 var data = {
   "name": "A1",
   "children": [
@@ -20,17 +24,40 @@ var data = {
     },
     {
       "name": "B2",
-      "value": 200
+      "children": [
+        {
+          "name": "C4",
+          "value": 100
+        }
+      ]
     }
   ]
 }
 
 var clusterLayout = d3.cluster()
-  .size([400, 200])
+  .size([width, height])
 
 var root = d3.hierarchy(data)
 
 clusterLayout(root)
+
+// Invisible rectangle for zoom
+    svg.append("rect")
+    .attr("width", width)
+    .attr("height", height)
+    .style("stroke", "black")
+    .style("stroke-width", "5px")
+    .style("fill", "none")
+    .style("pointer-events", "all")
+    .call(d3.zoom()
+        .scaleExtent([1 / 2, 4])
+        .on("zoom", zoomed));
+
+function zoomed() {
+  var transform = d3.transform(d3.select('svg g').attr("transform"));
+  
+  d3.select('svg g').attr("transform", d3.event.transform);
+}
 
 // Nodes
 d3.select('svg g.nodes')
@@ -41,7 +68,7 @@ d3.select('svg g.nodes')
   .classed('node', true)
   .attr('cx', function(d) {return d.x;})
   .attr('cy', function(d) {return d.y;})
-  .attr('r', 4);
+  .attr('r', 25);
 
 // Links
 d3.select('svg g.links')
