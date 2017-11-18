@@ -1,7 +1,3 @@
-var svg = d3.select('svg'),
-  width = +svg.attr("width"),
-  height = +svg.attr("height")
-
 var data = {
   "name": "A1",
   "children": [
@@ -34,6 +30,16 @@ var data = {
   ]
 }
 
+var svg = d3.select('svg'),
+  width = +svg.attr("width"),
+  height = +svg.attr("height"),
+  transform = d3.zoomIdentity;
+
+  
+  svg.call(d3.zoom()
+      .scaleExtent([1 / 2, 4])
+      .on("zoom", zoomed));
+
 var clusterLayout = d3.cluster()
   .size([width, height])
 
@@ -42,20 +48,16 @@ var root = d3.hierarchy(data)
 clusterLayout(root)
 
 // Invisible rectangle for zoom
-    svg.append("rect")
-    .attr("width", width)
-    .attr("height", height)
-    .style("stroke", "black")
-    .style("stroke-width", "5px")
-    .style("fill", "none")
-    .style("pointer-events", "all")
-    .call(d3.zoom()
-        .scaleExtent([1 / 2, 4])
-        .on("zoom", zoomed));
+  svg.append("rect")
+  .attr("width", width)
+  .attr("height", height)
+  .style("stroke", "black")
+  .style("stroke-width", "5px")
+  .style("fill", "none")
+  .style("pointer-events", "none")
+
 
 function zoomed() {
-  var transform = d3.transform(d3.select('svg g').attr("transform"));
-  
   d3.select('svg g').attr("transform", d3.event.transform);
 }
 
