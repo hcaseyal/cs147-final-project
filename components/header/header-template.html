@@ -25,13 +25,17 @@
 </div>
 <div ng-if="main.displayFullHeader == false">
 	<div class="header">
-		<a href="#!/explore">
+		<a href="#!/teacher-home" ng-if="main.selectedButton == 'teacher'">
+			<div class="header-item header-name">ClassLens</div>
+		</a>
+		<a href="#!/explore" ng-if="main.selectedButton != 'teacher'">
 			<div class="header-item header-name">ClassLens</div>
 		</a>
 		<div class="header-item search-bar-container">
 			<form name="searchForm">
 				<input ng-if="main.selectedButton == 'explore'" class="search-bar" type="text" name="searchQuery" placeholder="find careers, skills, classes..."></input>
 				<input ng-if="main.selectedButton == 'review'" class="search-bar" type="text" name="searchQuery" placeholder="find courses to review..."></input>
+				<input ng-if="main.selectedButton == 'teacher'" class="search-bar" type="text" name="searchQuery" placeholder="find feedback on classes..."></input>
 			</form>
 			<img class="search-icon" src="img/search-icon.png">
 		</div>

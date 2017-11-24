@@ -1,0 +1,31 @@
+<div class="login-container">
+	<div class="login-title">
+		<div class="login-app-title">ClassLens</div>
+		<div class="login-value-prop">MAKING DOWNSTREAM FEEDBACK ACCESSIBLE TO TEACHERS AND STUDENTS</div>
+	</div>
+	<div class="login-box">
+		<div class="student-teacher-toggle">
+			<div ng-click="activeToggle = 'students'" ng-class="activeToggle == 'students' ? 'active-toggle' : 'disabled-toggle'">
+				STUDENTS
+			</div>
+			<div>|</div>
+			<div ng-click="activeToggle = 'teachers'" ng-class="activeToggle == 'teachers' ? 'active-toggle' : 'disabled-toggle'">
+				TEACHERS
+			</div>
+		</div>
+		<div class="login-input">
+			<div class="input-title">EMAIL</div>
+			<div class="input-box"></div>
+		</div>
+		<div class="login-input">
+			<div class="input-title">PASSWORD</div>
+			<div class="input-box"></div>
+		</div>
+		<a href="#!/explore" ng-if="activeToggle == 'students'" class="login-button">
+			SIGN IN
+		</a>
+		<a href="#!/teacher-home" ng-if="activeToggle == 'teachers'" class="login-button">
+			SIGN IN
+		</a>
+	</div>
+</div>

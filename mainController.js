@@ -3,6 +3,10 @@ var app = angular.module('myApp',['ngResource', 'ngRoute']);
 
 app.config(function($routeProvider) {
     $routeProvider
+	    .when('/login', {
+	        templateUrl : 'components/login/login-template.html',
+	        controller: 'LoginController'
+	    })
 	    .when('/explore', {
 	        templateUrl : 'components/explore/explore-template.html',
 	        controller: 'ExploreController'
@@ -36,7 +40,7 @@ app.config(function($routeProvider) {
 	        controller: 'PinnedFeedbackController'
 	    })
 	    .otherwise({
-            redirectTo: '/explore'
+            redirectTo: '/login'
         });
 	});
 

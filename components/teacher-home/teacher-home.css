@@ -1,0 +1,31 @@
+.teacher-page-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 30px 200px;
+}
+
+.teacher-courses-container {
+	display: flex;
+	justify-content: space-between;
+	width: 640px;
+	margin: 15px 0;
+}
+
+.teacher-course {
+	width: 200px;
+	height: 60px;
+	line-height: 60px;
+	text-align: center;
+	font-weight: bold;
+	letter-spacing: 1px;
+	background: #B3C9EC;
+	border-radius: 5px;
+}
+
+.teacher-header {
+	font-weight: bold;
+	font-size: 20px;
+	letter-spacing: 4px;
+}
