@@ -23,6 +23,18 @@ app.config(function($routeProvider) {
 	        templateUrl : 'components/review-class/review-class-template.html',
 	        controller: 'ReviewClassController'
 	    })
+	    .when('/teacher-home', {
+	        templateUrl : 'components/teacher-home/teacher-home-template.html',
+	        controller: 'TeacherHomeController'
+	    })
+	    .when('/edit-form/:classID', {
+	        templateUrl : 'components/edit-form/edit-form-template.html',
+	        controller: 'EditFormController'
+	    })
+	    .when('/pinned-feedback', {
+	        templateUrl : 'components/pinned-feedback/pinned-feedback-template.html',
+	        controller: 'PinnedFeedbackController'
+	    })
 	    .otherwise({
             redirectTo: '/explore'
         });

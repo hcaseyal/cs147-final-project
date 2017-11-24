@@ -1,6 +1,10 @@
 <div ng-if="main.displayFullHeader == true">
 	<div class="full-header">
-		<div class="full-header-item full-header-name">ClassLens</div>
+		<div class="top-header-row">
+			<div></div>
+			<div class="full-header-item full-header-name">ClassLens</div>
+			<img class="header-item header-menu-icon" src="img/menu-icon.png">
+		</div>
 		<div class="full-header-item review-explore-container">
 			<a href="#!/review">
 				<div class="header-button" ng-class="main.selectedButton == 'review' ? 'active-button' : 'disabled-button'">REVIEW</div>
@@ -11,7 +15,10 @@
 			</a>
 		</div>
 		<div class="full-header-item search-bar-container">
-			<div class="search-bar">find courses to review...</div>
+			<form name="searchForm">
+				<input ng-if="main.selectedButton == 'explore'" class="search-bar" type="text" name="searchQuery" placeholder="find careers, skills, classes..."></input>
+				<input ng-if="main.selectedButton == 'review'" class="search-bar" type="text" name="searchQuery" placeholder="find courses to review..."></input>
+			</form>
 			<img class="search-icon" src="img/search-icon.png">
 		</div>
 	</div>
@@ -22,9 +29,12 @@
 			<div class="header-item header-name">ClassLens</div>
 		</a>
 		<div class="header-item search-bar-container">
-			<div class="search-bar">find courses to review...</div>
+			<form name="searchForm">
+				<input ng-if="main.selectedButton == 'explore'" class="search-bar" type="text" name="searchQuery" placeholder="find careers, skills, classes..."></input>
+				<input ng-if="main.selectedButton == 'review'" class="search-bar" type="text" name="searchQuery" placeholder="find courses to review..."></input>
+			</form>
 			<img class="search-icon" src="img/search-icon.png">
 		</div>
-		<img class="header-item header-menu-icon" src="img/menu-icon.png"></div>
+		<img class="header-item header-menu-icon" src="img/menu-icon.png">
 	</div>
 </div>

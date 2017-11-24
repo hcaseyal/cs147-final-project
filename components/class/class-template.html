@@ -35,15 +35,15 @@
 		</tr>
 		<tr>
 			<td class="class-filter-item"></td>
-			<td class="class-filter-item">Spring 2016</td>
-			<td class="class-filter-item">Developer</td>
-			<td class="class-filter-item">Marty Stepp</td>
+			<td class="class-filter-item"><input type="checkbox" name="spring-16"> Spring 2016</td>
+			<td class="class-filter-item"><input type="checkbox" name="developer"> Developer</td>
+			<td class="class-filter-item"><input type="checkbox" name="marty-stepp"> Marty Stepp</td>
 		</tr>
 		<tr>
 			<td class="class-filter-item"></td>
-			<td class="class-filter-item">Winter 2016</td>
-			<td class="class-filter-item">Data Scientist</td>
-			<td class="class-filter-item">Mehran Sahami</td>
+			<td class="class-filter-item"><input type="checkbox" name="winter-16"> Winter 2016</td>
+			<td class="class-filter-item"><input type="checkbox" name="data-scientist"> Data Scientist</td>
+			<td class="class-filter-item"><input type="checkbox" name="mehran-sahami"> Mehran Sahami</td>
 		</tr>
 		<tr>
 			<td class="class-filter-item"></td>
@@ -63,6 +63,7 @@
 <div class="class-review-container">
 	<div class="class-small-header">WAS THIS CLASS USEFUL?</div>
 
+
 	<div class="class-small-header">SKILLS + KEY CONCEPTS</div>
 	<div class="skills-container">
 		<div class="skills-list">
@@ -70,8 +71,22 @@
 			<div class="skill-tab">RECURSION</div>
 		</div>
 		<div class="skills-detail">
-			<div>I'm comfortable using this skill after {{selectedClass}}:</div>
-			<div>I've used this skill in future classes or jobs:</div>
+			<div class="skills-detail-title">I'm comfortable using this skill after {{selectedClass}}:</div>
+			<div class="skill-bar">
+				<div class="percentage-bar">
+					<div class="percentage-bar-background"></div>
+					<div class="percentage-bar-fill" style="width: calc(250px * 530 / 612)"></div>
+				</div>
+				<div class="percentage-number">530 / 612 students</div>
+			</div>
+			<div class="skills-detail-title">I've used this skill in future classes or jobs:</div>
+			<div class="skill-bar">
+				<div class="percentage-bar">
+					<div class="percentage-bar-background"></div>
+					<div class="percentage-bar-fill" style="width: calc(250px * 418 / 612)"></div>
+				</div>
+				<div class="percentage-number">418 / 612 students</div>
+			</div>
 		</div>
 	</div>
 </div>

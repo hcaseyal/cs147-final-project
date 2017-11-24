@@ -105,3 +105,37 @@
 	border: 1px solid grey;
 	padding: 15px;
 }
+
+.skills-detail-title {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.skill-bar {
+	display: flex;
+	align-items: center;
+}
+
+.percentage-bar {
+	margin: 10px 0;
+	height: 30px;
+}
+
+.percentage-bar-background {
+	width: 250px;
+	height: 30px;
+	background-color: #ECEAEA;  
+}
+
+.percentage-bar-fill {
+	height: 30px;
+	position: relative;
+  	top: -30px;
+	background-color: #619BFA;
+}
+
+.percentage-number {
+	font-size: 12px;
+	font-weight: bold;
+	margin-left: 15px;
+}
