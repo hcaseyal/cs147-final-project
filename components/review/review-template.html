@@ -1,1 +1,55 @@
-<div>Review page!</div>
+<div class="review-page-container">
+	<div class="review-header">SUGGESTED COURSES TO REVIEW:</div>
+
+	<div class="suggested-courses-container">
+		<a href="#!/review/CS106A">
+			<div class="suggested-course">CS106A</div>
+		</a>
+		<a href="#!/review/MATH51">
+			<div class="suggested-course">MATH51</div>
+		</a>
+		<a href="#!/review/BIO150">
+			<div class="suggested-course">BIO150</div>
+		</a>
+	</div>
+
+	<div class="all-classes">
+		<div class="all-classes-toggle" ng-click="displayAllClasses = !displayAllClasses">
+			SEE ALL COURSES YOU’VE TAKEN 
+			<img ng-show="!displayAllClasses" src="img/down-arrow.png">
+			<img ng-show="displayAllClasses" src="img/up-arrow.png">
+		</div>
+	</div>
+
+	<div class="all-classes-expanded" ng-show="displayAllClasses">
+		<div class="class-year-container">
+			<div class="class-year-title">2015-16</div>
+			<table>
+				<tr>
+					<td class="quarter-header">FALL</td>
+					<td class="quarter-header">WINTER</td>
+					<td class="quarter-header">SPRING</td>
+					<td class="quarter-header">SUMMER</td>
+				</tr>
+				<tr>
+					<td class="class-name">CS142</td>
+					<td class="class-name">STS200L</td>
+					<td class="class-name">CS155</td>
+					<td class="class-name">CS161</td>
+				</tr>
+				<tr>
+					<td class="class-name">CS145</td>
+					<td class="class-name">CS255</td>
+					<td class="class-name">CS247</td>
+					<td class="class-name"></td>
+				</tr>
+				<tr>
+					<td class="class-name">MATH110</td>
+					<td class="class-name"></td>
+					<td class="class-name">COMM154</td>
+					<td class="class-name"></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+</div>

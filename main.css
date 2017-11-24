@@ -13,3 +13,7 @@ a:link {
 a:active {
   text-decoration: none;
 }
+
+html, body {
+	font-family: OpenSans-Regular;
+}

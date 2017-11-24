@@ -1,5 +1,77 @@
-<div>Class page for {{selectedClass}}!</div>
+<div class="class-page-container">
+<div class="class-title">{{selectedClass}}</div>
 
-<a href="#!/review/{{selectedClass}}">
-	<div>WRITE A REVIEW</div>
-</a>
+<div class="class-button-container">
+	<a href="#!/review/{{selectedClass}}">
+		<div class="class-page-button">
+			<img class="class-button-icon" src="img/edit-icon.png">
+			<div>WRITE A REVIEW</div>
+		</div>
+	</a>
+	<div class="class-page-button">
+		<img class="class-button-icon" src="img/bookmark-icon.png">
+		<div>BOOKMARK COURSE</div>
+	</div>
+</div>
+
+<div class="class-filter" ng-show="!displayFilters">
+	<table class="class-filter-table">
+		<tr class="class-filter-toggle" ng-click="displayFilters = true">
+			<td class="class-filter-category">FILTER BY <img src="img/down-arrow.png"></td>
+			<td class="class-filter-category">QUARTER/YEAR</td>
+			<td class="class-filter-category">REVIEWER</td>
+			<td class="class-filter-category">INSTRUCTOR</td>
+		</tr>
+	</table>
+</div>
+
+<div class="class-filter" ng-show="displayFilters">
+	<table class="class-filter-table">
+		<tr class="class-filter-toggle" ng-click="displayFilters = false">
+			<td class="class-filter-category">FILTER BY <img src="img/up-arrow.png"></td>
+			<td class="class-filter-category">QUARTER/YEAR</td>
+			<td class="class-filter-category">REVIEWER</td>
+			<td class="class-filter-category">INSTRUCTOR</td>
+		</tr>
+		<tr>
+			<td class="class-filter-item"></td>
+			<td class="class-filter-item">Spring 2016</td>
+			<td class="class-filter-item">Developer</td>
+			<td class="class-filter-item">Marty Stepp</td>
+		</tr>
+		<tr>
+			<td class="class-filter-item"></td>
+			<td class="class-filter-item">Winter 2016</td>
+			<td class="class-filter-item">Data Scientist</td>
+			<td class="class-filter-item">Mehran Sahami</td>
+		</tr>
+		<tr>
+			<td class="class-filter-item"></td>
+			<td class="class-filter-item">
+				<div class="class-filter-button">MORE</div>
+			</td>
+			<td class="class-filter-item">
+				<div class="class-filter-button">MORE</div>
+			</td>
+			<td class="class-filter-item">
+				<div class="class-filter-button">MORE</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="class-review-container">
+	<div class="class-small-header">WAS THIS CLASS USEFUL?</div>
+
+	<div class="class-small-header">SKILLS + KEY CONCEPTS</div>
+	<div class="skills-container">
+		<div class="skills-list">
+			<div class="skill-tab">JAVA</div>
+			<div class="skill-tab">RECURSION</div>
+		</div>
+		<div class="skills-detail">
+			<div>I'm comfortable using this skill after {{selectedClass}}:</div>
+			<div>I've used this skill in future classes or jobs:</div>
+		</div>
+	</div>
+</div>

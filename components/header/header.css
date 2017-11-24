@@ -39,6 +39,7 @@
 
 .search-bar-container {
 	display: flex;
+	align-items: center;
 }
 
 .search-bar {
@@ -51,6 +52,10 @@
 	font-family: OpenSans-Light;
 	margin-right: 10px;
 	margin-left: 35px;
+}
+
+.search-icon {
+	height: 29px;
 }
 
 .header {
