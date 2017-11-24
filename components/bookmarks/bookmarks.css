@@ -1,0 +1,20 @@
+.bookmarks-page-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 100%;
+	padding: 30px 200px;
+}
+
+.bookmarked-courses-container {
+	display: flex;
+	justify-content: space-between;
+	width: 640px;
+	margin: 15px 0;
+}
+
+.bookmarks-header {
+	font-weight: bold;
+	font-size: 20px;
+	letter-spacing: 4px;
+}

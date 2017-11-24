@@ -5,6 +5,11 @@ app.controller('ClassController', ['$scope', '$routeParams', function($scope, $r
 	$scope.main.displayFullHeader = false;
 	$scope.main.selectedButton = 'explore';
 	$scope.displayFilters = false;
+	$scope.modalOn = false;
 
 	$scope.classSkills = ['Java', 'Recursion']; 
+
+	$scope.CloseClick = function(){
+	    $scope.modalOn = false;
+	}
 }]);

@@ -1,3 +1,13 @@
+<div class="modal-overlay" ng-if="modalOn == true" ng-click="CloseClick()"></div>
+<div class="class-modal" ng-if="modalOn == true">
+	<img class="close-modal-icon" src="img/close.png" ng-click="CloseClick()">
+	<div class="modal-title">CLASS BOOKMARKED!</div>
+	<div class="modal-text">This class has been saved to your bookmarked classes. Click the button below to see it now or close this dialog to continue exploring. </div>
+	<a href="#!/bookmarks">
+		<div class="modal-button">MY BOOKMARKED CLASSES</div>
+	</a>
+</div>
+<div class="modal"></div>
 <div class="class-page-container">
 <div class="class-title">{{selectedClass}}</div>
 
@@ -8,7 +18,7 @@
 			<div>WRITE A REVIEW</div>
 		</div>
 	</a>
-	<div class="class-page-button">
+	<div class="class-page-button" ng-click="modalOn = true">
 		<img class="class-button-icon" src="img/bookmark-icon.png">
 		<div>BOOKMARK COURSE</div>
 	</div>
