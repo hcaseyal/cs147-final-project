@@ -1,3 +1,4 @@
+var classID;
 
 app.controller('ClassController', ['$scope', '$routeParams', function($scope, $routeParams) {
 	$scope.selectedClass = $routeParams.classID;
@@ -12,4 +13,10 @@ app.controller('ClassController', ['$scope', '$routeParams', function($scope, $r
 	$scope.CloseClick = function(){
 	    $scope.modalOn = false;
 	}
+	classID = $scope.selectedClass;
+	let url = "/getReviews?classID=" + classID;
+	remoteServiceGet(url).then((reviews) => {
+		console.log("Reviews so far: ")
+		console.log(JSON.parse(reviews));
+	});
 }]);

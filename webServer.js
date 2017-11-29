@@ -3,6 +3,10 @@ var http = require('http');
 var express = require('express'); 
 let fs = require('fs');
 
+// {classID -> [reviews]}
+var classReviewIndex = {};
+var allReviews = {};
+
 var portno = 3000;   // Port number to use
 var app = express(); 
 
@@ -26,28 +30,56 @@ app.use(express.static(__dirname));
 var server = app.listen(portno, function () {
 	var port = server.address().port;
 	console.log('Listening at http://localhost:' + port + ' exporting the directory ' + __dirname);
+	buildClassReviewIndex();
+	buildReviewList();
 });
 
 app.post('/reviewClass', function (req, res) {
 	let review = req.body;
-	console.log("Body of request: " + review);
 	res.send("Received post request");
 
 	getReviewID().then((id) => {
 		review.id = id;
 	})
 	.then(() => {
-		return getStoredReviews();
-	})
-	.then((reviews) => {
-		reviews[review.id] = review;
-		fs.writeFile("data/reviews", JSON.stringify(reviews));
+		allReviews[review.id] = review;
+		addEntryToIndex(classReviewIndex, review, review.classID);
+		fs.writeFile("data/reviews", JSON.stringify(allReviews));
 	})
 });
 
+app.get('/getReviews', function(req, res) {
+	let classID = req.query.classID;
+	res.send(JSON.stringify(classReviewIndex[classID]));
+});
+
+function addEntryToIndex(index, entry, key) {
+	if (!(key in index)) {
+		index[key] = [];
+	}
+	index[key].push(entry);
+}
+
+function buildClassReviewIndex() {
+	getAllReviews().then((reviews) => {
+		for (let reviewID in reviews) {
+			let review = reviews[reviewID];
+			let classID = review.classID;
+			addEntryToIndex(classReviewIndex, review, classID);
+		}
+		console.log("Class review index: " + JSON.stringify(classReviewIndex));
+	});
+}
+
+function buildReviewList() {
+	getAllReviews().then((reviews) => {
+		allReviews = {...reviews}; 
+	});
+}
+
 // Returns a JSON object containing all reviews in the reviews file
 // reviews = {reviewID: review}
-function getStoredReviews() {
+function getAllReviews() {
 	return new Promise((resolve, reject) => {
 		readFile("data/reviews", function(filename, content) {
 			let reviews = JSON.parse(content);
