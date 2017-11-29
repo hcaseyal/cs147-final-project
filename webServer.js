@@ -83,15 +83,14 @@ function buildClassReviewIndex() {
 }
 
 function buildReviewList() {
-	getAllReviews().then((ret) => {
-		reviews = ret; 
+	getAllReviews().then((allReviews) => {
+		reviews = allReviews; 
 	});
 }
 
 function buildClassList() {
-	getAllClasses().then((ret) => {
-		classes = ret; 
-	});
+	getAllClasses().then((allClasses) => {
+		classes = allReviews; 
 }
 
 // Returns a JSON object containing all reviews in the reviews file

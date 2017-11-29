@@ -1,10 +1,25 @@
-<div>Review page for class {{selectedClass}}!</div>
+<div class="review-page-container">
+	<div class="review-class-container">
+		<div class="review-header">REVIEWING: {{selectedClass}} {{classYear}}</div>
+		<div class="review-class-question">Was this class useful to you?</div>
+		<div class="slider-bar">
+			<rzslider rz-slider-model="slider.value"
+	          rz-slider-options="slider.options"></rzslider>
+	      </div>
+		<div class="review-class-question">I’m comfortable using these skills after CS106A: </div>
+		<div class="review-class-question">I have used these skills in future classes or jobs:</div>
+		<div class="review-input">
+			<div class="review-class-question">Tell us how the skills in this class have been useful to you:</div>
+			<textarea ng-model="reviewText" class="review-input-box"></textarea>
+		</div>
+		<div class="review-input">
+			<div class="review-class-question">I wish I learnt:</div>
+			<textarea ng-model="wishText" class="review-input-box"></textarea>
+		</div>
 
-<div class="review-input">
-	<div class="review-input-title">Tell us how the skills in this class have been useful to you </div>
-	<input type="text" name="reviewText" class="input-box"></input>
+	<button type="button" ng-click="submitReview()" class="submit-review-button">
+		SUBMIT
+	</button>
+	</div>
 </div>
 
-<button type="button" onclick="submitReview()" class="submit-review-button">
-		Submit
-</button>
