@@ -35,17 +35,9 @@ var svg = d3.select('svg'),
   height = +svg.attr("height"),
   transform = d3.zoomIdentity;
 
-  
   svg.call(d3.zoom()
       .scaleExtent([1 / 2, 4])
       .on("zoom", zoomed));
-
-var clusterLayout = d3.cluster()
-  .size([width, height])
-
-var root = d3.hierarchy(data)
-
-clusterLayout(root)
 
 // Invisible rectangle for zoom
   svg.append("rect")
@@ -56,21 +48,44 @@ clusterLayout(root)
   .style("fill", "none")
   .style("pointer-events", "none")
 
-
 function zoomed() {
   d3.select('svg g').attr("transform", d3.event.transform);
 }
 
+var clusterLayout = d3.cluster()
+  .size([width, height])
+var root = d3.hierarchy(data)
+clusterLayout(root)
+
 // Nodes
-d3.select('svg g.nodes')
-  .selectAll('circle.node')
+var node = d3.select('svg g.nodes')
+  .selectAll('g.nodeContainer')
   .data(root.descendants())
   .enter()
-  .append('circle')
+
+var circles = node.append("circle")
   .classed('node', true)
-  .attr('cx', function(d) {return d.x;})
-  .attr('cy', function(d) {return d.y;})
-  .attr('r', 25);
+  .attr('r', 25)
+  .attr('cx', function(d) {
+    return d.x;
+  })
+  .attr('cy', function(d) {
+    return d.y;
+  });
+
+  node.append("text")
+  .text(function(d) {
+    return d.data.name;
+  })
+  .data(root.descendants())
+  .attr("dy", 10)
+  .attr("x", function(d) {
+    return d.x;
+  })
+  .attr('y', function(d) {
+    return d.y;
+  });
+  
 
 // Links
 d3.select('svg g.links')
