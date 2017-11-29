@@ -90,7 +90,8 @@ function buildReviewList() {
 
 function buildClassList() {
 	getAllClasses().then((allClasses) => {
-		classes = allReviews; 
+		classes = allClasses; 
+	});
 }
 
 // Returns a JSON object containing all reviews in the reviews file
