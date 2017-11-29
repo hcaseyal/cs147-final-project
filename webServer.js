@@ -7,6 +7,7 @@ let fs = require('fs');
 var classReviewIndex = {};
 var classes = {};
 var reviews = {};
+var users = {};
 
 var portno = 3000;   // Port number to use
 var app = express(); 
@@ -34,6 +35,7 @@ var server = app.listen(portno, function () {
 	buildClassReviewIndex();
 	buildReviewList();
 	buildClassList();
+	buildUserList();
 });
 
 /// START BACKEND API
@@ -59,8 +61,12 @@ app.get('/getReviews', function(req, res) {
 // Returns class as a JSON object. E.g., {classID: CS106A, skills: [recursion, java]}
 app.get('/getClass', function(req, res) {
 	let classID = req.query.classID;
-	console.log(JSON.stringify(classes[classID]));
 	res.send(JSON.stringify(classes[classID]));
+});
+
+app.get('/getUser', function(req, res) {
+	let userID = req.query.userID;
+	res.send(JSON.stringify(users[userID]));
 });
 /// END BACKEND API
 
@@ -94,6 +100,12 @@ function buildClassList() {
 	});
 }
 
+function buildUserList() {
+	getAllUsers().then((allUsers) => {
+		users = allUsers; 
+	});
+}
+
 // Returns a JSON object containing all reviews in the reviews file
 // reviews = {reviewID: {}}
 function getAllReviews() {
@@ -115,6 +127,20 @@ function getAllClasses() {
 		readFile("data/classes", function(filename, content) {
 			let classes = JSON.parse(content);
 			resolve(classes);
+		},
+		(error) => {
+			reject(error);
+		});
+	});
+}
+
+// Returns a JSON object containing all users in the users file
+// users = {userID: {}}
+function getAllUsers() {
+	return new Promise((resolve, reject) => {
+		readFile("data/users", function(filename, content) {
+			let users = JSON.parse(content);
+			resolve(users);
 		},
 		(error) => {
 			reject(error);

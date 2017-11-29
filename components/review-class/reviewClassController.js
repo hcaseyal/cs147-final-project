@@ -28,8 +28,9 @@ app.controller('ReviewClassController', ['$scope', '$routeParams', function($sco
 
 	$scope.submitReview = function() {
 		let post = {review: $scope.reviewText,
-					// wish: $scope.wishText,
-					// useful: $scope.slider.value,
+					wishText: $scope.wishText,
+					usefulValue: $scope.slider.value,
+					classYear: $scope.classYear,
 					classID: $scope.selectedClass, 
 					userID: userID };
 
