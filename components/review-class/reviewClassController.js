@@ -1,21 +1,23 @@
+var classID = "";
+
 app.controller('ReviewClassController', ['$scope', '$routeParams', function($scope, $routeParams) {
 	$scope.selectedClass = $routeParams.classID;
 	$scope.main.displayHeader = true;
 	$scope.main.displayFullHeader = false; 
+	classID = $scope.selectedClass;
 }]);
 
 function submitReview() {
-	let xhttp = new XMLHttpRequest();
-	let url = "/reviewClass";
-	let params = JSON.stringify({review: "CS106a was a great class."});
-	xhttp.open("POST", url, true);
+	let reviewText = $(".input-box").val();
+	let post = {review: reviewText,
+				classID: classID };
 
-	//Send the proper header information along with the request
-	xhttp.setRequestHeader("Content-type", "application/json");
-
-	xhttp.onload = () => {
-		console.log(xhttp.responseText);
-	}
-	xhttp.send(params);
+	remoteServicePostJson(post, "/reviewClass")
+	.then((response) => {
+		console.log(response);
+	})
+	.catch(error => {
+		console.log(error);
+	});
 }
 

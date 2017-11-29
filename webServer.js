@@ -27,6 +27,7 @@ var server = app.listen(portno, function () {
 });
 
 app.post('/reviewClass', function (req, res) {
-	console.log(req.body.review);
+	console.log("Body of request: ");
+	console.log(req.body);
 	res.send("Received post request");
 });
