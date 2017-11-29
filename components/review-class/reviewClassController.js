@@ -1,11 +1,9 @@
-var classID = "";
 var userID = 0; // TODO: connect this to an actual user id
 
 app.controller('ReviewClassController', ['$scope', '$routeParams', function($scope, $routeParams) {
 	$scope.selectedClass = $routeParams.classID;
 	$scope.main.displayHeader = true;
 	$scope.main.displayFullHeader = false; 
-	classID = $scope.selectedClass;
 
 	$scope.main.selectedButton = 'review';
 
@@ -25,13 +23,14 @@ app.controller('ReviewClassController', ['$scope', '$routeParams', function($sco
 	    }
 	};
 
+	$scope.reviewText = ""; 
+	$scope.wishText = ""; 
+
 	$scope.submitReview = function() {
-		let reviewText = $(".review-input-box").val();
-		let wishText = $(".wish-input-box").val();
-		let post = {review: reviewText,
-					// wish: wishText,
+		let post = {review: $scope.reviewText,
+					// wish: $scope.wishText,
 					// useful: $scope.slider.value,
-					classID: classID, 
+					classID: $scope.selectedClass, 
 					userID: userID };
 
 		remoteServicePostJson(post, "/reviewClass")

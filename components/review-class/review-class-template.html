@@ -10,11 +10,11 @@
 		<div class="review-class-question">I have used these skills in future classes or jobs:</div>
 		<div class="review-input">
 			<div class="review-class-question">Tell us how the skills in this class have been useful to you:</div>
-			<input type="textarea" name="reviewText" class="input-box review-input-box"></input>
+			<textarea ng-model="reviewText" class="review-input-box"></textarea>
 		</div>
 		<div class="review-input">
 			<div class="review-class-question">I wish I learnt:</div>
-			<input type="textarea" name="wishText" class="input-box wish-input-box"></input>
+			<textarea ng-model="wishText" class="review-input-box"></textarea>
 		</div>
 
 	<button type="button" ng-click="submitReview()" class="submit-review-button">
