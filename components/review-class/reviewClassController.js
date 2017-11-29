@@ -1,4 +1,5 @@
 var classID = "";
+var userID = 0; // TODO: connect this to an actual user id
 
 app.controller('ReviewClassController', ['$scope', '$routeParams', function($scope, $routeParams) {
 	$scope.selectedClass = $routeParams.classID;
@@ -10,7 +11,8 @@ app.controller('ReviewClassController', ['$scope', '$routeParams', function($sco
 function submitReview() {
 	let reviewText = $(".input-box").val();
 	let post = {review: reviewText,
-				classID: classID };
+				classID: classID, 
+				userID: userID };
 
 	remoteServicePostJson(post, "/reviewClass")
 	.then((response) => {
@@ -20,4 +22,3 @@ function submitReview() {
 		console.log(error);
 	});
 }
-
