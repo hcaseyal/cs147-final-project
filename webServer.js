@@ -5,7 +5,8 @@ let fs = require('fs');
 
 // {classID -> [reviews]}
 var classReviewIndex = {};
-var allReviews = {};
+var classes = {};
+var reviews = {};
 
 var portno = 3000;   // Port number to use
 var app = express(); 
@@ -32,8 +33,10 @@ var server = app.listen(portno, function () {
 	console.log('Listening at http://localhost:' + port + ' exporting the directory ' + __dirname);
 	buildClassReviewIndex();
 	buildReviewList();
+	buildClassList();
 });
 
+/// START BACKEND API
 app.post('/reviewClass', function (req, res) {
 	let review = req.body;
 	res.send("Received post request");
@@ -42,9 +45,9 @@ app.post('/reviewClass', function (req, res) {
 		review.id = id;
 	})
 	.then(() => {
-		allReviews[review.id] = review;
+		reviews[review.id] = review;
 		addEntryToIndex(classReviewIndex, review, review.classID);
-		fs.writeFile("data/reviews", JSON.stringify(allReviews));
+		fs.writeFile("data/reviews", JSON.stringify(reviews));
 	})
 });
 
@@ -52,6 +55,14 @@ app.get('/getReviews', function(req, res) {
 	let classID = req.query.classID;
 	res.send(JSON.stringify(classReviewIndex[classID]));
 });
+
+// Returns class as a JSON object. E.g., {classID: CS106A, skills: [recursion, java]}
+app.get('/getClass', function(req, res) {
+	let classID = req.query.classID;
+	console.log(JSON.stringify(classes[classID]));
+	res.send(JSON.stringify(classes[classID]));
+});
+/// END BACKEND API
 
 function addEntryToIndex(index, entry, key) {
 	if (!(key in index)) {
@@ -61,9 +72,9 @@ function addEntryToIndex(index, entry, key) {
 }
 
 function buildClassReviewIndex() {
-	getAllReviews().then((reviews) => {
-		for (let reviewID in reviews) {
-			let review = reviews[reviewID];
+	getAllReviews().then((allReviews) => {
+		for (let reviewID in allReviews) {
+			let review = allReviews[reviewID];
 			let classID = review.classID;
 			addEntryToIndex(classReviewIndex, review, classID);
 		}
@@ -72,18 +83,38 @@ function buildClassReviewIndex() {
 }
 
 function buildReviewList() {
-	getAllReviews().then((reviews) => {
-		allReviews = {...reviews}; 
+	getAllReviews().then((ret) => {
+		reviews = ret; 
+	});
+}
+
+function buildClassList() {
+	getAllClasses().then((ret) => {
+		classes = ret; 
 	});
 }
 
 // Returns a JSON object containing all reviews in the reviews file
-// reviews = {reviewID: review}
+// reviews = {reviewID: {}}
 function getAllReviews() {
 	return new Promise((resolve, reject) => {
 		readFile("data/reviews", function(filename, content) {
 			let reviews = JSON.parse(content);
 			resolve(reviews);
+		},
+		(error) => {
+			reject(error);
+		});
+	});
+}
+
+// Returns a JSON object containing all classes in the classes file
+// classes = {classID: {}}
+function getAllClasses() {
+	return new Promise((resolve, reject) => {
+		readFile("data/classes", function(filename, content) {
+			let classes = JSON.parse(content);
+			resolve(classes);
 		},
 		(error) => {
 			reject(error);

@@ -12,7 +12,7 @@ function submitReview() {
 	let reviewText = $(".input-box").val();
 	let post = {review: reviewText,
 				classID: classID, 
-				userID: userID };
+				userID: userID};
 
 	remoteServicePostJson(post, "/reviewClass")
 	.then((response) => {
