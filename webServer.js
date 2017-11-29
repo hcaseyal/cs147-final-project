@@ -3,8 +3,7 @@ var http = require('http');
 var express = require('express'); 
 let fs = require('fs');
 
-// {classID -> [reviews]}
-var classReviewIndex = {};
+var classReviewIndex = {}; // {classID -> [reviews joined with reviewer data]}
 var classes = {};
 var reviews = {};
 var users = {};
@@ -38,7 +37,9 @@ var server = app.listen(portno, function () {
 	buildUserList();
 });
 
-/// START BACKEND API
+///////////////////////////
+/// START BACKEND API ///  
+//////////////////////////
 app.post('/reviewClass', function (req, res) {
 	let review = req.body;
 	res.send("Received post request");
@@ -68,7 +69,9 @@ app.get('/getUser', function(req, res) {
 	let userID = req.query.userID;
 	res.send(JSON.stringify(users[userID]));
 });
-/// END BACKEND API
+/////////////////////////
+/// END BACKEND API ///
+////////////////////////
 
 function addEntryToIndex(index, entry, key) {
 	if (!(key in index)) {
@@ -79,12 +82,16 @@ function addEntryToIndex(index, entry, key) {
 
 function buildClassReviewIndex() {
 	getAllReviews().then((allReviews) => {
-		for (let reviewID in allReviews) {
-			let review = allReviews[reviewID];
-			let classID = review.classID;
-			addEntryToIndex(classReviewIndex, review, classID);
-		}
-		console.log("Class review index: " + JSON.stringify(classReviewIndex));
+		getAllUsers().then((allUsers) => {
+			for (let reviewID in allReviews) {
+				let review = allReviews[reviewID];
+				let user = allUsers[review.userID];
+				review.userInfo = {career: user.career, name: user.name, location: user.location};
+				let classID = review.classID;
+				addEntryToIndex(classReviewIndex, review, classID);
+			}
+			console.log("Class review index: " + JSON.stringify(classReviewIndex));
+		});
 	});
 }
 
