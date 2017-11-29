@@ -73,7 +73,6 @@ function buildClassReviewIndex() {
 
 function buildReviewList() {
 	getAllReviews().then((reviews) => {
-		// allReviews = {...reviews}; 
 		allReviews = reviews; 
 	});
 }
