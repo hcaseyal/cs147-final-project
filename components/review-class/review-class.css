@@ -16,18 +16,63 @@
 
 .submit-review-button {
 	width: 100px;
-	height: 50px;
+	height: 34px;
 	background: #3F94F6;
 	border-radius: 5px;
 	color: white;
-	line-height: 50px;
+	line-height: 34px;
 	text-align: center;
-	font-size: 20px;
+	font-size: 16px;
 	font-weight: bold;
 	margin-top: 35px;
+	letter-spacing: 1px;
 }
 
 .submit-review-button:hover {
 	color: white;
 	background-color: #024AC1;
+} 
+
+.review-class-question {
+	font-weight: bold;
+	font-size: 16px;
+	margin-top: 15px;
+}
+
+.slider-bar {
+	margin-bottom: 65px;
+	width: 600px;
+}
+
+.rzslider {
+	font-size: 14px;
+	color: #383838;
+}
+
+.rzslider .rz-selection {
+	background: #306FD7;
+}
+
+.rzslider .rz-pointer {
+	background-color: #306FD7;
+}
+
+.rzslider .rz-pointer.rz-active:after {
+	background-color: #306FD7;
+}
+
+.rzslider .rz-pointer:after {
+	background-color: #306FD7;
+}
+
+.rzslider .rz-pointer:hover:after {
+	background-color: #306FD7;
+}
+
+.rzslider .rz-tick {
+	background: #979797;  
+}
+
+.rzslider .rz-bar {
+	background: #979797;
 }
