@@ -17,15 +17,17 @@
 .submit-review-button {
 	width: 100px;
 	height: 34px;
-	background: #3F94F6;
+	background: #024AC1;
 	border-radius: 5px;
 	color: white;
-	line-height: 34px;
+	line-height: 30px;
 	text-align: center;
 	font-size: 16px;
 	font-weight: bold;
 	margin-top: 35px;
 	letter-spacing: 1px;
+	cursor: pointer;
+	border: none;
 }
 
 .submit-review-button:hover {
@@ -50,23 +52,23 @@
 }
 
 .rzslider .rz-selection {
-	background: #306FD7;
+	background: #024AC1;
 }
 
 .rzslider .rz-pointer {
-	background-color: #306FD7;
+	background-color: #024AC1;
 }
 
 .rzslider .rz-pointer.rz-active:after {
-	background-color: #306FD7;
+	background-color: #024AC1;
 }
 
 .rzslider .rz-pointer:after {
-	background-color: #306FD7;
+	background-color: #024AC1;
 }
 
 .rzslider .rz-pointer:hover:after {
-	background-color: #306FD7;
+	background-color: #024AC1;
 }
 
 .rzslider .rz-tick {
@@ -75,4 +77,28 @@
 
 .rzslider .rz-bar {
 	background: #979797;
+}
+
+.review-checkbox-text {
+	margin: 5px;
+}
+
+.review-tags-input .tags {
+	border: 1px solid #383838;
+	border-radius: 5px;
+}
+
+.review-tags-input .tags .tag-item {
+	background: #619BFA; 
+	border: none;
+	color: white;
+	letter-spacing: 1px;
+}
+
+.review-tags-input .tags .tag-item .remove-button {
+	color: white;
+}
+
+.review-tags-input .tags .tag-item.selected {
+	background: #024AC1;
 }
