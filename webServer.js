@@ -3,9 +3,11 @@ var http = require('http');
 var express = require('express'); 
 let fs = require('fs');
 
-// {classID -> [reviews]}
-var classReviewIndex = {};
-var allReviews = {};
+
+var classReviewIndex = {}; // {classID -> [reviews joined with reviewer data]}
+var classes = {};
+var reviews = {};
+var users = {};
 
 var portno = 3000;   // Port number to use
 var app = express(); 
@@ -32,7 +34,13 @@ var server = app.listen(portno, function () {
 	console.log('Listening at http://localhost:' + port + ' exporting the directory ' + __dirname);
 	buildClassReviewIndex();
 	buildReviewList();
+	buildClassList();
+	buildUserList();
 });
+
+///////////////////////////
+/// START BACKEND API ///  
+//////////////////////////
 
 app.post('/reviewClass', function (req, res) {
 	let review = req.body;
@@ -42,9 +50,9 @@ app.post('/reviewClass', function (req, res) {
 		review.id = id;
 	})
 	.then(() => {
-		allReviews[review.id] = review;
+		reviews[review.id] = review;
 		addEntryToIndex(classReviewIndex, review, review.classID);
-		fs.writeFile("data/reviews", JSON.stringify(allReviews));
+		fs.writeFile("data/reviews", JSON.stringify(reviews));
 	})
 });
 
@@ -52,6 +60,20 @@ app.get('/getReviews', function(req, res) {
 	let classID = req.query.classID;
 	res.send(JSON.stringify(classReviewIndex[classID]));
 });
+
+// Returns class as a JSON object. E.g., {classID: CS106A, skills: [recursion, java]}
+app.get('/getClass', function(req, res) {
+	let classID = req.query.classID;
+	res.send(JSON.stringify(classes[classID]));
+});
+
+app.get('/getUser', function(req, res) {
+	let userID = req.query.userID;
+	res.send(JSON.stringify(users[userID]));
+});
+/////////////////////////
+/// END BACKEND API ///
+////////////////////////
 
 function addEntryToIndex(index, entry, key) {
 	if (!(key in index)) {
@@ -61,29 +83,73 @@ function addEntryToIndex(index, entry, key) {
 }
 
 function buildClassReviewIndex() {
-	getAllReviews().then((reviews) => {
-		for (let reviewID in reviews) {
-			let review = reviews[reviewID];
-			let classID = review.classID;
-			addEntryToIndex(classReviewIndex, review, classID);
-		}
-		console.log("Class review index: " + JSON.stringify(classReviewIndex));
+	getAllReviews().then((allReviews) => {
+		getAllUsers().then((allUsers) => {
+			for (let reviewID in allReviews) {
+				let review = allReviews[reviewID];
+				let user = allUsers[review.userID];
+				review.userInfo = {career: user.career, name: user.name, location: user.location};
+				let classID = review.classID;
+				addEntryToIndex(classReviewIndex, review, classID);
+			}
+			console.log("Class review index: " + JSON.stringify(classReviewIndex));
+		});
 	});
 }
 
 function buildReviewList() {
-	getAllReviews().then((reviews) => {
-		allReviews = reviews; 
+	getAllReviews().then((allReviews) => {
+		reviews = allReviews; 
+	});
+}
+
+function buildClassList() {
+	getAllClasses().then((allClasses) => {
+		classes = allClasses; 
+	});
+}
+
+function buildUserList() {
+	getAllUsers().then((allUsers) => {
+		users = allUsers; 
 	});
 }
 
 // Returns a JSON object containing all reviews in the reviews file
-// reviews = {reviewID: review}
+// reviews = {reviewID: {}}
 function getAllReviews() {
 	return new Promise((resolve, reject) => {
 		readFile("data/reviews", function(filename, content) {
 			let reviews = JSON.parse(content);
 			resolve(reviews);
+		},
+		(error) => {
+			reject(error);
+		});
+	});
+}
+
+// Returns a JSON object containing all classes in the classes file
+// classes = {classID: {}}
+function getAllClasses() {
+	return new Promise((resolve, reject) => {
+		readFile("data/classes", function(filename, content) {
+			let classes = JSON.parse(content);
+			resolve(classes);
+		},
+		(error) => {
+			reject(error);
+		});
+	});
+}
+
+// Returns a JSON object containing all users in the users file
+// users = {userID: {}}
+function getAllUsers() {
+	return new Promise((resolve, reject) => {
+		readFile("data/users", function(filename, content) {
+			let users = JSON.parse(content);
+			resolve(users);
 		},
 		(error) => {
 			reject(error);
