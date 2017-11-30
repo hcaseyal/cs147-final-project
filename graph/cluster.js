@@ -71,6 +71,20 @@ var circles = node.append("circle")
   })
   .attr('cy', function(d) {
     return d.y;
+  })
+  .on('click', function(d, i) {
+    var circle = d3.select(this)
+      .style('fill', 'green');
+
+    var links = svg.selectAll("line").filter(function(lineData) {
+      if (lineData.source.data.name === d.data.name || lineData.target.data.name === d.data.name) {
+        return true;
+      };
+    }).each(function() {
+        d3.select(this).style('stroke', 'green');
+        d3.select(this).style('stroke-width', 10);
+        d3.select(this).style('opacity', 0.2);
+    });
   });
 
   node.append("text")
