@@ -72,18 +72,30 @@ var circles = node.append("circle")
   .attr('cy', function(d) {
     return d.y;
   })
+
   .on('click', function(d, i) {
+    // De-select all active nodes
+    svg.selectAll('.activeCircle')
+      .classed('activeCircle', false)
+      .classed('node', true);
+
+    // De-select all active links
+    svg.selectAll('.activeLink')
+      .classed('activeLink', false)
+      .classed('link', true);
+
     var circle = d3.select(this)
-      .style('fill', 'green');
+      .classed('activeCircle', true)
+      .classed('node', false);
 
     var links = svg.selectAll("line").filter(function(lineData) {
       if (lineData.source.data.name === d.data.name || lineData.target.data.name === d.data.name) {
         return true;
       };
     }).each(function() {
-        d3.select(this).style('stroke', 'green');
-        d3.select(this).style('stroke-width', 10);
-        d3.select(this).style('opacity', 0.2);
+        d3.select(this)
+        .classed('activeLink', true)
+        .classed('link', false);
     });
   });
 
