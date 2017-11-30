@@ -77,25 +77,29 @@
 	<div class="class-small-header">SKILLS + KEY CONCEPTS</div>
 	<div class="skills-container">
 		<div class="skills-list">
-			<div class="skill-tab">JAVA</div>
-			<div class="skill-tab">RECURSION</div>
+			<div class="skill-tab" 
+				 ng-repeat="skill in classSkills" 
+				 ng-click="toggleSelectedSkills(skill)"
+				 ng-class="selectedSkill == skill ? 'active-skill-tab' : 'disabled-skill-tab'">
+				{{skill}}
+			</div>
 		</div>
 		<div class="skills-detail">
 			<div class="skills-detail-title">I'm comfortable using this skill after {{selectedClass}}:</div>
 			<div class="skill-bar">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
-					<div class="percentage-bar-fill" style="width: calc(250px * 530 / 612)"></div>
+					<div class="percentage-bar-fill" style="width: {{comfortableWidth}}px"></div>
 				</div>
-				<div class="percentage-number">530 / 612 students</div>
+				<div class="percentage-number">{{comfortableCount}} / {{reviewCount}} students</div>
 			</div>
 			<div class="skills-detail-title">I've used this skill in future classes or jobs:</div>
 			<div class="skill-bar">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
-					<div class="percentage-bar-fill" style="width: calc(250px * 418 / 612)"></div>
+					<div class="percentage-bar-fill" style="width: {{usefulWidth}}px"></div>
 				</div>
-				<div class="percentage-number">418 / 612 students</div>
+				<div class="percentage-number">{{usefulCount}} / {{reviewCount}} students</div>
 			</div>
 		</div>
 	</div>

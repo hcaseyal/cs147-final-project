@@ -152,10 +152,20 @@
 	line-height: 60px;
 	text-align: center;
 	letter-spacing: 1px;
-	background: #2979FB;
 	border-radius: 5px;
-	color: white;
 	margin-bottom: 10px;
+	text-transform: uppercase;
+	background: #024AC1;
+}
+
+.active-skill-tab {
+	background: #024AC1;
+	color: white;
+}
+
+.disabled-skill-tab {
+	background: #CDDCF3;
+	color: #024AC1;
 }
 
 .skills-detail {
