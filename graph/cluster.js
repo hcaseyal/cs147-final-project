@@ -36,7 +36,19 @@ var data = {
       "name" : "A2",
       "children": [
         {
-          "name" : "B2"
+          "name" : "B2",
+          "children": [
+          ]
+        },
+        {
+          "name" : "B3", 
+          "children": [
+          {
+            "name" : "C5",
+            "children": [
+            ]
+          }
+          ]
         }
       ]
     }
@@ -67,7 +79,74 @@ function zoomed() {
 
 var clusterLayout = d3.cluster()
   .size([width, height])
-var root = d3.hierarchy(data)
+
+function nodeNoChildren(node) {
+  return {"name": node.name, "children": []};
+}
+
+function removeDuplicates(data) {
+  let map = {};
+  let dataNoDups = nodeNoChildren(data);
+
+  for (careerIndex in data.children) {
+    let careerNode = data.children[careerIndex];
+    console.log(careerNode);
+    let careerKey = careerNode.name;
+    if (!(careerKey in map)) {
+      map[careerKey] = true;
+      dataNoDups.children.push(nodeNoChildren(careerNode));
+    }
+    for (skillIndex in careerNode.children) {
+      let skillNode = careerNode.children[skillIndex];
+      let skillKey = skillNode.name;
+      if (!(skillKey in map)) {
+        map[skillKey] = true;
+        addSkill(skillNode, careerNode, dataNoDups);
+      }
+
+      for (classIndex in skillNode.children) {
+        let classNode = skillNode.children[classIndex];
+        let classKey = classNode.name;
+
+        if (!(classKey in map)) {
+          map[classKey] = true;
+          addClass(classNode, skillNode, dataNoDups);
+        }
+      }
+    }
+  }
+
+  function addSkill(skillNode, careerNode, dataNoDups) {
+      for (careerIndex in dataNoDups.children) {
+        let tempCareerNode = dataNoDups.children[careerIndex];
+        if (careerNode.name === tempCareerNode.name) {
+          dataNoDups.children[careerIndex].children.push(nodeNoChildren(skillNode));
+          return;
+        }
+      }
+  }
+
+  function addClass(classNode, skillNode, dataNoDups) {
+    for (careerIndex in dataNoDups.children) {
+      let careerNode = dataNoDups.children[careerIndex];
+      for (skillIndex in careerNode.children) {
+        let tempSkillNode = careerNode.children[skillIndex];
+
+        // Found existing skill in data that corresponds to
+        // the parent skill of the class we want to add
+        if (tempSkillNode.name === skillNode.name) {
+          dataNoDups.children[careerIndex].children[skillIndex].children.push(classNode);
+          return;
+        }
+      }
+    }
+  }
+  console.log(dataNoDups);
+  return dataNoDups;
+}
+
+var dataWithoutDuplicates = removeDuplicates(data);
+var root = d3.hierarchy(dataWithoutDuplicates)
 clusterLayout(root)
 
 // Nodes
@@ -124,7 +203,7 @@ var circles = node.append("circle")
   .attr('y', function(d) {
     return d.y;
   });
-  
+
 console.log(root.links());
 let links = root.links();
 
