@@ -32,7 +32,6 @@ app.controller('ClassController', ['$scope', '$routeParams', '$timeout', functio
 	let url = "/getReviews?classID=" + classID;
 	$scope.reviews = []; 
 	remoteServiceGet(url).then((reviews) => {
-
 		$scope.reviews = JSON.parse(reviews);
 		$scope.main.reviewCount = $scope.reviews.length;
 		

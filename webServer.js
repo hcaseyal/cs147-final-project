@@ -43,7 +43,7 @@ var server = app.listen(portno, function () {
 //////////////////////////
 
 app.post('/reviewClass', function (req, res) {
-	let review = req.body;
+	var review = req.body;
 	res.send("Received post request");
 
 	getReviewID().then((id) => {
@@ -51,9 +51,13 @@ app.post('/reviewClass', function (req, res) {
 	})
 	.then(() => {
 		reviews[review.id] = review;
+		review = joinReviewWithUser(review, users, reviews);
 		addEntryToIndex(classReviewIndex, review, review.classID);
 		fs.writeFile("data/reviews", JSON.stringify(reviews));
 	})
+	.catch(error => {
+		console.log(error);
+	});
 });
 
 app.get('/getReviews', function(req, res) {
@@ -82,36 +86,55 @@ function addEntryToIndex(index, entry, key) {
 	index[key].push(entry);
 }
 
+function joinReviewWithUser(review, allUsers, allReviews) {
+	let user = allUsers[review.userID];
+	review.userInfo = {career: user.career, name: user.name, location: user.location};
+	return review;
+}
+
 function buildClassReviewIndex() {
 	getAllReviews().then((allReviews) => {
 		getAllUsers().then((allUsers) => {
 			for (let reviewID in allReviews) {
 				let review = allReviews[reviewID];
-				let user = allUsers[review.userID];
-				review.userInfo = {career: user.career, name: user.name, location: user.location};
-				let classID = review.classID;
-				addEntryToIndex(classReviewIndex, review, classID);
+				review = joinReviewWithUser(review, allUsers, allReviews)
+				addEntryToIndex(classReviewIndex, review, review.classID);
 			}
 			console.log("Class review index: " + JSON.stringify(classReviewIndex));
+		})
+		.catch(error => {
+			console.log(error);
 		});
+	})
+	.catch(error => {
+		console.log(error);
 	});
 }
 
 function buildReviewList() {
 	getAllReviews().then((allReviews) => {
 		reviews = allReviews; 
+	})
+	.catch(error => {
+		console.log(error);
 	});
 }
 
 function buildClassList() {
 	getAllClasses().then((allClasses) => {
 		classes = allClasses; 
+	})
+	.catch(error => {
+		console.log(error);
 	});
 }
 
 function buildUserList() {
 	getAllUsers().then((allUsers) => {
 		users = allUsers; 
+	})
+	.catch(error => {
+		console.log(error);
 	});
 }
 
