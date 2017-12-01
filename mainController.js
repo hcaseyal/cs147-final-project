@@ -51,4 +51,5 @@ app.controller('MainController', ['$scope', '$resource', '$route', function($sco
 	$scope.main.selectedSkill = '';
 	$scope.main.reviewCount = 0;
 	$scope.main.averageRating = 0;
+	$scope.main.reviewSubmitted = false;
 }]);

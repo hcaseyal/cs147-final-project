@@ -19,7 +19,9 @@ app.controller('ClassController', ['$scope', '$routeParams', '$timeout', functio
 
 	let getClassUrl = "/getClass?classID=" + classID;
 	remoteServiceGet(getClassUrl).then((info) => {
-		$scope.main.classSkills = JSON.parse(info).skills;
+		var classData = JSON.parse(info); 
+		$scope.main.classSkills = classData.skills;
+		$scope.main.classDescription = classData.description;
 
 		for (skill in $scope.main.classSkills) {
 			comfortableMap.set($scope.main.classSkills[skill], 0); 
@@ -52,6 +54,7 @@ app.controller('ClassController', ['$scope', '$routeParams', '$timeout', functio
 		}
 		$scope.main.classRatingData = classRatingData.reverse();
 		$scope.main.numReviews = $scope.main.classRatingData.reduce(function(a, b) { return a + b; }, 0);
+		$scope.main.averageRating = 0;
 		for (v in $scope.main.classRatingData) {
 			$scope.main.averageRating += ((5-v) * $scope.main.classRatingData[v]); 
 		}

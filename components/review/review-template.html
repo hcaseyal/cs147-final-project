@@ -1,3 +1,11 @@
+<div class="modal-overlay" ng-if="main.reviewSubmitted == true" ng-click="CloseClick()"></div>
+<div class="modal-container">
+	<div class="class-modal" ng-if="main.reviewSubmitted == true">
+		<img class="close-modal-icon" src="img/close.png" ng-click="CloseClick()">
+		<div class="modal-title">THANK YOU FOR YOUR REVIEW!</div>
+	</div>
+</div>
+
 <div class="review-page-container">
 	<div class="review-header">SUGGESTED COURSES TO REVIEW:</div>
 

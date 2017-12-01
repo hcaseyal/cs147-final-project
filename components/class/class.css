@@ -9,10 +9,18 @@
 	position: fixed; 
 }
 
+.modal-container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .class-modal {
 	position: fixed; 
 	z-index: 11;
-	top: calc(100% - 620 / 2); 
+	top: 250px; 
 	left: 300px; 
 	width: 620px;
 	height: 360px;

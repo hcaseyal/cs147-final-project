@@ -1,13 +1,14 @@
 <div class="modal-overlay" ng-if="modalOn == true" ng-click="CloseClick()"></div>
-<div class="class-modal" ng-if="modalOn == true">
-	<img class="close-modal-icon" src="img/close.png" ng-click="CloseClick()">
-	<div class="modal-title">CLASS BOOKMARKED!</div>
-	<div class="modal-text">This class has been saved to your bookmarked classes. Click the button below to see it now or close this dialog to continue exploring. </div>
-	<a href="#!/bookmarks">
-		<div class="modal-button">MY BOOKMARKED CLASSES</div>
-	</a>
+<div class="modal-container">
+	<div class="class-modal" ng-if="modalOn == true">
+		<img class="close-modal-icon" src="img/close.png" ng-click="CloseClick()">
+		<div class="modal-title">CLASS BOOKMARKED!</div>
+		<div class="modal-text">This class has been saved to your bookmarked classes. Click the button below to see it now or close this dialog to continue exploring. </div>
+		<a href="#!/bookmarks">
+			<div class="modal-button">MY BOOKMARKED CLASSES</div>
+		</a>
+	</div>
 </div>
-<div class="modal"></div>
 <div class="class-page-container">
 <div class="class-title">{{selectedClass}}</div>
 
@@ -71,7 +72,7 @@
 </div>
 
 <div class="class-review-container">
-	<div class="class-description">Introduction to the engineering of computer applications emphasizing modern software engineering principles: object-oriented design, decomposition, encapsulation, abstraction, and testing. Emphasis is on good programming style and the built-in facilities of respective languages. No prior programming experience required. Summer quarter enrollment is limited. Alternative versions of CS106A are available which cover most of the same material but in different programming languages: Java [Fall, Win, Spr, or Sum qtr enroll in CS106A Section 1] Javascript [Fall qtr enroll in CS 106A Section 2] Python [Winter or Spring qtr enroll in CS 106A Section 3]</div>
+	<div class="class-description">{{main.classDescription}}</div>
 	<div class="class-small-header">WAS THIS CLASS USEFUL?</div>
 	<div class="average-rating-text">{{main.averageRating}} / 5 average rating over {{main.numReviews}} students</div>
 	<div class="class-rating-graph-container">
