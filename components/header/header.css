@@ -36,12 +36,12 @@
 }
 
 .active-button {
-	font-family: OpenSans-ExtraBold;
+	font-weight: bold;
 	color: #FFFFFF;	
 }
 
 .disabled-button {
-	font-family: OpenSans-Light;
+	font-weight: lighter;
 	color: rgba(255,255,255,0.50);
 }
 
@@ -65,7 +65,7 @@ input:focus {
 	border: 1px solid #FFFFFF;
 	border-radius: 5px;
 	color: #FFFFFF;
-	font-family: OpenSans-Light;
+	font-weight: lighter;
 	margin-right: 10px;
 	margin-left: 35px;
 }
@@ -86,7 +86,7 @@ input:focus {
 }
 
 .header-name {
-	font-family: OpenSans-Bold;
+	font-weight: bold;
 	font-size: 32px;
 	color: #FFFFFF;
 }
