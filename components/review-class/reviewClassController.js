@@ -25,10 +25,9 @@ app.controller('ReviewClassController', ['$scope', '$routeParams', function($sco
 	$scope.reviewText = ""; 
 	$scope.wishText = ""; 
 
-	$scope.classSkills = [];
 	let getClassUrl = "/getClass?classID=" + $scope.selectedClass;
 	remoteServiceGet(getClassUrl).then((info) => {
-		$scope.classSkills = JSON.parse(info).skills;
+		$scope.main.classSkills = JSON.parse(info).skills;
 	});
 
 	$scope.skillsUseful = []; 

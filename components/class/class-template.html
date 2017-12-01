@@ -1,13 +1,14 @@
 <div class="modal-overlay" ng-if="modalOn == true" ng-click="CloseClick()"></div>
-<div class="class-modal" ng-if="modalOn == true">
-	<img class="close-modal-icon" src="img/close.png" ng-click="CloseClick()">
-	<div class="modal-title">CLASS BOOKMARKED!</div>
-	<div class="modal-text">This class has been saved to your bookmarked classes. Click the button below to see it now or close this dialog to continue exploring. </div>
-	<a href="#!/bookmarks">
-		<div class="modal-button">MY BOOKMARKED CLASSES</div>
-	</a>
+<div class="modal-container">
+	<div class="class-modal" ng-if="modalOn == true">
+		<img class="close-modal-icon" src="img/close.png" ng-click="CloseClick()">
+		<div class="modal-title">CLASS BOOKMARKED!</div>
+		<div class="modal-text">This class has been saved to your bookmarked classes. Click the button below to see it now or close this dialog to continue exploring. </div>
+		<a href="#!/bookmarks">
+			<div class="modal-button">MY BOOKMARKED CLASSES</div>
+		</a>
+	</div>
 </div>
-<div class="modal"></div>
 <div class="class-page-container">
 <div class="class-title">{{selectedClass}}</div>
 
@@ -71,31 +72,49 @@
 </div>
 
 <div class="class-review-container">
+	<div class="class-description">{{main.classDescription}}</div>
 	<div class="class-small-header">WAS THIS CLASS USEFUL?</div>
-
+	<div class="average-rating-text">{{main.averageRating}} / 5 average rating over {{main.numReviews}} students</div>
+	<div class="class-rating-graph-container">
+		<canvas id="bar" class="chart chart-horizontal-bar"
+		  chart-data="main.classRatingData" chart-labels="classRatingLabels" chart-colors="chartRatingColors"> 
+		</canvas>
+	</div>
 
 	<div class="class-small-header">SKILLS + KEY CONCEPTS</div>
 	<div class="skills-container">
 		<div class="skills-list">
-			<div class="skill-tab">JAVA</div>
-			<div class="skill-tab">RECURSION</div>
+			<div class="skill-tab" 
+				 ng-repeat="skill in main.classSkills" 
+				 ng-click="toggleSelectedSkills(skill)"
+				 ng-class="main.selectedSkill == skill ? 'active-skill-tab' : 'disabled-skill-tab'">
+				{{skill}}
+			</div>
 		</div>
 		<div class="skills-detail">
 			<div class="skills-detail-title">I'm comfortable using this skill after {{selectedClass}}:</div>
 			<div class="skill-bar">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
-					<div class="percentage-bar-fill" style="width: calc(250px * 530 / 612)"></div>
+					<div class="percentage-bar-fill" style="width: {{main.comfortableWidth}}px"></div>
 				</div>
-				<div class="percentage-number">530 / 612 students</div>
+				<div class="percentage-number">{{main.comfortableCount}} / {{main.reviewCount}} students</div>
 			</div>
 			<div class="skills-detail-title">I've used this skill in future classes or jobs:</div>
 			<div class="skill-bar">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
-					<div class="percentage-bar-fill" style="width: calc(250px * 418 / 612)"></div>
+					<div class="percentage-bar-fill" style="width: {{main.usefulWidth}}px"></div>
 				</div>
-				<div class="percentage-number">418 / 612 students</div>
+				<div class="percentage-number">{{main.usefulCount}} / {{main.reviewCount}} students</div>
+			</div>
+			<div class="skill-anecdote" ng-repeat="review in main.relevantReviews">
+				<div>{{review.review}}</div>
+				<div class="skill-anecdote-meta">
+					<div>{{review.classYear}}</div>
+					<div class="skill-anecdote-meta-separator">|</div>
+					<div>{{review.userInfo.career}} at {{review.userInfo.location}}</div>
+				</div>
 			</div>
 		</div>
 	</div>
