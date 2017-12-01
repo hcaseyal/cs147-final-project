@@ -1,9 +1,10 @@
 // README: Currently, all careers should have at least
 // one unique skill, and skills should have at least
 // one unique class. Otherwise, the layout isn't accurate :'(
+var ROOT_NAME = "All careers/skills/classes";
 
 var data = {
-  "name": "All careers/skills/classes",
+  "name": ROOT_NAME,
   "children": [
     {
       "name": "A1",
@@ -148,8 +149,8 @@ function removeDuplicates(data) {
 }
 
 var dataWithoutDuplicates = removeDuplicates(data);
-var root = d3.hierarchy(dataWithoutDuplicates)
-clusterLayout(root)
+var root = d3.hierarchy(dataWithoutDuplicates);
+clusterLayout(root);
 
 // Nodes
 var node = d3.select('svg g.nodes')
@@ -167,6 +168,9 @@ var circles = node.append("circle")
   })
   .attr('class', function(d) {
     return d.data.name;
+  })
+  .style("visibility", function (d) { // Hide the root
+    return d.data.name === ROOT_NAME ? "hidden" : "visible";
   })
   .classed('node', true)
   .on('click', function(d, i) {
@@ -195,7 +199,7 @@ var circles = node.append("circle")
     });
   });
 
-  node.append("text")
+var text = node.append("text")
   .text(function(d) {
     return d.data.name;
   })
@@ -206,7 +210,11 @@ var circles = node.append("circle")
   })
   .attr('y', function(d) {
     return d.y;
+  })
+  .style("visibility", function (d) { // Hide the root's text
+    return d.data.name === ROOT_NAME ? "hidden" : "visible";
   });
+
 
 let links = getLinks(data); //root.links();
 
