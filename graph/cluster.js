@@ -1,3 +1,7 @@
+// README: Currently, all careers should have at least
+// one unique skill, and skills should have at least
+// one unique class. Otherwise, the layout isn't accurate :'(
+
 var data = {
   "name": "All careers/skills/classes",
   "children": [
@@ -90,7 +94,6 @@ function removeDuplicates(data) {
 
   for (careerIndex in data.children) {
     let careerNode = data.children[careerIndex];
-    console.log(careerNode);
     let careerKey = careerNode.name;
     if (!(careerKey in map)) {
       map[careerKey] = true;
@@ -141,7 +144,6 @@ function removeDuplicates(data) {
       }
     }
   }
-  console.log(dataNoDups);
   return dataNoDups;
 }
 
@@ -156,7 +158,6 @@ var node = d3.select('svg g.nodes')
   .enter()
 
 var circles = node.append("circle")
-  .classed('node', true)
   .attr('r', 25)
   .attr('cx', function(d) {
     return d.x;
@@ -164,7 +165,10 @@ var circles = node.append("circle")
   .attr('cy', function(d) {
     return d.y;
   })
-
+  .attr('class', function(d) {
+    return d.data.name;
+  })
+  .classed('node', true)
   .on('click', function(d, i) {
     // De-select all active nodes
     svg.selectAll('.activeCircle')
@@ -204,10 +208,7 @@ var circles = node.append("circle")
     return d.y;
   });
 
-console.log(root.links());
-let links = root.links();
-
-links.push({source: {x: 120, y: 100}, target: {x: 150, y: 200}});
+let links = getLinks(data); //root.links();
 
 // Links
 d3.select('svg g.links')
@@ -221,3 +222,47 @@ d3.select('svg g.links')
   .attr('x2', function(d) {return d.target.x;})
   .attr('y2', function(d) {return d.target.y;});
 
+function getLinks(data) {
+  let links = [];
+  for (careerIndex in data.children) {
+    let careerNode = data.children[careerIndex];
+
+    for (skillIndex in careerNode.children) {
+      let skillNode = careerNode.children[skillIndex];
+      links.push(constructLink(careerNode.name, skillNode.name));
+
+      for (classIndex in skillNode.children) {
+        let classNode = skillNode.children[classIndex];
+        links.push(constructLink(skillNode.name, classNode.name));
+      }
+    }
+  }
+
+  function constructLink(sourceName, destName) {
+    // Link looks like:
+    // {source: {x: 120, y: 100, name: "A1"}, target: {x: 150, y: 200, "name": "A2"}})
+
+    let link = {source: {}, target: {}};
+    link.source.name = sourceName;
+    link.target.name = destName;
+
+    sourceCoords = getCoords(sourceName);
+    destCoords = getCoords(destName);
+
+    link.source.x = sourceCoords.x;
+    link.source.y = sourceCoords.y;
+
+    link.target.x = destCoords.x;
+    link.target.y = destCoords.y;
+
+    return link;
+  }
+
+  return links;
+}
+
+function getCoords(nodeName) {
+    var circle = d3.select("." + nodeName);
+    return {x: circle.node().attributes.cx.value, 
+      y: circle.node().attributes.cy.value};
+} 
