@@ -127,10 +127,24 @@
 	margin: 5px 0;
 }
 
+.class-description {
+	font-size: 14px;
+	margin-bottom: 15px;
+}
+
 .class-small-header {
 	font-size: 18px;
 	font-weight: bold;
 	letter-spacing: 1px;
+}
+
+.average-rating-text {
+	font-size: 16px;
+}
+
+.class-rating-graph-container {
+	width: 500px;
+	margin: 15px 0;
 }
 
 .class-review-container {
@@ -207,4 +221,21 @@
 	font-size: 12px;
 	font-weight: bold;
 	margin-left: 15px;
+}
+
+.skill-anecdote {
+	background: #ECECEC;
+	border-radius: 5px;
+	padding: 10px;
+	margin-top: 15px; 
+}
+
+.skill-anecdote-meta {
+	display: flex;
+	font-size: 14px;
+	color: #818181;
+}
+
+.skill-anecdote-meta-separator {
+	margin: 0 10px;
 }

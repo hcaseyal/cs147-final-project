@@ -5,6 +5,7 @@
 	flex-direction: column;
 	align-items: center;
 	background-image: linear-gradient(43deg, #5EBAF1 8%, #2979FB 91%);
+	font-family: 'Open Sans', sans-serif;
 }
 
 .top-header-row {
@@ -81,6 +82,7 @@ input:focus {
 	width: 100%;
 	background-image: linear-gradient(-111deg, #2979FB 16%, #5EBAF1 81%);
 	padding: 0 20px;
+	font-family: 'Open Sans', sans-serif;
 }
 
 .header-name {

@@ -1,5 +1,5 @@
 
-var app = angular.module('myApp',['ngResource', 'ngRoute', 'rzModule', 'ngTagsInput']);
+var app = angular.module('myApp',['ngResource', 'ngRoute', 'rzModule', 'ngTagsInput', 'chart.js']);
 
 app.config(function($routeProvider) {
     $routeProvider
@@ -42,8 +42,13 @@ app.config(function($routeProvider) {
 	    .otherwise({
             redirectTo: '/login'
         });
-	});
+});
 
 app.controller('MainController', ['$scope', '$resource', '$route', function($scope, $resource, $route) {
 	$scope.main = {};
+
+	$scope.main.classSkills = [];
+	$scope.main.selectedSkill = '';
+	$scope.main.reviewCount = 0;
+	$scope.main.averageRating = 0;
 }]);

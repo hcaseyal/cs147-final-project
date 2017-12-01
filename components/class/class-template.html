@@ -71,16 +71,22 @@
 </div>
 
 <div class="class-review-container">
+	<div class="class-description">Introduction to the engineering of computer applications emphasizing modern software engineering principles: object-oriented design, decomposition, encapsulation, abstraction, and testing. Emphasis is on good programming style and the built-in facilities of respective languages. No prior programming experience required. Summer quarter enrollment is limited. Alternative versions of CS106A are available which cover most of the same material but in different programming languages: Java [Fall, Win, Spr, or Sum qtr enroll in CS106A Section 1] Javascript [Fall qtr enroll in CS 106A Section 2] Python [Winter or Spring qtr enroll in CS 106A Section 3]</div>
 	<div class="class-small-header">WAS THIS CLASS USEFUL?</div>
-
+	<div class="average-rating-text">{{main.averageRating}} / 5 average rating over {{main.numReviews}} students</div>
+	<div class="class-rating-graph-container">
+		<canvas id="bar" class="chart chart-horizontal-bar"
+		  chart-data="main.classRatingData" chart-labels="classRatingLabels" chart-colors="chartRatingColors"> 
+		</canvas>
+	</div>
 
 	<div class="class-small-header">SKILLS + KEY CONCEPTS</div>
 	<div class="skills-container">
 		<div class="skills-list">
 			<div class="skill-tab" 
-				 ng-repeat="skill in classSkills" 
+				 ng-repeat="skill in main.classSkills" 
 				 ng-click="toggleSelectedSkills(skill)"
-				 ng-class="selectedSkill == skill ? 'active-skill-tab' : 'disabled-skill-tab'">
+				 ng-class="main.selectedSkill == skill ? 'active-skill-tab' : 'disabled-skill-tab'">
 				{{skill}}
 			</div>
 		</div>
@@ -89,17 +95,25 @@
 			<div class="skill-bar">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
-					<div class="percentage-bar-fill" style="width: {{comfortableWidth}}px"></div>
+					<div class="percentage-bar-fill" style="width: {{main.comfortableWidth}}px"></div>
 				</div>
-				<div class="percentage-number">{{comfortableCount}} / {{reviewCount}} students</div>
+				<div class="percentage-number">{{main.comfortableCount}} / {{main.reviewCount}} students</div>
 			</div>
 			<div class="skills-detail-title">I've used this skill in future classes or jobs:</div>
 			<div class="skill-bar">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
-					<div class="percentage-bar-fill" style="width: {{usefulWidth}}px"></div>
+					<div class="percentage-bar-fill" style="width: {{main.usefulWidth}}px"></div>
 				</div>
-				<div class="percentage-number">{{usefulCount}} / {{reviewCount}} students</div>
+				<div class="percentage-number">{{main.usefulCount}} / {{main.reviewCount}} students</div>
+			</div>
+			<div class="skill-anecdote" ng-repeat="review in main.relevantReviews">
+				<div>{{review.review}}</div>
+				<div class="skill-anecdote-meta">
+					<div>{{review.classYear}}</div>
+					<div class="skill-anecdote-meta-separator">|</div>
+					<div>{{review.userInfo.career}} at {{review.userInfo.location}}</div>
+				</div>
 			</div>
 		</div>
 	</div>

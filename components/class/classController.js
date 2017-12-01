@@ -1,43 +1,46 @@
 var classID;
 
-app.controller('ClassController', ['$scope', '$routeParams', function($scope, $routeParams) {
+app.controller('ClassController', ['$scope', '$routeParams', '$timeout', function($scope, $routeParams, $timeout) {
+
 	$scope.selectedClass = $routeParams.classID;
 	$scope.main.displayHeader = true;
 	$scope.main.displayFullHeader = false;
 	$scope.main.selectedButton = 'explore';
 	$scope.displayFilters = false;
 	$scope.modalOn = false;
+	$scope.classRatingLabels = ['Very Useful', '', '', '', 'Not Useful']; 
+	$scope.chartRatingColors = [ '#024AC1', '#2F6FD7', '#5D90E3', '#97BBF5', '#B3C9EC'];
 
 	classID = $scope.selectedClass;
 
 	const percentageBarWidth = 250;
-	$scope.reviewCount = 0;
 	var comfortableMap = new Map();	
 	var usefulMap = new Map(); 
-	$scope.classSkills = [];
-	$scope.selectedSkill = '';
 
 	let getClassUrl = "/getClass?classID=" + classID;
 	remoteServiceGet(getClassUrl).then((info) => {
-		$scope.classSkills = JSON.parse(info).skills;
+		$scope.main.classSkills = JSON.parse(info).skills;
 
-		for (skill in $scope.classSkills) {
-			comfortableMap.set($scope.classSkills[skill], 0); 
-			usefulMap.set($scope.classSkills[skill], 0);
+		for (skill in $scope.main.classSkills) {
+			comfortableMap.set($scope.main.classSkills[skill], 0); 
+			usefulMap.set($scope.main.classSkills[skill], 0);
 		}
 	});	
 
 	let url = "/getReviews?classID=" + classID;
 	$scope.reviews = []; 
 	remoteServiceGet(url).then((reviews) => {
+
 		$scope.reviews = JSON.parse(reviews);
-		$scope.reviewCount = $scope.reviews.length;
+		$scope.main.reviewCount = $scope.reviews.length;
 		
-		for (review in $scope.reviews) {
-			var comfortable = $scope.reviews[review].skillsComfortable; 
-			var useful = $scope.reviews[review].skillsUseful;
-			for (s in $scope.classSkills) {
-				var skill = $scope.classSkills[s]; 
+		var classRatingData = [0, 0, 0, 0, 0];
+		for (r in $scope.reviews) {
+			var review = $scope.reviews[r];
+			var comfortable = review.skillsComfortable; 
+			var useful = review.skillsUseful;
+			for (s in $scope.main.classSkills) {
+				var skill = $scope.main.classSkills[s]; 
 				if (comfortable.indexOf(skill) > -1) {
 					comfortableMap.set(skill, comfortableMap.get(skill) + 1); 
 				}
@@ -45,24 +48,41 @@ app.controller('ClassController', ['$scope', '$routeParams', function($scope, $r
 					usefulMap.set(skill, usefulMap.get(skill) + 1);  
 				}
 			}
+			classRatingData[review.usefulValue - 1] += 1;
 		}
+		$scope.main.classRatingData = classRatingData.reverse();
+		$scope.main.numReviews = $scope.main.classRatingData.reduce(function(a, b) { return a + b; }, 0);
+		for (v in $scope.main.classRatingData) {
+			$scope.main.averageRating += ((5-v) * $scope.main.classRatingData[v]); 
+		}
+		$scope.main.averageRating /= $scope.main.numReviews; 
+		$scope.main.averageRating = Math.floor($scope.main.averageRating * 10) / 10; 
 
 		// default selected skill is the first skill in the skills array
-		$scope.selectedSkill = $scope.classSkills[0];
-		$scope.comfortableCount = comfortableMap.get($scope.selectedSkill); 
-	    $scope.comfortableWidth = percentageBarWidth * ($scope.comfortableCount / $scope.reviewCount);
-
-	    $scope.usefulCount = usefulMap.get($scope.selectedSkill); 
-	    $scope.usefulWidth = percentageBarWidth * ($scope.usefulCount / $scope.reviewCount);
+		$scope.main.selectedSkill = $scope.main.classSkills[0];
+		$scope.toggleSelectedSkills($scope.main.selectedSkill);
 	});
 
 	$scope.toggleSelectedSkills = function(skill){
-	    $scope.selectedSkill = skill;
-	    $scope.comfortableCount = comfortableMap.get(skill); 
-	    $scope.comfortableWidth = percentageBarWidth * ($scope.comfortableCount / $scope.reviewCount);
+	    $scope.main.selectedSkill = skill;
+	    $scope.main.comfortableCount = comfortableMap.get(skill); 
+	    $scope.main.comfortableWidth = percentageBarWidth * ($scope.main.comfortableCount / $scope.main.reviewCount);
 
-	    $scope.usefulCount = usefulMap.get(skill); 
-	    $scope.usefulWidth = percentageBarWidth * ($scope.usefulCount / $scope.reviewCount);
+	    $scope.main.usefulCount = usefulMap.get(skill); 
+	    $scope.main.usefulWidth = percentageBarWidth * ($scope.main.usefulCount / $scope.main.reviewCount);
+
+	    // find reviews tagged with the selected skill 
+	    var relevantReviews = [];
+	    for (r in $scope.reviews) {
+			var review = $scope.reviews[r]; 
+
+			for (t in review.reviewTags) {
+				if (review.reviewTags[t].text == skill) {
+					relevantReviews.push(review);
+				}
+			}
+		}
+		$scope.main.relevantReviews = relevantReviews.slice();
 	}
 
 	$scope.CloseClick = function(){
