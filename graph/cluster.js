@@ -185,7 +185,7 @@ var circles = node.append("circle")
       .classed('node', false);
 
     var links = svg.selectAll("line").filter(function(lineData) {
-      if (lineData.source.data.name === d.data.name || lineData.target.data.name === d.data.name) {
+      if (lineData.source.name === d.data.name || lineData.target.name === d.data.name) {
         return true;
       };
     }).each(function() {
