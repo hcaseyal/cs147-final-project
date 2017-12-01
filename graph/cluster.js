@@ -1,29 +1,42 @@
 var data = {
-  "name": "A1",
+  "name": "All careers/skills/classes",
   "children": [
     {
-      "name": "B1",
+      "name": "A1",
       "children": [
         {
-          "name": "C1",
-          "value": 100
+          "name": "B1",   
+          "children": [
+            {
+              "name": "C1",
+              "value": 100
+            },
+            {
+              "name": "C2",
+              "value": 300
+            },
+            {
+              "name": "C3",
+              "value": 200
+            }
+          ]
         },
         {
-          "name": "C2",
-          "value": 300
-        },
-        {
-          "name": "C3",
-          "value": 200
+          "name": "B2",
+          "children": [
+            {
+              "name": "C4",
+              "value": 100
+            }
+          ]
         }
       ]
     },
     {
-      "name": "B2",
+      "name" : "A2",
       "children": [
         {
-          "name": "C4",
-          "value": 100
+          "name" : "B2"
         }
       ]
     }
@@ -112,11 +125,15 @@ var circles = node.append("circle")
     return d.y;
   });
   
+console.log(root.links());
+let links = root.links();
+
+links.push({source: {x: 120, y: 100}, target: {x: 150, y: 200}});
 
 // Links
 d3.select('svg g.links')
   .selectAll('line.link')
-  .data(root.links())
+  .data(links)
   .enter()
   .append('line')
   .classed('link', true)
