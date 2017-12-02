@@ -3,6 +3,10 @@
   r: 35;
 }
 
+.activeCircle:hover {
+  cursor: pointer;
+}
+
 .activeLink {
   stroke: green;
   stroke-width: 10px;

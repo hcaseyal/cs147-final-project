@@ -1,3 +1,6 @@
+# Credit goes to Wen Zhang
+# Some modifications by Hope
+
 from bs4 import BeautifulSoup
 import datetime
 import os

@@ -173,7 +173,10 @@ var circles = node.append("circle")
     return d.data.name === ROOT_NAME ? "hidden" : "visible";
   })
   .classed('node', true)
+
   .on('click', function(d, i) {
+    let resetCircleToNonActive = d3.select(this).classed('activeCircle');
+
     // De-select all active nodes
     svg.selectAll('.activeCircle')
       .classed('activeCircle', false)
@@ -184,19 +187,21 @@ var circles = node.append("circle")
       .classed('activeLink', false)
       .classed('link', true);
 
-    var circle = d3.select(this)
-      .classed('activeCircle', true)
-      .classed('node', false);
+    if (!resetCircleToNonActive) {
+      var circle = d3.select(this)
+        .classed('activeCircle', true)
+        .classed('node', false);
 
-    var links = svg.selectAll("line").filter(function(lineData) {
-      if (lineData.source.name === d.data.name || lineData.target.name === d.data.name) {
-        return true;
-      };
-    }).each(function() {
-        d3.select(this)
-        .classed('activeLink', true)
-        .classed('link', false);
-    });
+      var links = svg.selectAll("line").filter(function(lineData) {
+        if (lineData.source.name === d.data.name || lineData.target.name === d.data.name) {
+          return true;
+        };
+      }).each(function() {
+          d3.select(this)
+          .classed('activeLink', true)
+          .classed('link', false);
+      });
+    }
   });
 
 var text = node.append("text")
@@ -211,6 +216,7 @@ var text = node.append("text")
   .attr('y', function(d) {
     return d.y;
   })
+
   .classed("nodeText", true)
   .style("visibility", function (d) { // Hide the root's text
     return d.data.name === ROOT_NAME ? "hidden" : "visible";
