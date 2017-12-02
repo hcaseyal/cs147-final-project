@@ -131,7 +131,7 @@ remoteServiceGet(url).then((allReviews) => {
 	  .enter()
 
 	var circles = node.append("circle")
-	  .attr('r', 30)
+	  .attr('r', 40)
 	  .attr('cx', function(d) {
 	    return d.x * 1000;
 	  })
