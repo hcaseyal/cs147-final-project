@@ -1,4 +1,3 @@
-
 app.controller('ExploreController', ['$scope', function($scope) {
 	$scope.main.displayHeader = true; 
 	$scope.main.displayFullHeader = true; 
@@ -7,6 +6,8 @@ app.controller('ExploreController', ['$scope', function($scope) {
 // README: Currently, all careers should have at least
 // one unique skill, and skills should have at least
 // one unique class. Otherwise, the layout isn't accurate :'(
+
+// Also, leaf nodes must have a "value" attribute
 var ROOT_NAME = "All careers/skills/classes";
 
 var data = {
@@ -85,6 +86,126 @@ var svg = d3.select('svg'),
   .style("pointer-events", "none");
  // .style("visibility", "hidden");
 
+let url = "/getAllReviews";
+var reviews;
+
+remoteServiceGet(url).then((allReviews) => {
+	reviews = JSON.parse(allReviews);
+
+	// Add user-added careers, skills, and classes to our graph
+	for (classID in reviews) {
+		let reviewsForClass = reviews[classID];
+		for (let j = 0; j < reviewsForClass.length; j++) {
+			let review = reviewsForClass[j];
+			let career = review.userInfo.career;
+			let skills = review.skillsUseful;
+			let elem = {"name": career, "children": []};
+
+			for (let i = 0; i < skills.length; i++) {
+				let skill = skills[i];
+				let skillElem = {"name": skill, "children" : [{"name": classID, "value": classID}]};
+				elem.children.push(skillElem);
+			}	
+			data.children.push(elem);
+		}
+	}
+
+	var dataWithoutDuplicates = removeDuplicates(data);
+	var root = d3.hierarchy(dataWithoutDuplicates);
+	clusterLayout(root);
+
+	// Nodes
+	var node = d3.select('svg g.nodes')
+	  .selectAll('g.nodeContainer')
+	  .data(root.descendants())
+	  .enter()
+
+	var circles = node.append("circle")
+	  .attr('r', 30)
+	  .attr('cx', function(d) {
+	    return d.x;
+	  })
+	  .attr('cy', function(d) {
+	    return d.y;
+	  })
+	  .attr('class', function(d) {
+	  	return replaceSpaces(d.data.name);
+	  })
+	  .style("visibility", function (d) { // Hide the root
+	    return d.data.name === ROOT_NAME ? "hidden" : "visible";
+	  })
+	  .classed('node', true)
+	  .on('click', function(d, i) {
+	    let resetCircleToNonActive = d3.select(this).classed('activeCircle');
+
+	    // De-select all active nodes
+	    svg.selectAll('.activeCircle')
+	      .classed('activeCircle', false)
+	      .classed('node', true);
+
+	    // De-select all active links
+	    svg.selectAll('.activeLink')
+	      .classed('activeLink', false)
+	      .classed('link', true);
+
+	    if (!resetCircleToNonActive) {
+	      var circle = d3.select(this)
+	        .classed('activeCircle', true)
+	        .classed('node', false);
+
+	      var links = svg.selectAll("line").filter(function(lineData) {
+	        if (lineData.source.name === d.data.name || lineData.target.name === d.data.name) {
+	          return true;
+	        };
+	      }).each(function() {
+	          d3.select(this)
+	          .classed('activeLink', true)
+	          .classed('link', false);
+	      });
+	    }
+
+	    if(d.data.value !== undefined) { // Class node has been clicked
+	    	console.log("Once implemented, this will render the explore page right here");
+	    }
+	  });
+
+	var text = node.append("text")
+	  .text(function(d) {
+	    return d.data.name;
+	  })
+	  .data(root.descendants())
+	  .attr("dy", 6)
+	  .attr("x", function(d) {
+	    return d.x;
+	  })
+	  .attr('y', function(d) {
+	    return d.y;
+	  })
+
+	  .classed("nodeText", true)
+	  .style("visibility", function (d) { // Hide the root's text
+	    return d.data.name === ROOT_NAME ? "hidden" : "visible";
+	  });
+
+	let links = getLinks(data);
+
+	// Links
+	d3.select('svg g.links')
+	  .selectAll('line.link')
+	  .data(links)
+	  .enter()
+	  .append('line')
+	  .classed('link', true)
+	  .attr('x1', function(d) {return d.source.x;})
+	  .attr('y1', function(d) {return d.source.y;})
+	  .attr('x2', function(d) {return d.target.x;})
+	  .attr('y2', function(d) {return d.target.y;});
+
+})
+.catch(error => {
+	console.log(error);
+});
+
 function zoomed() {
   d3.select('svg g').attr("transform", d3.event.transform);
 }
@@ -155,98 +276,6 @@ function removeDuplicates(data) {
   return dataNoDups;
 }
 
-var dataWithoutDuplicates = removeDuplicates(data);
-var root = d3.hierarchy(dataWithoutDuplicates);
-clusterLayout(root);
-
-// Nodes
-var node = d3.select('svg g.nodes')
-  .selectAll('g.nodeContainer')
-  .data(root.descendants())
-  .enter()
-
-var circles = node.append("circle")
-  .attr('r', 30)
-  .attr('cx', function(d) {
-    return d.x;
-  })
-  .attr('cy', function(d) {
-    return d.y;
-  })
-  .attr('class', function(d) {
-    return d.data.name;
-  })
-  .style("visibility", function (d) { // Hide the root
-    return d.data.name === ROOT_NAME ? "hidden" : "visible";
-  })
-  .classed('node', true)
-  .on('click', function(d, i) {
-    let resetCircleToNonActive = d3.select(this).classed('activeCircle');
-
-    // De-select all active nodes
-    svg.selectAll('.activeCircle')
-      .classed('activeCircle', false)
-      .classed('node', true);
-
-    // De-select all active links
-    svg.selectAll('.activeLink')
-      .classed('activeLink', false)
-      .classed('link', true);
-
-    if (!resetCircleToNonActive) {
-      var circle = d3.select(this)
-        .classed('activeCircle', true)
-        .classed('node', false);
-
-      var links = svg.selectAll("line").filter(function(lineData) {
-        if (lineData.source.name === d.data.name || lineData.target.name === d.data.name) {
-          return true;
-        };
-      }).each(function() {
-          d3.select(this)
-          .classed('activeLink', true)
-          .classed('link', false);
-      });
-    }
-
-    if(d.data.value !== undefined) { // Class node has been clicked
-    	console.log("Once implemented, this will render the explore page right here");
-    }
-  });
-
-var text = node.append("text")
-  .text(function(d) {
-    return d.data.name;
-  })
-  .data(root.descendants())
-  .attr("dy", 6)
-  .attr("x", function(d) {
-    return d.x;
-  })
-  .attr('y', function(d) {
-    return d.y;
-  })
-
-  .classed("nodeText", true)
-  .style("visibility", function (d) { // Hide the root's text
-    return d.data.name === ROOT_NAME ? "hidden" : "visible";
-  });
-
-
-let links = getLinks(data); //root.links();
-
-// Links
-d3.select('svg g.links')
-  .selectAll('line.link')
-  .data(links)
-  .enter()
-  .append('line')
-  .classed('link', true)
-  .attr('x1', function(d) {return d.source.x;})
-  .attr('y1', function(d) {return d.source.y;})
-  .attr('x2', function(d) {return d.target.x;})
-  .attr('y2', function(d) {return d.target.y;});
-
 function getLinks(data) {
   let links = [];
   for (careerIndex in data.children) {
@@ -287,9 +316,15 @@ function getLinks(data) {
 }
 
 function getCoords(nodeName) {
-    var circle = d3.select("." + nodeName);
+    var circle = d3.select("." + replaceSpaces(nodeName));
+    console.log(nodeName);
+    console.log(circle.node().attributes);
     return {x: circle.node().attributes.cx.value, 
       y: circle.node().attributes.cy.value};
 } 
+
+function replaceSpaces(name) {
+	return name.replace(/\s+/g, '-');
+}
 }]);
 

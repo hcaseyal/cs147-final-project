@@ -60,9 +60,22 @@ app.post('/reviewClass', function (req, res) {
 	});
 });
 
+// Returns all reviews for a particular class
 app.get('/getReviews', function(req, res) {
 	let classID = req.query.classID;
 	res.send(JSON.stringify(classReviewIndex[classID]));
+});
+
+// Returns all reviews as a JSON object 
+// E.g., {classID: {review joined with reviewer data}, anotherClassID: {review} }
+app.get('/getAllReviews', function(req, res) {
+	res.send(JSON.stringify(classReviewIndex))
+});
+
+// Returns all classes as JSON object 
+// E.g., {CS106A: {classID: CS106A, skills: [recursion, java]}, CS106B : {...} }
+app.get('/getClasses', function(req, res) {
+	res.send(JSON.stringify(classes));
 });
 
 // Returns class as a JSON object. E.g., {classID: CS106A, skills: [recursion, java]}
