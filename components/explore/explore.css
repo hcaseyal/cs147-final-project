@@ -1,6 +1,6 @@
 .activeCircle {
   fill: green;
-  r: 35;
+  r: 50;
 }
 
 .activeCircle:hover {
@@ -36,7 +36,7 @@
 }
 
 .node:hover {
-  r: 35;
+  r: 50;
 }
 
 .node:hover {
