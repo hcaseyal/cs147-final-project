@@ -1,0 +1,50 @@
+.activeCircle {
+  fill: green;
+  r: 35;
+}
+
+.activeCircle:hover {
+  cursor: pointer;
+}
+
+.activeLink {
+  stroke: green;
+  stroke-width: 10px;
+  opacity: 0.2;
+}
+
+.node {
+  fill: steelblue;
+  stroke: none;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
+.nodeText {
+  font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  text-anchor: middle;
+  pointer-events: none;
+  fill: white;
+}
+
+.node:hover {
+  cursor: pointer;
+}
+
+.node:hover {
+  r: 35;
+}
+
+.node:hover {
+  fill: orange;
+}
+
+#nodes-svg-container {
+	position:absolute;
+	top: 250px;
+	left: 100px;
+}
