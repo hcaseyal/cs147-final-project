@@ -1,5 +1,6 @@
 .activeCircle {
   fill: green;
+  r: 35;
 }
 
 .activeLink {
@@ -23,6 +24,15 @@ text {
   font: 24px "Helvetica Neue", Helvetica, Arial, sans-serif;
   text-anchor: middle;
   pointer-events: none;
+  color: #ffffff;
+}
+
+.node:hover {
+  cursor: pointer;
+}
+
+.node:hover {
+  r: 35;
 }
 
 .node:hover {
