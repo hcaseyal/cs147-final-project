@@ -4,7 +4,7 @@ app.controller('ExploreController', ['$scope', function($scope) {
 	$scope.main.displayFullHeader = true; 
 	$scope.main.selectedButton = 'explore';
 
-	// README: Currently, all careers should have at least
+// README: Currently, all careers should have at least
 // one unique skill, and skills should have at least
 // one unique class. Otherwise, the layout isn't accurate :'(
 var ROOT_NAME = "All careers/skills/classes";
@@ -180,7 +180,6 @@ var circles = node.append("circle")
     return d.data.name === ROOT_NAME ? "hidden" : "visible";
   })
   .classed('node', true)
-
   .on('click', function(d, i) {
     let resetCircleToNonActive = d3.select(this).classed('activeCircle');
 
@@ -208,6 +207,10 @@ var circles = node.append("circle")
           .classed('activeLink', true)
           .classed('link', false);
       });
+    }
+
+    if(d.data.value !== undefined) { // Class node has been clicked
+    	console.log("Once implemented, this will render the explore page right here");
     }
   });
 
