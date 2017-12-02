@@ -3,41 +3,45 @@ app.controller('ExploreController', ['$scope', function($scope) {
 	$scope.main.displayFullHeader = true; 
 	$scope.main.selectedButton = 'explore';
 
-// README: Currently, all careers should have at least
-// one unique skill, and skills should have at least
-// one unique class. Otherwise, the layout isn't accurate :'(
-
-// Also, leaf nodes must have a "value" attribute
+// leaf nodes must have a "value" attribute
 var ROOT_NAME = "All careers/skills/classes";
 
 var data = {
   "name": ROOT_NAME,
+  "depth": 0,
   "children": [
     {
       "name": "A1",
+      "depth": "1",
       "children": [
         {
-          "name": "B1",   
+          "name": "B1",
+          "depth": "2",   
           "children": [
             {
               "name": "CS106A",
+               "depth": "3",
               "value": 100
             },
             {
               "name": "C2",
+              "depth": "3",
               "value": 300
             },
             {
               "name": "C3",
+              "depth": "3",
               "value": 200
             }
           ]
         },
         {
           "name": "B2",
+          "depth": "2",
           "children": [
             {
               "name": "C4",
+              "depth": "3",
               "value": 100
             }
           ]
@@ -46,17 +50,21 @@ var data = {
     },
     {
       "name" : "A2",
+      "depth": "1",
       "children": [
         {
           "name" : "B2",
+          "depth": "2",
           "children": [
           ]
         },
         {
           "name" : "B3", 
+          "depth": "2",
           "children": [
           {
             "name" : "C5",
+            "depth": "3",
             "children": [
             ]
           }
@@ -99,11 +107,11 @@ remoteServiceGet(url).then((allReviews) => {
 			let review = reviewsForClass[j];
 			let career = review.userInfo.career;
 			let skills = review.skillsUseful;
-			let elem = {"name": career, "children": []};
+			let elem = {"name": career, "depth": 1, "children": []};
 
 			for (let i = 0; i < skills.length; i++) {
 				let skill = skills[i];
-				let skillElem = {"name": skill, "children" : [{"name": classID, "value": classID}]};
+				let skillElem = {"name": skill, "depth": 2, "children" : [{"name": classID, "depth": 3, "value": classID}]};
 				elem.children.push(skillElem);
 			}	
 			data.children.push(elem);
@@ -111,22 +119,24 @@ remoteServiceGet(url).then((allReviews) => {
 	}
 
 	var dataWithoutDuplicates = removeDuplicates(data);
+
 	var root = d3.hierarchy(dataWithoutDuplicates);
-	clusterLayout(root);
+	var tree = d3.layout.tree();
+	var nodes = tree.nodes(root).reverse();
 
 	// Nodes
 	var node = d3.select('svg g.nodes')
 	  .selectAll('g.nodeContainer')
-	  .data(root.descendants())
+	  .data(nodes)
 	  .enter()
 
 	var circles = node.append("circle")
 	  .attr('r', 30)
 	  .attr('cx', function(d) {
-	    return d.x;
+	    return d.x * 1000;
 	  })
 	  .attr('cy', function(d) {
-	    return d.y;
+	    return d.y * 500;
 	  })
 	  .attr('class', function(d) {
 	  	return replaceSpaces(d.data.name);
@@ -173,13 +183,13 @@ remoteServiceGet(url).then((allReviews) => {
 	  .text(function(d) {
 	    return d.data.name;
 	  })
-	  .data(root.descendants())
+	  .data(nodes)
 	  .attr("dy", 6)
 	  .attr("x", function(d) {
-	    return d.x;
+	    return d.x * 1000;
 	  })
 	  .attr('y', function(d) {
-	    return d.y;
+	    return d.y * 500;
 	  })
 
 	  .classed("nodeText", true)
@@ -317,8 +327,6 @@ function getLinks(data) {
 
 function getCoords(nodeName) {
     var circle = d3.select("." + replaceSpaces(nodeName));
-    console.log(nodeName);
-    console.log(circle.node().attributes);
     return {x: circle.node().attributes.cx.value, 
       y: circle.node().attributes.cy.value};
 } 
