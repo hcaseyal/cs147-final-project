@@ -211,6 +211,7 @@ var text = node.append("text")
   .attr('y', function(d) {
     return d.y;
   })
+  .classed("nodeText", true)
   .style("visibility", function (d) { // Hide the root's text
     return d.data.name === ROOT_NAME ? "hidden" : "visible";
   });
