@@ -21,17 +21,17 @@ var data = {
             {
               "name": "CS106A",
                "depth": "3",
-              "value": 100
+              "value": "CS106A"
             },
             {
               "name": "C2",
               "depth": "3",
-              "value": 300
+              "value": "CS106A"
             },
             {
               "name": "C3",
               "depth": "3",
-              "value": 200
+              "value": "CS106A"
             }
           ]
         },
@@ -42,7 +42,7 @@ var data = {
             {
               "name": "C4",
               "depth": "3",
-              "value": 100
+              "value": "CS106A"
             }
           ]
         }
