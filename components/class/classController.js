@@ -1,6 +1,6 @@
 var classID;
 
-app.controller('ClassController', ['$scope', '$routeParams', '$timeout', function($scope, $routeParams, $timeout) {
+app.controller('ClassController', ['$scope', '$routeParams', '$route', function($scope, $routeParams, $route) {
 
 	$scope.selectedClass = $routeParams.classID;
 	$scope.main.displayHeader = true;
@@ -17,15 +17,16 @@ app.controller('ClassController', ['$scope', '$routeParams', '$timeout', functio
 	var comfortableMap = new Map();	
 	var usefulMap = new Map(); 
 
+
 	let getClassUrl = "/getClass?classID=" + classID;
 	remoteServiceGet(getClassUrl).then((info) => {
 		var classData = JSON.parse(info); 
-		$scope.main.classSkills = classData.skills;
-		$scope.main.classDescription = classData.description;
+		$scope.classSkills = classData.skills;
+		$scope.classDescription = classData.description;
 
-		for (skill in $scope.main.classSkills) {
-			comfortableMap.set($scope.main.classSkills[skill], 0); 
-			usefulMap.set($scope.main.classSkills[skill], 0);
+		for (skill in $scope.classSkills) {
+			comfortableMap.set($scope.classSkills[skill], 0); 
+			usefulMap.set($scope.classSkills[skill], 0);
 		}
 	});	
 
@@ -33,15 +34,15 @@ app.controller('ClassController', ['$scope', '$routeParams', '$timeout', functio
 	$scope.reviews = []; 
 	remoteServiceGet(url).then((reviews) => {
 		$scope.reviews = JSON.parse(reviews);
-		$scope.main.reviewCount = $scope.reviews.length;
+		$scope.reviewCount = $scope.reviews.length;
 		
 		var classRatingData = [0, 0, 0, 0, 0];
 		for (r in $scope.reviews) {
 			var review = $scope.reviews[r];
 			var comfortable = review.skillsComfortable; 
 			var useful = review.skillsUseful;
-			for (s in $scope.main.classSkills) {
-				var skill = $scope.main.classSkills[s]; 
+			for (s in $scope.classSkills) {
+				var skill = $scope.classSkills[s]; 
 				if (comfortable.indexOf(skill) > -1) {
 					comfortableMap.set(skill, comfortableMap.get(skill) + 1); 
 				}
@@ -51,27 +52,30 @@ app.controller('ClassController', ['$scope', '$routeParams', '$timeout', functio
 			}
 			classRatingData[review.usefulValue - 1] += 1;
 		}
-		$scope.main.classRatingData = classRatingData.reverse();
-		$scope.main.numReviews = $scope.main.classRatingData.reduce(function(a, b) { return a + b; }, 0);
-		$scope.main.averageRating = 0;
-		for (v in $scope.main.classRatingData) {
-			$scope.main.averageRating += ((5-v) * $scope.main.classRatingData[v]); 
+		$scope.classRatingData = classRatingData.reverse();
+		$scope.numReviews = $scope.classRatingData.reduce(function(a, b) { return a + b; }, 0);
+		$scope.averageRating = 0;
+		for (v in $scope.classRatingData) {
+			$scope.averageRating += ((5-v) * $scope.classRatingData[v]); 
 		}
-		$scope.main.averageRating /= $scope.main.numReviews; 
-		$scope.main.averageRating = Math.floor($scope.main.averageRating * 10) / 10; 
+		$scope.averageRating /= $scope.numReviews; 
+		$scope.averageRating = Math.floor($scope.averageRating * 10) / 10; 
 
 		// default selected skill is the first skill in the skills array
-		$scope.main.selectedSkill = $scope.main.classSkills[0];
-		$scope.toggleSelectedSkills($scope.main.selectedSkill);
+		$scope.selectedSkill = $scope.classSkills[0];
+		$scope.toggleSelectedSkills($scope.selectedSkill);
+
+		$scope.$apply();
 	});
 
-	$scope.toggleSelectedSkills = function(skill){
-	    $scope.main.selectedSkill = skill;
-	    $scope.main.comfortableCount = comfortableMap.get(skill); 
-	    $scope.main.comfortableWidth = percentageBarWidth * ($scope.main.comfortableCount / $scope.main.reviewCount);
 
-	    $scope.main.usefulCount = usefulMap.get(skill); 
-	    $scope.main.usefulWidth = percentageBarWidth * ($scope.main.usefulCount / $scope.main.reviewCount);
+	$scope.toggleSelectedSkills = function(skill){
+	    $scope.selectedSkill = skill;
+	    $scope.comfortableCount = comfortableMap.get(skill); 
+	    $scope.comfortableWidth = percentageBarWidth * ($scope.comfortableCount / $scope.reviewCount);
+
+	    $scope.usefulCount = usefulMap.get(skill); 
+	    $scope.usefulWidth = percentageBarWidth * ($scope.usefulCount / $scope.reviewCount);
 
 	    // find reviews tagged with the selected skill 
 	    var relevantReviews = [];
@@ -84,7 +88,7 @@ app.controller('ClassController', ['$scope', '$routeParams', '$timeout', functio
 				}
 			}
 		}
-		$scope.main.relevantReviews = relevantReviews.slice();
+		$scope.relevantReviews = relevantReviews.slice();
 	}
 
 	$scope.CloseClick = function(){

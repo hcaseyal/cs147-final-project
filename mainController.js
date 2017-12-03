@@ -46,68 +46,6 @@ app.config(function($routeProvider) {
 
 app.controller('MainController', ['$scope', '$resource', '$route', function($scope, $resource, $route) {
 	$scope.main = {};
-
-	$scope.main.classSkills = [];
-	$scope.main.selectedSkill = '';
-	$scope.main.reviewCount = 0;
-	$scope.main.averageRating = 0;
 	$scope.main.reviewSubmitted = false;
 
-
-	// TEMP - figure out how to properly load data and remove this 
-
-	classID = 'CS106A';
-
-	const percentageBarWidth = 250;
-	var comfortableMap = new Map();	
-	var usefulMap = new Map(); 
-
-	let getClassUrl = "/getClass?classID=" + classID;
-	remoteServiceGet(getClassUrl).then((info) => {
-		var classData = JSON.parse(info); 
-		$scope.main.classSkills = classData.skills;
-		$scope.main.classDescription = classData.description;
-
-		for (skill in $scope.main.classSkills) {
-			comfortableMap.set($scope.main.classSkills[skill], 0); 
-			usefulMap.set($scope.main.classSkills[skill], 0);
-		}
-	});	
-
-	let url = "/getReviews?classID=" + classID;
-	$scope.reviews = []; 
-	remoteServiceGet(url).then((reviews) => {
-
-		$scope.reviews = JSON.parse(reviews);
-		$scope.main.reviewCount = $scope.reviews.length;
-		
-		var classRatingData = [0, 0, 0, 0, 0];
-		for (r in $scope.reviews) {
-			var review = $scope.reviews[r];
-			var comfortable = review.skillsComfortable; 
-			var useful = review.skillsUseful;
-			for (s in $scope.main.classSkills) {
-				var skill = $scope.main.classSkills[s]; 
-				if (comfortable.indexOf(skill) > -1) {
-					comfortableMap.set(skill, comfortableMap.get(skill) + 1); 
-				}
-				if (useful.indexOf(skill) > -1) {
-					usefulMap.set(skill, usefulMap.get(skill) + 1);  
-				}
-			}
-			classRatingData[review.usefulValue - 1] += 1;
-		}
-		$scope.main.classRatingData = classRatingData.reverse();
-		$scope.main.numReviews = $scope.main.classRatingData.reduce(function(a, b) { return a + b; }, 0);
-		$scope.main.averageRating = 0;
-		for (v in $scope.main.classRatingData) {
-			$scope.main.averageRating += ((5-v) * $scope.main.classRatingData[v]); 
-		}
-		$scope.main.averageRating /= $scope.main.numReviews; 
-		$scope.main.averageRating = Math.floor($scope.main.averageRating * 10) / 10; 
-
-		// default selected skill is the first skill in the skills array
-		$scope.main.selectedSkill = $scope.main.classSkills[0];
-		$scope.toggleSelectedSkills($scope.main.selectedSkill);
-	});
 }]);

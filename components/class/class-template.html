@@ -11,6 +11,7 @@
 </div>
 <div class="class-page-container">
 <div class="class-title">{{selectedClass}}</div>
+<div>{{test}}</div>
 
 <div class="class-button-container">
 	<a href="#!/review/{{selectedClass}}">
@@ -72,12 +73,12 @@
 </div>
 
 <div class="class-review-container">
-	<div class="class-description">{{main.classDescription}}</div>
+	<div class="class-description">{{classDescription}}</div>
 	<div class="class-small-header">WAS THIS CLASS USEFUL?</div>
-	<div class="average-rating-text">{{main.averageRating}} / 5 average rating over {{main.numReviews}} students</div>
+	<div class="average-rating-text">{{averageRating}} / 5 average rating over {{numReviews}} students</div>
 	<div class="class-rating-graph-container">
 		<canvas id="bar" class="chart chart-horizontal-bar"
-		  chart-data="main.classRatingData" chart-labels="classRatingLabels" chart-colors="chartRatingColors"> 
+		  chart-data="classRatingData" chart-labels="classRatingLabels" chart-colors="chartRatingColors"> 
 		</canvas>
 	</div>
 
@@ -85,9 +86,9 @@
 	<div class="skills-container">
 		<div class="skills-list">
 			<div class="skill-tab" 
-				 ng-repeat="skill in main.classSkills" 
+				 ng-repeat="skill in classSkills" 
 				 ng-click="toggleSelectedSkills(skill)"
-				 ng-class="main.selectedSkill == skill ? 'active-skill-tab' : 'disabled-skill-tab'">
+				 ng-class="selectedSkill == skill ? 'active-skill-tab' : 'disabled-skill-tab'">
 				{{skill}}
 			</div>
 		</div>
@@ -96,19 +97,19 @@
 			<div class="skill-bar">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
-					<div class="percentage-bar-fill" style="width: {{main.comfortableWidth}}px"></div>
+					<div class="percentage-bar-fill" style="width: {{comfortableWidth}}px"></div>
 				</div>
-				<div class="percentage-number">{{main.comfortableCount}} / {{main.reviewCount}} students</div>
+				<div class="percentage-number">{{comfortableCount}} / {{reviewCount}} students</div>
 			</div>
 			<div class="skills-detail-title">I've used this skill in future classes or jobs:</div>
 			<div class="skill-bar">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
-					<div class="percentage-bar-fill" style="width: {{main.usefulWidth}}px"></div>
+					<div class="percentage-bar-fill" style="width: {{usefulWidth}}px"></div>
 				</div>
-				<div class="percentage-number">{{main.usefulCount}} / {{main.reviewCount}} students</div>
+				<div class="percentage-number">{{usefulCount}} / {{reviewCount}} students</div>
 			</div>
-			<div class="skill-anecdote" ng-repeat="review in main.relevantReviews">
+			<div class="skill-anecdote" ng-repeat="review in relevantReviews">
 				<div>{{review.review}}</div>
 				<div class="skill-anecdote-meta">
 					<div>{{review.classYear}}</div>
