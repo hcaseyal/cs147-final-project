@@ -21,17 +21,17 @@ var data = {
             {
               "name": "CS106A",
                "depth": "3",
-              "value": 100
+              "value": "CS106A"
             },
             {
               "name": "C2",
               "depth": "3",
-              "value": 300
+              "value": "CS106A"
             },
             {
               "name": "C3",
               "depth": "3",
-              "value": 200
+              "value": "CS106A"
             }
           ]
         },
@@ -42,7 +42,7 @@ var data = {
             {
               "name": "C4",
               "depth": "3",
-              "value": 100
+              "value": "CS106A"
             }
           ]
         }
@@ -179,23 +179,26 @@ remoteServiceGet(url).then((allReviews) => {
 	    }
 	  });
 
-	var text = node.append("text")
-	  .text(function(d) {
-	    return d.data.name;
-	  })
+  var side = 2 * 40 * Math.cos(Math.PI / 4);
+
+	var text = node.append("foreignObject")
 	  .data(nodes)
 	  .attr("dy", 6)
 	  .attr("x", function(d) {
-	    return d.x * 1000;
+	    return d.x * 1000 - 30;
 	  })
 	  .attr('y', function(d) {
-	    return d.y * 500;
+	    return d.y * 500 - 30;
 	  })
-
+    .attr("width", side)
+    .attr("height", side)
 	  .classed("nodeText", true)
 	  .style("visibility", function (d) { // Hide the root's text
 	    return d.data.name === ROOT_NAME ? "hidden" : "visible";
-	  });
+	  })
+    .text(function(d) {
+      return d.data.name;
+    });
 
 	let links = getLinks(data);
 
