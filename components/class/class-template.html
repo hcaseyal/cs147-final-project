@@ -73,13 +73,20 @@
 </div>
 
 <div class="class-review-container">
-	<div class="class-description">{{classDescription}}</div>
-	<div class="class-small-header">WAS THIS CLASS USEFUL?</div>
-	<div class="average-rating-text">{{averageRating}} / 5 average rating over {{numReviews}} students</div>
-	<div class="class-rating-graph-container">
-		<canvas id="bar" class="chart chart-horizontal-bar"
-		  chart-data="classRatingData" chart-labels="classRatingLabels" chart-colors="chartRatingColors"> 
-		</canvas>
+	<div class="class-overview">
+		<div class="class-overview-item class-overview-description">
+			<div class="class-small-header">CLASS DESCRIPTION</div>
+			<div class="class-description">{{classDescription}}</div>
+		</div>
+		<div class="class-overview-item">
+			<div class="class-small-header">WAS THIS CLASS USEFUL?</div>
+			<div class="average-rating-text">{{averageRating}} / 5 average rating over {{numReviews}} students</div>
+			<div class="class-rating-graph-container">
+				<canvas id="bar" class="chart chart-horizontal-bar"
+				  chart-data="classRatingData" chart-labels="classRatingLabels" chart-colors="chartRatingColors"> 
+				</canvas>
+			</div>
+		</div>
 	</div>
 
 	<div class="class-small-header">SKILLS + KEY CONCEPTS</div>
@@ -117,6 +124,23 @@
 					<div>{{review.userInfo.career}} at {{review.userInfo.location}}</div>
 				</div>
 			</div>
+			<div class="more-reviews-toggle" ng-show="moreReviews" ng-click="loadMoreReviews()">Load more</div>
 		</div>
+	</div>
+
+	<div class="class-small-header wish-header">I WISH I LEARNT</div>
+
+	<div class="wish-container">
+		<div class="wish-reviews">
+			<div class="skill-anecdote wish-anecdote" ng-repeat="review in wishReviews">
+				<div>{{review.text}}</div>
+				<div class="skill-anecdote-meta">
+					<div>{{review.classYear}}</div>
+					<div class="skill-anecdote-meta-separator">|</div>
+					<div>{{review.userInfo.career}} at {{review.userInfo.location}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="more-reviews-toggle" ng-show="moreWish" ng-click="loadMoreWish()">Load more</div>
 	</div>
 </div>

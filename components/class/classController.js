@@ -32,6 +32,8 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 
 	let url = "/getReviews?classID=" + classID;
 	$scope.reviews = []; 
+	var wishReviews = [];
+
 	remoteServiceGet(url).then((reviews) => {
 		$scope.reviews = JSON.parse(reviews);
 		$scope.reviewCount = $scope.reviews.length;
@@ -51,7 +53,32 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 				}
 			}
 			classRatingData[review.usefulValue - 1] += 1;
+
+			wishReviews.push({
+				'text': review.wishText,
+				'classYear': review.classYear,
+				'userInfo': review.userInfo,
+			})
+			// also add reviews with no skills tags to "I wish I learnt"
+			if (review.reviewTags.length == 0) {
+				wishReviews.push({
+					'text': review.review,
+					'classYear': review.classYear,
+					'userInfo': review.userInfo,
+				})
+			}
+
+			// by default, show max 4 "I wishes" initially 
+			if (wishReviews.length > 4) {
+				$scope.wishReviews = wishReviews.slice(0,4);
+				$scope.moreWish = true;
+			} else {
+				$scope.wishReviews = wishReviews.slice();
+				$scope.moreWish = false; 
+			}
 		}
+
+		// calculate class rating data
 		$scope.classRatingData = classRatingData.reverse();
 		$scope.numReviews = $scope.classRatingData.reduce(function(a, b) { return a + b; }, 0);
 		$scope.averageRating = 0;
@@ -68,8 +95,11 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 		$scope.$apply();
 	});
 
+	var relevantReviews = [];
 
 	$scope.toggleSelectedSkills = function(skill){
+		relevantReviews = [];
+
 	    $scope.selectedSkill = skill;
 	    $scope.comfortableCount = comfortableMap.get(skill); 
 	    $scope.comfortableWidth = percentageBarWidth * ($scope.comfortableCount / $scope.reviewCount);
@@ -78,7 +108,6 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 	    $scope.usefulWidth = percentageBarWidth * ($scope.usefulCount / $scope.reviewCount);
 
 	    // find reviews tagged with the selected skill 
-	    var relevantReviews = [];
 	    for (r in $scope.reviews) {
 			var review = $scope.reviews[r]; 
 
@@ -88,8 +117,28 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 				}
 			}
 		}
-		$scope.relevantReviews = relevantReviews.slice();
+		// by default, show max 2 reviews initially 
+		if (relevantReviews.length > 2) {
+			$scope.relevantReviews = relevantReviews.slice(0,2);
+			$scope.moreReviews = true;
+		} else {
+			$scope.relevantReviews = relevantReviews.slice();
+			$scope.moreReviews = false; 
+		}
 	}
+
+	// load all of the remaining reviews
+	$scope.loadMoreReviews = function() {
+		$scope.relevantReviews = relevantReviews.slice();
+		$scope.moreReviews = false; 
+	}
+
+	// load all of the remaining I wish I learnts
+	$scope.loadMoreWish = function() {
+		$scope.wishReviews = wishReviews.slice();
+		$scope.moreWish = false; 
+	}
+
 
 	$scope.CloseClick = function(){
 	    $scope.modalOn = false;
