@@ -5,7 +5,7 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 	$scope.selectedClass = $routeParams.classID;
 	$scope.main.displayHeader = true;
 	$scope.main.displayFullHeader = false;
-	$scope.main.selectedButton = 'explore';
+	$scope.main.selectedButton = 'teacher';
 	$scope.displayFilters = false;
 	$scope.modalOn = false;
 	$scope.classRatingLabels = ['Very Useful', '', '', '', 'Not Useful']; 
