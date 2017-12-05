@@ -20,13 +20,15 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 
 	let getClassUrl = "/getClass?classID=" + classID;
 	remoteServiceGet(getClassUrl).then((info) => {
-		var classData = JSON.parse(info); 
-		$scope.classSkills = classData.skills;
-		$scope.classDescription = classData.description;
+		if (info.length > 0) {
+			var classData = JSON.parse(info); 
+			$scope.classSkills = classData.skills;
+			$scope.classDescription = classData.description;
 
-		for (skill in $scope.classSkills) {
-			comfortableMap.set($scope.classSkills[skill], 0); 
-			usefulMap.set($scope.classSkills[skill], 0);
+			for (skill in $scope.classSkills) {
+				comfortableMap.set($scope.classSkills[skill], 0); 
+				usefulMap.set($scope.classSkills[skill], 0);
+			}
 		}
 	});	
 
@@ -35,64 +37,66 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 	var wishReviews = [];
 
 	remoteServiceGet(url).then((reviews) => {
-		$scope.reviews = JSON.parse(reviews);
-		$scope.reviewCount = $scope.reviews.length;
-		
-		var classRatingData = [0, 0, 0, 0, 0];
-		for (r in $scope.reviews) {
-			var review = $scope.reviews[r];
-			var comfortable = review.skillsComfortable; 
-			var useful = review.skillsUseful;
-			for (s in $scope.classSkills) {
-				var skill = $scope.classSkills[s]; 
-				if (comfortable.indexOf(skill) > -1) {
-					comfortableMap.set(skill, comfortableMap.get(skill) + 1); 
+		if (reviews.length > 0) {
+			$scope.reviews = JSON.parse(reviews);
+			$scope.reviewCount = $scope.reviews.length;
+			
+			var classRatingData = [0, 0, 0, 0, 0];
+			for (r in $scope.reviews) {
+				var review = $scope.reviews[r];
+				var comfortable = review.skillsComfortable; 
+				var useful = review.skillsUseful;
+				for (s in $scope.classSkills) {
+					var skill = $scope.classSkills[s]; 
+					if (comfortable.indexOf(skill) > -1) {
+						comfortableMap.set(skill, comfortableMap.get(skill) + 1); 
+					}
+					if (useful.indexOf(skill) > -1) {
+						usefulMap.set(skill, usefulMap.get(skill) + 1);  
+					}
 				}
-				if (useful.indexOf(skill) > -1) {
-					usefulMap.set(skill, usefulMap.get(skill) + 1);  
-				}
-			}
-			classRatingData[review.usefulValue - 1] += 1;
+				classRatingData[review.usefulValue - 1] += 1;
 
-			wishReviews.push({
-				'text': review.wishText,
-				'classYear': review.classYear,
-				'userInfo': review.userInfo,
-			})
-			// also add reviews with no skills tags to "I wish I learnt"
-			if (review.reviewTags.length == 0) {
 				wishReviews.push({
-					'text': review.review,
+					'text': review.wishText,
 					'classYear': review.classYear,
 					'userInfo': review.userInfo,
 				})
+				// also add reviews with no skills tags to "I wish I learnt"
+				if (review.reviewTags.length == 0) {
+					wishReviews.push({
+						'text': review.review,
+						'classYear': review.classYear,
+						'userInfo': review.userInfo,
+					})
+				}
+
+				// by default, show max 4 "I wishes" initially 
+				if (wishReviews.length > 4) {
+					$scope.wishReviews = wishReviews.slice(0,4);
+					$scope.moreWish = true;
+				} else {
+					$scope.wishReviews = wishReviews.slice();
+					$scope.moreWish = false; 
+				}
 			}
 
-			// by default, show max 4 "I wishes" initially 
-			if (wishReviews.length > 4) {
-				$scope.wishReviews = wishReviews.slice(0,4);
-				$scope.moreWish = true;
-			} else {
-				$scope.wishReviews = wishReviews.slice();
-				$scope.moreWish = false; 
+			// calculate class rating data
+			$scope.classRatingData = classRatingData.reverse();
+			$scope.numReviews = $scope.classRatingData.reduce(function(a, b) { return a + b; }, 0);
+			$scope.averageRating = 0;
+			for (v in $scope.classRatingData) {
+				$scope.averageRating += ((5-v) * $scope.classRatingData[v]); 
 			}
+			$scope.averageRating /= $scope.numReviews; 
+			$scope.averageRating = Math.floor($scope.averageRating * 10) / 10; 
+
+			// default selected skill is the first skill in the skills array
+			$scope.selectedSkill = $scope.classSkills[0];
+			$scope.toggleSelectedSkills($scope.selectedSkill);
+
+			$scope.$apply();
 		}
-
-		// calculate class rating data
-		$scope.classRatingData = classRatingData.reverse();
-		$scope.numReviews = $scope.classRatingData.reduce(function(a, b) { return a + b; }, 0);
-		$scope.averageRating = 0;
-		for (v in $scope.classRatingData) {
-			$scope.averageRating += ((5-v) * $scope.classRatingData[v]); 
-		}
-		$scope.averageRating /= $scope.numReviews; 
-		$scope.averageRating = Math.floor($scope.averageRating * 10) / 10; 
-
-		// default selected skill is the first skill in the skills array
-		$scope.selectedSkill = $scope.classSkills[0];
-		$scope.toggleSelectedSkills($scope.selectedSkill);
-
-		$scope.$apply();
 	});
 
 	var relevantReviews = [];

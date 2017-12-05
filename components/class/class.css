@@ -195,6 +195,7 @@
 	margin-bottom: 10px;
 	text-transform: uppercase;
 	background: #024AC1;
+	cursor: pointer;
 }
 
 .active-skill-tab {
