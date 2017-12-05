@@ -15,6 +15,10 @@ app.config(function($routeProvider) {
 	        templateUrl : 'components/class/class-template.html',
 	        controller: 'ClassController'
 	    })
+	    .when('/teacher-class/:classID', {
+	        templateUrl : 'components/teacher-class/teacher-class-template.html',
+	        controller: 'TeacherClassController'
+	    })
 	    .when('/bookmarks', {
 	        templateUrl : 'components/bookmarks/bookmarks-template.html',
 	        controller: 'BookmarksController'

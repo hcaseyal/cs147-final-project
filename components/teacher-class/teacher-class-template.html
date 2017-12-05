@@ -1,0 +1,130 @@
+<div class="class-page-container">
+<div class="class-title">{{selectedClass}}</div>
+
+<div class="class-button-container">
+	<a href="#!/edit-form/{{selectedClass}}">
+		<div class="class-page-button">
+			<img class="class-button-icon" src="img/edit-icon.png">
+			<div>EDIT FEEDBACK FORM</div>
+		</div>
+	</a>
+</div>
+
+<div class="class-filter" ng-show="!displayFilters">
+	<table class="class-filter-table">
+		<tr class="class-filter-toggle" ng-click="displayFilters = true">
+			<td class="class-filter-category">FILTER BY <img src="img/down-arrow.png"></td>
+			<td class="class-filter-category">QUARTER/YEAR</td>
+			<td class="class-filter-category">REVIEWER</td>
+			<td class="class-filter-category">INSTRUCTOR</td>
+		</tr>
+	</table>
+</div>
+
+<div class="class-filter" ng-show="displayFilters">
+	<table class="class-filter-table">
+		<tr class="class-filter-toggle" ng-click="displayFilters = false">
+			<td class="class-filter-category">FILTER BY <img src="img/up-arrow.png"></td>
+			<td class="class-filter-category">QUARTER/YEAR</td>
+			<td class="class-filter-category">REVIEWER</td>
+			<td class="class-filter-category">INSTRUCTOR</td>
+		</tr>
+		<tr>
+			<td class="class-filter-item"></td>
+			<td class="class-filter-item"><input type="checkbox" name="spring-16"> Spring 2016</td>
+			<td class="class-filter-item"><input type="checkbox" name="developer"> Developer</td>
+			<td class="class-filter-item"><input type="checkbox" name="marty-stepp"> Marty Stepp</td>
+		</tr>
+		<tr>
+			<td class="class-filter-item"></td>
+			<td class="class-filter-item"><input type="checkbox" name="winter-16"> Winter 2016</td>
+			<td class="class-filter-item"><input type="checkbox" name="data-scientist"> Data Scientist</td>
+			<td class="class-filter-item"><input type="checkbox" name="mehran-sahami"> Mehran Sahami</td>
+		</tr>
+		<tr>
+			<td class="class-filter-item"></td>
+			<td class="class-filter-item">
+				<div class="class-filter-button">MORE</div>
+			</td>
+			<td class="class-filter-item">
+				<div class="class-filter-button">MORE</div>
+			</td>
+			<td class="class-filter-item">
+				<div class="class-filter-button">MORE</div>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div class="class-review-container">
+	<div class="class-overview">
+		<div class="class-overview-item class-overview-description">
+			<div class="class-small-header">CLASS DESCRIPTION</div>
+			<div class="class-description">{{classDescription}}</div>
+		</div>
+		<div class="class-overview-item">
+			<div class="class-small-header">WAS THIS CLASS USEFUL?</div>
+			<div class="average-rating-text">{{averageRating}} / 5 average rating over {{numReviews}} students</div>
+			<div class="class-rating-graph-container">
+				<canvas id="bar" class="chart chart-horizontal-bar"
+				  chart-data="classRatingData" chart-labels="classRatingLabels" chart-colors="chartRatingColors"> 
+				</canvas>
+			</div>
+		</div>
+	</div>
+
+	<div class="class-small-header">SKILLS + KEY CONCEPTS</div>
+	<div class="skills-container">
+		<div class="skills-list">
+			<div class="skill-tab" 
+				 ng-repeat="skill in classSkills" 
+				 ng-click="toggleSelectedSkills(skill)"
+				 ng-class="selectedSkill == skill ? 'active-skill-tab' : 'disabled-skill-tab'">
+				{{skill}}
+			</div>
+		</div>
+		<div class="skills-detail">
+			<div class="skills-detail-title">I'm comfortable using this skill after {{selectedClass}}:</div>
+			<div class="skill-bar">
+				<div class="percentage-bar">
+					<div class="percentage-bar-background"></div>
+					<div class="percentage-bar-fill" style="width: {{comfortableWidth}}px"></div>
+				</div>
+				<div class="percentage-number">{{comfortableCount}} / {{reviewCount}} students</div>
+			</div>
+			<div class="skills-detail-title">I've used this skill in future classes or jobs:</div>
+			<div class="skill-bar">
+				<div class="percentage-bar">
+					<div class="percentage-bar-background"></div>
+					<div class="percentage-bar-fill" style="width: {{usefulWidth}}px"></div>
+				</div>
+				<div class="percentage-number">{{usefulCount}} / {{reviewCount}} students</div>
+			</div>
+			<div class="skill-anecdote" ng-repeat="review in relevantReviews">
+				<div>{{review.review}}</div>
+				<div class="skill-anecdote-meta">
+					<div>{{review.classYear}}</div>
+					<div class="skill-anecdote-meta-separator">|</div>
+					<div>{{review.userInfo.career}} at {{review.userInfo.location}}</div>
+				</div>
+			</div>
+			<div class="more-reviews-toggle" ng-show="moreReviews" ng-click="loadMoreReviews()">Load more</div>
+		</div>
+	</div>
+
+	<div class="class-small-header wish-header">I WISH I LEARNT</div>
+
+	<div class="wish-container">
+		<div class="wish-reviews">
+			<div class="skill-anecdote wish-anecdote" ng-repeat="review in wishReviews">
+				<div>{{review.text}}</div>
+				<div class="skill-anecdote-meta">
+					<div>{{review.classYear}}</div>
+					<div class="skill-anecdote-meta-separator">|</div>
+					<div>{{review.userInfo.career}} at {{review.userInfo.location}}</div>
+				</div>
+			</div>
+		</div>
+		<div class="more-reviews-toggle" ng-show="moreWish" ng-click="loadMoreWish()">Load more</div>
+	</div>
+</div>

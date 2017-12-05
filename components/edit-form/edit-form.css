@@ -1,0 +1,23 @@
+.edit-form-dropdown-container {
+	display: flex;
+	width: 500px;
+	justify-content: space-between;
+}
+
+.edit-form-container {
+	font-weight: bold;
+}
+
+.edit-form-dropdown {
+	display: flex;
+}
+
+.dropdown-label {
+	margin-right: 10px;
+}
+
+.dropdown-box {
+	width: 170px;
+	height: 25px;
+
+}
