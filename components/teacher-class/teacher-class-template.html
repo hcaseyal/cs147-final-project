@@ -1,3 +1,13 @@
+<div class="modal-overlay" ng-if="modalOn == true" ng-click="CloseClick()"></div>
+<div class="modal-container">
+	<div class="class-modal" ng-if="modalOn == true">
+		<img class="close-modal-icon" src="img/close.png" ng-click="CloseClick()">
+		<div class="modal-title">FEEDBACK PINNED!</div>
+		<div class="modal-text">Tag this feedback as positive, neutral, or negative: </div>
+		<div>{{pinnedReview}}</div>
+	</div>
+</div>
+
 <div class="class-page-container">
 <div class="class-title">{{selectedClass}}</div>
 
@@ -107,6 +117,7 @@
 					<div class="skill-anecdote-meta-separator">|</div>
 					<div>{{review.userInfo.career}} at {{review.userInfo.location}}</div>
 				</div>
+				<div class="pin-feedback-toggle" ng-click="pinFeedback(review.review)">PIN FEEDBACK</div>
 			</div>
 			<div class="more-reviews-toggle" ng-show="moreReviews" ng-click="loadMoreReviews()">Load more</div>
 		</div>
@@ -124,6 +135,7 @@
 						<div class="skill-anecdote-meta-separator">|</div>
 						<div>{{review.userInfo.career}} at {{review.userInfo.location}}</div>
 					</div>
+					<div class="pin-feedback-toggle" ng-click="pinFeedback(review.review)">PIN FEEDBACK</div>
 				</div>
 			</div>
 			<div class="more-reviews-toggle" ng-show="moreWish" ng-click="loadMoreWish()">Load more</div>

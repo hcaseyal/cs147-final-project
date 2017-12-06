@@ -143,6 +143,10 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 		$scope.moreWish = false; 
 	}
 
+	$scope.pinFeedback = function(text){
+	    $scope.modalOn = true;
+	    $scope.pinnedReview = text;
+	}
 
 	$scope.CloseClick = function(){
 	    $scope.modalOn = false;
