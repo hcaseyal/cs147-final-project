@@ -15,7 +15,7 @@
 }
 
 .submit-review-button {
-	width: 100px;
+	min-width: 100px;
 	height: 34px;
 	background: #024AC1;
 	border-radius: 5px;

@@ -1,30 +1,48 @@
-<div class="review-page-container">
-	<div class="review-class-container edit-form-container">
-		<div class="review-header">EDIT FEEDBACK FORM</div>
-		<div>Class name: {{selectedClass}}</div>
-		<div class="edit-form-dropdown-container">
-			<div class="edit-form-dropdown">
-				<div class="dropdown-label">Quarter:</div>
-				<select class="dropdown-box" ng-model="selectedQuarter">
-					<option ng-repeat="quarter in quarterList">{{quarter}}</option>
-				</select>
+<div ng-show="!preview">
+	<div class="review-page-container">
+		<div class="review-class-container edit-form-container">
+			<div class="review-header">EDIT FEEDBACK FORM</div>
+			<div>Class name: {{selectedClass}}</div>
+			<div class="edit-form-dropdown-container">
+				<div class="edit-form-dropdown">
+					<div class="dropdown-label">Quarter:</div>
+					<select class="dropdown-box" ng-model="selectedQuarter">
+						<option ng-repeat="quarter in quarterList">{{quarter}}</option>
+					</select>
+				</div>
+				<div class="edit-form-dropdown">
+					<div class="dropdown-label">Year:</div>
+					<select class="dropdown-box" ng-model="selectedYear">
+						<option ng-repeat="year in yearList">{{year}}</option>
+					</select>
+				</div>
 			</div>
-			<div class="edit-form-dropdown">
-				<div class="dropdown-label">Year:</div>
-				<select class="dropdown-box" ng-model="selectedYear">
-					<option ng-repeat="year in yearList">{{year}}</option>
-				</select>
+			<div>Skills:</div>
+			<tags-input class="review-tags-input"
+						ng-model="skillTags" 
+						placeholder="Which skills do you want feedback on?">		
+			</tags-input>
+			<div class="edit-form-buttons">
+				<button type="button" ng-click="togglePreview()" class="submit-review-button">
+					PREVIEW
+				</button>
+				<a href="#!/teacher-class/{{selectedClass}}">
+					<button type="button" ng-click="submitCourseEdits()" class="submit-review-button">
+						SAVE
+					</button>
+				</a>
 			</div>
 		</div>
-		<div>Skills:</div>
-		<tags-input class="review-tags-input"
-					ng-model="skillTags" 
-					placeholder="Which skills do you want feedback on?">		
-		</tags-input>
-		<a href="#!/teacher-class/{{selectedClass}}">
-			<button type="button" ng-click="submitCourseEdits()" class="submit-review-button">
-				SAVE
-			</button>
-		</a>
 	</div>
+</div>
+<div ng-show="preview">
+	<div class="preview-top-banner">
+		<div class="preview-banner-contents">
+			<div class="preview-banner-text">This is a preview of the student form view</div>
+			<button type="button" ng-click="togglePreview()" class="submit-review-button back-editing-button">
+				BACK TO EDITING
+			</button>
+		</div>
+	</div>
+	<div ng-include="'components/review-class/review-class-template.html'" class="preview-form-view"></div>
 </div>

@@ -21,3 +21,33 @@
 	height: 25px;
 
 }
+
+.back-editing-button {
+	margin-top: 0px;
+}
+
+.preview-top-banner {
+	width: 100%; 
+	background-color: #CDDCF3;
+	display: flex;
+	justify-content: center;
+}
+
+.preview-banner-text {
+	color: #024AC1;
+	font-size: 22px;
+	font-weight: bold;
+	letter-spacing: 2px;
+}
+
+.preview-banner-contents {
+	display: flex;
+	justify-content: space-between;
+	width: 780px;
+    padding: 20px;
+
+}
+
+.preview-form-view {
+	/*pointer-events: none;*/
+}
