@@ -96,6 +96,8 @@ var zoom = d3.zoom()
   //.style("visibility", "hidden");
 
   var g = svg.append('g');
+var linkG = g.append("g");
+var nodeG = g.append("g");
 
 var p0 = [250, 200, 200],
     p1 = [500, 300, 600];
@@ -155,7 +157,8 @@ for (let i in nodes) {
 }
 
 // Nodes
-var node = g
+
+var node = nodeG
   .selectAll('g.nodeContainer')
   .data(nodes)
   .enter()
@@ -259,7 +262,7 @@ function centerNode(xx, yy) {
 	let links = getLinks(data);
 
 	// Links
-	g
+	linkG
 	  .selectAll('line.link')
 	  .data(links)
 	  .enter()
