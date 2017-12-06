@@ -84,6 +84,28 @@ var svg = d3.select('svg'),
       .scaleExtent([1 / 2, 4])
       .on("zoom", zoomed));
 
+var p0 = [250, 200, 200],
+    p1 = [500, 300, 600];
+
+svg.call(transition, p0, p1);
+
+function transition(svg, start, end) {
+  var center = [width / 2, height / 2],
+      i = d3.interpolateZoom(start, end);
+
+  svg
+      .attr("transform", transform(start))
+    .transition()
+      .delay(250)
+      .duration(i.duration * 2)
+      .attrTween("transform", function() { return function(t) { return transform(i(t)); }; });
+
+  function transform(p) {
+    var k = height / p[2];
+    return "translate(" + (center[0] - p[0] * k) + "," + (center[1] - p[1] * k) + ")scale(" + k + ")";
+  }
+}
+
 // Invisible rectangle for zoom
   svg.append("rect")
   .attr("width", width)
@@ -92,7 +114,7 @@ var svg = d3.select('svg'),
   .style("stroke-width", "5px")
   .style("fill", "none")
   .style("pointer-events", "none");
- // .style("visibility", "hidden");
+  //.style("visibility", "hidden");
 
 let url = "/getAllReviews";
 var reviews;
