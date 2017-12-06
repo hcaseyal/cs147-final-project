@@ -80,9 +80,22 @@ var svg = d3.select('svg'),
   height = +svg.attr("height"),
   transform = d3.zoomIdentity;
 
-  svg.call(d3.zoom()
-      .scaleExtent([1 / 2, 4])
-      .on("zoom", zoomed));
+var zoom = d3.zoom()
+      .scaleExtent([0.3, 2])
+      .on("zoom", zoomed);
+
+// Invisible rectangle for zoom
+  var zoomer = svg.append("rect")
+  .attr("width", width)
+  .attr("height", height)
+  .style("stroke", "black")
+  .style("stroke-width", "5px")
+  .style("fill", "none")
+  .style("pointer-events", "all")
+  .call(zoom);
+  //.style("visibility", "hidden");
+
+  var g = svg.append('g');
 
 var p0 = [250, 200, 200],
     p1 = [500, 300, 600];
@@ -94,7 +107,7 @@ function transition(svg, start, end) {
       i = d3.interpolateZoom(start, end);
 
   svg
-      .attr("transform", transform(start))
+    .attr("transform", transform(start))
     .transition()
       .delay(250)
       .duration(i.duration * 2)
@@ -105,16 +118,6 @@ function transition(svg, start, end) {
     return "translate(" + (center[0] - p[0] * k) + "," + (center[1] - p[1] * k) + ")scale(" + k + ")";
   }
 }
-
-// Invisible rectangle for zoom
-  svg.append("rect")
-  .attr("width", width)
-  .attr("height", height)
-  .style("stroke", "black")
-  .style("stroke-width", "5px")
-  .style("fill", "none")
-  .style("pointer-events", "none");
-  //.style("visibility", "hidden");
 
 let url = "/getAllReviews";
 var reviews;
@@ -152,7 +155,7 @@ for (let i in nodes) {
 }
 
 // Nodes
-var node = d3.select('svg g.nodes')
+var node = g
   .selectAll('g.nodeContainer')
   .data(nodes)
   .enter()
@@ -222,10 +225,18 @@ function hideTip() {
 	    if(d.data.value !== undefined) { // Class node has been clicked
         tip.show(d, i);
 	    }
+      centerNode(d.x, d.y);
 	  });
 
-  var side = 2 * 40 * Math.cos(Math.PI / 4);
 
+function centerNode(xx, yy) {
+   g.transition()
+    .duration(500)
+    .attr("transform", "translate(" + (width/2 - xx) + "," + (height/2 - yy) + ")scale(" + 1 + ")")
+    .on("end", function(){ zoomer.call(zoom.transform, d3.zoomIdentity.translate((width/2 - xx),(height/2 - yy)).scale(1))});
+}
+
+  var side = 2 * 40 * Math.cos(Math.PI / 4);
 	var text = node.append("foreignObject")
 	  .data(nodes)
 	  .attr("dy", 6)
@@ -248,7 +259,7 @@ function hideTip() {
 	let links = getLinks(data);
 
 	// Links
-	d3.select('svg g.links')
+	g
 	  .selectAll('line.link')
 	  .data(links)
 	  .enter()
@@ -265,7 +276,7 @@ function hideTip() {
 });
 
 function zoomed() {
-  d3.select('svg g').attr("transform", d3.event.transform);
+  g.attr("transform", d3.event.transform);
 }
 
 var clusterLayout = d3.cluster()
