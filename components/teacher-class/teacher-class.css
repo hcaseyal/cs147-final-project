@@ -15,17 +15,17 @@
 	height: auto;
 }
 
-.disabled-button {
+.disabled-polarity-button {
 	background-color: #9B9B9B;
 	pointer-events: none;
 	cursor: default;
 }
 
-.disabled-button:hover {
+.disabled-polarity-button:hover {
 	background-color: #9B9B9B;
 }
 
-.active-button {
+.active-polarity-button {
 	background-color: #024AC1; 
 	cursor: pointer;
 }

@@ -1,1 +1,30 @@
-<div>Pinned feedback page!</div>
+<div class="pinned-feedback-container">
+	<div class="classes-toggle">
+		<div class="skill-tab" 
+				 ng-repeat="class in myClasses" 
+				 ng-click="toggleSelectedClass(class)"
+				 ng-class="selectedClass == class ? 'active-skill-tab' : 'disabled-skill-tab'">
+			{{class}}
+		</div>
+	</div>
+	<div class="feedback-categories-container">
+		<div class="feedback-category positive-feedback">
+			<img class="feedback-category-icon" src="img/happy.png" height="65" width="65">
+			<div class="sorted-feedback-container">
+				<div class="pinned-feedback-item" ng-repeat="feedback in positiveFeedback">{{feedback}}</div>
+			</div>
+		</div>
+		<div class="feedback-category neutral-feedback">
+			<img src="img/neutral.png" height="65" width="65">
+			<div class="sorted-feedback-container">
+				<div class="pinned-feedback-item" ng-repeat="feedback in positiveFeedback">{{feedback}}</div>
+			</div>
+		</div>
+		<div class="feedback-category negative-feedback">
+			<img src="img/sad.png" height="65" width="65">
+			<div class="sorted-feedback-container">
+				<div class="pinned-feedback-item" ng-repeat="feedback in positiveFeedback">{{feedback}}</div>
+			</div>
+		</div>
+	</div>
+</div>

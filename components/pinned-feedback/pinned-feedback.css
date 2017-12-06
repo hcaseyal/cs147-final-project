@@ -1,0 +1,34 @@
+.pinned-feedback-container {
+	display: flex;
+	margin: 40px 100px;
+}
+
+.feedback-categories-container {
+	display: flex;
+	justify-content: space-around;
+	width: 100%;
+}
+
+.feedback-category {
+	width: 30%; 
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.sorted-feedback-container {
+	width: 100%;
+	background-color: #E5ECF7;
+	padding: 0 15px;
+	border-radius: 5px;
+}
+
+.pinned-feedback-item {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.pinned-feedback-item:not(:last-child) {
+	border-bottom: 2px solid #024AC1; 
+}
+
