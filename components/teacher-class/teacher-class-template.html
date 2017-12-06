@@ -2,9 +2,43 @@
 <div class="modal-container">
 	<div class="class-modal" ng-if="modalOn == true">
 		<img class="close-modal-icon" src="img/close.png" ng-click="CloseClick()">
-		<div class="modal-title">FEEDBACK PINNED!</div>
-		<div class="modal-text">Tag this feedback as positive, neutral, or negative: </div>
-		<div>{{pinnedReview}}</div>
+		<div class="modal-contents" ng-show="successfulPin == false">
+			<div class="modal-title pinned-title">PIN FEEDBACK:</div>
+			<div class="modal-text">Tag this feedback as positive, neutral, or negative: </div>
+			<div>{{pinnedReview}}</div>
+			<div class="polarity-toggle">
+				<img src="img/happy.png" height="50" width="50" 
+					 ng-show="selectedPolarity != 'positive'" 
+					 ng-click="selectedPolarity = 'positive'">
+				<img src="img/happy-selected.png" height="50" width="50" 
+					 ng-show="selectedPolarity == 'positive'" 
+					 ng-click="selectedPolarity = ''">
+				<img src="img/neutral.png" height="50" width="50" 
+					 ng-show="selectedPolarity != 'neutral'" 
+					 ng-click="selectedPolarity = 'neutral'">
+				<img src="img/neutral-selected.png" height="50" width="50" 
+					 ng-show="selectedPolarity == 'neutral'" 
+					 ng-click="selectedPolarity = ''">
+				<img src="img/sad.png" height="50" width="50" 
+					 ng-show="selectedPolarity != 'negative'" 
+					 ng-click="selectedPolarity = 'negative'">
+				<img src="img/sad-selected.png" height="50" width="50" 
+					 ng-show="selectedPolarity == 'negative'" 
+					 ng-click="selectedPolarity = ''">
+			</div>
+			<button type="button" class="submit-review-button" 
+					ng-class="selectedPolarity == '' ? 'disabled-button' : 'active-button'"
+					ng-click="saveFeedback(pinnedReview)">
+				SAVE
+	 		</button>
+	 	</div>
+	 	<div class="modal-contents" ng-show="successfulPin == true">
+	 		<div class="modal-title">FEEDBACK PINNED!</div>
+			<div class="modal-text">This feedback has been saved to your pinned feedback. Click the button below to see it now or close this dialog to continue browsing.</div>
+			<a href="#!/pinned-feedback">
+				<div class="modal-button">MY PINNED FEEDBACK</div>
+			</a>
+	 	</div>
 	</div>
 </div>
 

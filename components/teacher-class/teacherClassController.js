@@ -10,7 +10,9 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 	$scope.modalOn = false;
 	$scope.classRatingLabels = ['Very Useful', '', '', '', 'Not Useful']; 
 	$scope.chartRatingColors = [ '#024AC1', '#2F6FD7', '#5D90E3', '#97BBF5', '#B3C9EC'];
-	$scope.classYear = "Winter 13-14"; 
+	$scope.classYear = "Winter 13-14"; // make this dynamic?
+	$scope.selectedPolarity = '';
+	$scope.successfulPin = false;
 	classID = $scope.selectedClass;
 
 	const percentageBarWidth = 250;
@@ -143,12 +145,18 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 		$scope.moreWish = false; 
 	}
 
-	$scope.pinFeedback = function(text){
+	$scope.pinFeedback = function(text) {
 	    $scope.modalOn = true;
 	    $scope.pinnedReview = text;
 	}
 
 	$scope.CloseClick = function(){
 	    $scope.modalOn = false;
+	}
+
+	$scope.saveFeedback = function(text) {
+		console.log(text, $scope.selectedPolarity); 
+		// save feedback to backend
+		$scope.successfulPin = true;
 	}
 }]);

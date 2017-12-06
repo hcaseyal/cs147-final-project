@@ -13,10 +13,10 @@
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
-	position: absolute; 
+	position: fixed; 
 	z-index: 11;
 	width: 620px;
-	height: 360px;
+	min-height: 360px;
 	background: #FFFFFF;
 	border: 1px solid #979797;
 	box-shadow: 0 3px 8px 1px rgba(0,0,0,0.30);

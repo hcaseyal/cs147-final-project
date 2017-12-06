@@ -3,3 +3,39 @@
 	font-weight: bold;
 	color: #2979FB;
 }
+
+.polarity-toggle {
+	display: flex;
+	width: 300px;
+	justify-content: space-between;
+}
+
+.polarity-icon {
+	width: 50px;
+	height: auto;
+}
+
+.disabled-button {
+	background-color: #9B9B9B;
+	pointer-events: none;
+	cursor: default;
+}
+
+.disabled-button:hover {
+	background-color: #9B9B9B;
+}
+
+.active-button {
+	background-color: #024AC1; 
+	cursor: pointer;
+}
+
+.pinned-title {
+	margin-top: 0px;
+}
+
+.modal-contents {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
