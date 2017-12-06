@@ -95,14 +95,14 @@ var zoom = d3.zoom()
   .call(zoom);
   //.style("visibility", "hidden");
 
-  var g = svg.append('g');
+var g = svg.append('g');
 var linkG = g.append("g");
 var nodeG = g.append("g");
 
 var p0 = [250, 200, 200],
     p1 = [500, 300, 600];
 
-svg.call(transition, p0, p1);
+// svg.call(transition, p0, p1);
 
 function transition(svg, start, end) {
   var center = [width / 2, height / 2],
