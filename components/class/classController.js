@@ -12,16 +12,25 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 	$scope.chartRatingColors = [ '#024AC1', '#2F6FD7', '#5D90E3', '#97BBF5', '#B3C9EC'];
 
 	classID = $scope.selectedClass;
-
 	const percentageBarWidth = 250;
 	var comfortableMap = new Map();	
 	var usefulMap = new Map(); 
 
-
 	let getClassUrl = "/getClass?classID=" + classID;
 	remoteServiceGet(getClassUrl).then((info) => {
 		var classData = JSON.parse(info); 
-		$scope.classSkills = classData.skills;
+
+		let classSkills = {};
+		for (let i in classData.iterations) {
+			classData.iterations[i].skills.forEach(skill => {classSkills[skill] = true});
+		}
+
+		// Transform object into array
+		let classSkillsArray = [];
+		for (let skill in classSkills) {
+			classSkillsArray.push(skill);
+		}
+		$scope.classSkills = classSkillsArray;
 		$scope.classDescription = classData.description;
 
 		for (skill in $scope.classSkills) {

@@ -10,7 +10,7 @@ app.controller('ReviewClassController', ['$scope', '$routeParams', function($sco
 	$scope.selectedSkill = '';
 	$scope.reviewCount = 0;
 	$scope.averageRating = 0;
-	$scope.classYear = "WINTER 13-14"; 
+	$scope.classYear = "Winter 13-14"; 
 
 	$scope.slider = {
 	    value: 3,
@@ -29,11 +29,10 @@ app.controller('ReviewClassController', ['$scope', '$routeParams', function($sco
 	$scope.reviewText = ""; 
 	$scope.wishText = ""; 
 
-	let getClassUrl = "/getClass?classID=" + $scope.selectedClass;
+	let getClassUrl = "/getClass?classID=" + $scope.selectedClass + "&classYear=" + $scope.classYear;
 	remoteServiceGet(getClassUrl).then((info) => {
 		$scope.classSkills = JSON.parse(info).skills;
 	});
-
 	$scope.skillsUseful = []; 
 	$scope.skillsComfortable = [];
 	$scope.reviewTags = []; 

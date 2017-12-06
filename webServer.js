@@ -42,6 +42,25 @@ var server = app.listen(portno, function () {
 /// START BACKEND API ///  
 //////////////////////////
 
+// For teachers editing their feedback form page
+app.post('/editForm', function (req, res) {
+	res.send("Received edit form request");
+	var edit = req.body;
+	var year = edit.selectedYear;
+	var quarter = edit.selectedQuarter;
+	var key = quarter + " " + year;
+
+	let classToAdd = {skills: edit.classSkills, description: classes[edit.classID].description};
+	console.log(classToAdd);
+	if (key in classes[edit.classID].iterations) {
+		var existingClass = classes[edit.classID].iterations[key];
+		classToAdd.description = existingClass.description;
+	}
+	
+	classes[edit.classID].iterations[key] = classToAdd;
+	fs.writeFile("data/classes", JSON.stringify(classes));
+});
+
 app.post('/reviewClass', function (req, res) {
 	var review = req.body;
 	res.send("Received post request");
@@ -73,15 +92,42 @@ app.get('/getAllReviews', function(req, res) {
 });
 
 // Returns all classes as JSON object 
-// E.g., {CS106A: {classID: CS106A, skills: [recursion, java]}, CS106B : {...} }
+// E.g., 		
+/*		{	CS106A: {
+				classID: CS106A, 
+				iterations: {
+					Fall2017: {
+						skills: [ 
+							Java, recursion
+						] 
+*/
+
 app.get('/getClasses', function(req, res) {
 	res.send(JSON.stringify(classes));
 });
 
-// Returns class as a JSON object. E.g., {classID: CS106A, skills: [recursion, java]}
+// Returns class as a JSON object, given a classID
+// If classYear is not provided, then returns
+// all iterations of the class:
+/*
+	No classYear provided: 
+	{ classID, iterations: {Winter 13-14: {}}, description }
+
+	classYear provided: 
+	{ skills: [...], description: ...}
+*/
+// OPTIONAL: classYear. E.g., "Winter 13-14"
 app.get('/getClass', function(req, res) {
 	let classID = req.query.classID;
-	res.send(JSON.stringify(classes[classID]));
+	let iteration = req.query.classYear; // E.g., "Winter 13-14"
+	console.log(req.query);
+	if (iteration === undefined) {
+		console.log("classYear not provided.");
+		res.send(JSON.stringify(classes[classID]));
+	}
+	else {
+		res.send(JSON.stringify(classes[classID].iterations[iteration]));
+	}
 });
 
 app.get('/getUser', function(req, res) {

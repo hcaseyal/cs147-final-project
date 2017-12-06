@@ -10,7 +10,7 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 	$scope.modalOn = false;
 	$scope.classRatingLabels = ['Very Useful', '', '', '', 'Not Useful']; 
 	$scope.chartRatingColors = [ '#024AC1', '#2F6FD7', '#5D90E3', '#97BBF5', '#B3C9EC'];
-
+	$scope.classYear = "Winter 13-14"; 
 	classID = $scope.selectedClass;
 
 	const percentageBarWidth = 250;
@@ -18,8 +18,9 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 	var usefulMap = new Map(); 
 
 
-	let getClassUrl = "/getClass?classID=" + classID;
+	let getClassUrl = "/getClass?classID=" + classID + "&classYear=" + $scope.classYear;
 	remoteServiceGet(getClassUrl).then((info) => {
+		console.log(info);
 		var classData = JSON.parse(info); 
 		$scope.classSkills = classData.skills;
 		$scope.classDescription = classData.description;
