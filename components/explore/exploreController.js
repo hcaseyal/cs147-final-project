@@ -124,19 +124,40 @@ remoteServiceGet(url).then((allReviews) => {
 	var tree = d3.layout.tree();
 	var nodes = tree.nodes(root).reverse();
 
-	// Nodes
-	var node = d3.select('svg g.nodes')
-	  .selectAll('g.nodeContainer')
-	  .data(nodes)
-	  .enter()
+for (let i in nodes) {
+  nodes[i].x *= 1000;
+  nodes[i].y *= 500;
+}
+
+// Nodes
+var node = d3.select('svg g.nodes')
+  .selectAll('g.nodeContainer')
+  .data(nodes)
+  .enter()
+
+var tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function(d) {
+          return '<a onclick="hideTip()" href="#!/class/' + d.data.name + '">Class page  </a> <span style="color:black"> for ' + d.data.name + '</span>';
+        });
+
+function hideTip() {
+  tip.hide();
+}
+
+  // hack, but it works
+  window.hideTip = hideTip;
+
+  svg.call(tip);
 
 	var circles = node.append("circle")
 	  .attr('r', 40)
 	  .attr('cx', function(d) {
-	    return d.x * 1000;
+	    return d.x;
 	  })
 	  .attr('cy', function(d) {
-	    return d.y * 500;
+	    return d.y;
 	  })
 	  .attr('class', function(d) {
 	  	return replaceSpaces(d.data.name);
@@ -146,6 +167,8 @@ remoteServiceGet(url).then((allReviews) => {
 	  })
 	  .classed('node', true)
 	  .on('click', function(d, i) {
+      tip.hide();
+
 	    let resetCircleToNonActive = d3.select(this).classed('activeCircle');
 
 	    // De-select all active nodes
@@ -175,7 +198,7 @@ remoteServiceGet(url).then((allReviews) => {
 	    }
 
 	    if(d.data.value !== undefined) { // Class node has been clicked
-	    	console.log("Once implemented, this will render the explore page right here");
+        tip.show(d, i);
 	    }
 	  });
 
@@ -185,10 +208,10 @@ remoteServiceGet(url).then((allReviews) => {
 	  .data(nodes)
 	  .attr("dy", 6)
 	  .attr("x", function(d) {
-	    return d.x * 1000 - 30;
+	    return d.x - 30;
 	  })
 	  .attr('y', function(d) {
-	    return d.y * 500 - 30;
+	    return d.y - 30;
 	  })
     .attr("width", side)
     .attr("height", side)
