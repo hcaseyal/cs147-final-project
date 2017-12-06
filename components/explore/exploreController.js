@@ -80,19 +80,46 @@ var svg = d3.select('svg'),
   height = +svg.attr("height"),
   transform = d3.zoomIdentity;
 
-  svg.call(d3.zoom()
-      .scaleExtent([1 / 2, 4])
-      .on("zoom", zoomed));
+var zoom = d3.zoom()
+      .scaleExtent([0.3, 2])
+      .on("zoom", zoomed);
 
 // Invisible rectangle for zoom
-  svg.append("rect")
+  var zoomer = svg.append("rect")
   .attr("width", width)
   .attr("height", height)
   .style("stroke", "black")
   .style("stroke-width", "5px")
   .style("fill", "none")
-  .style("pointer-events", "none");
- // .style("visibility", "hidden");
+  .style("pointer-events", "all")
+  .call(zoom);
+  //.style("visibility", "hidden");
+
+  var g = svg.append('g');
+var linkG = g.append("g");
+var nodeG = g.append("g");
+
+var p0 = [250, 200, 200],
+    p1 = [500, 300, 600];
+
+svg.call(transition, p0, p1);
+
+function transition(svg, start, end) {
+  var center = [width / 2, height / 2],
+      i = d3.interpolateZoom(start, end);
+
+  svg
+    .attr("transform", transform(start))
+    .transition()
+      .delay(250)
+      .duration(i.duration * 2)
+      .attrTween("transform", function() { return function(t) { return transform(i(t)); }; });
+
+  function transform(p) {
+    var k = height / p[2];
+    return "translate(" + (center[0] - p[0] * k) + "," + (center[1] - p[1] * k) + ")scale(" + k + ")";
+  }
+}
 
 let url = "/getAllReviews";
 var reviews;
@@ -124,19 +151,41 @@ remoteServiceGet(url).then((allReviews) => {
 	var tree = d3.layout.tree();
 	var nodes = tree.nodes(root).reverse();
 
-	// Nodes
-	var node = d3.select('svg g.nodes')
-	  .selectAll('g.nodeContainer')
-	  .data(nodes)
-	  .enter()
+for (let i in nodes) {
+  nodes[i].x *= 1000;
+  nodes[i].y *= 500;
+}
+
+// Nodes
+
+var node = nodeG
+  .selectAll('g.nodeContainer')
+  .data(nodes)
+  .enter()
+
+var tip = d3.tip()
+        .attr('class', 'd3-tip')
+        .offset([-10, 0])
+        .html(function(d) {
+          return '<a onclick="hideTip()" href="#!/class/' + d.data.name + '">Class page  </a> <span style="color:black"> for ' + d.data.name + '</span>';
+        });
+
+function hideTip() {
+  tip.hide();
+}
+
+  // hack, but it works
+  window.hideTip = hideTip;
+
+  svg.call(tip);
 
 	var circles = node.append("circle")
 	  .attr('r', 40)
 	  .attr('cx', function(d) {
-	    return d.x * 1000;
+	    return d.x;
 	  })
 	  .attr('cy', function(d) {
-	    return d.y * 500;
+	    return d.y;
 	  })
 	  .attr('class', function(d) {
 	  	return replaceSpaces(d.data.name);
@@ -146,6 +195,8 @@ remoteServiceGet(url).then((allReviews) => {
 	  })
 	  .classed('node', true)
 	  .on('click', function(d, i) {
+      tip.hide();
+
 	    let resetCircleToNonActive = d3.select(this).classed('activeCircle');
 
 	    // De-select all active nodes
@@ -175,20 +226,28 @@ remoteServiceGet(url).then((allReviews) => {
 	    }
 
 	    if(d.data.value !== undefined) { // Class node has been clicked
-	    	console.log("Once implemented, this will render the explore page right here");
+        tip.show(d, i);
 	    }
+      centerNode(d.x, d.y);
 	  });
 
-  var side = 2 * 40 * Math.cos(Math.PI / 4);
 
+function centerNode(xx, yy) {
+   g.transition()
+    .duration(500)
+    .attr("transform", "translate(" + (width/2 - xx) + "," + (height/2 - yy) + ")scale(" + 1 + ")")
+    .on("end", function(){ zoomer.call(zoom.transform, d3.zoomIdentity.translate((width/2 - xx),(height/2 - yy)).scale(1))});
+}
+
+  var side = 2 * 40 * Math.cos(Math.PI / 4);
 	var text = node.append("foreignObject")
 	  .data(nodes)
 	  .attr("dy", 6)
 	  .attr("x", function(d) {
-	    return d.x * 1000 - 30;
+	    return d.x - 30;
 	  })
 	  .attr('y', function(d) {
-	    return d.y * 500 - 30;
+	    return d.y - 30;
 	  })
     .attr("width", side)
     .attr("height", side)
@@ -203,7 +262,7 @@ remoteServiceGet(url).then((allReviews) => {
 	let links = getLinks(data);
 
 	// Links
-	d3.select('svg g.links')
+	linkG
 	  .selectAll('line.link')
 	  .data(links)
 	  .enter()
@@ -220,7 +279,7 @@ remoteServiceGet(url).then((allReviews) => {
 });
 
 function zoomed() {
-  d3.select('svg g').attr("transform", d3.event.transform);
+  g.attr("transform", d3.event.transform);
 }
 
 var clusterLayout = d3.cluster()

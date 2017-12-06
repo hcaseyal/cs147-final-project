@@ -38,7 +38,6 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 				comfortableMap.set($scope.classSkills[skill], 0); 
 				usefulMap.set($scope.classSkills[skill], 0);
 			}
-			console.log("Got skills");
 		}
 	});	
 
