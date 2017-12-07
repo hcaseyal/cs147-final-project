@@ -10,6 +10,10 @@ app.controller('HeaderController', ['$scope', '$location', function($scope, $loc
 	// after selecting a class/career/skill, should zoom in to the appropriate node
 	$scope.onSelect = function ($item, $model, $label) {
 		// $item is the selected item from the search dropdown
+		let centerFunction = centerFunctionsByClass[$item];
+		if (centerFunction !== undefined) {
+			centerFunction();
+		}
 	    console.log($item);
 	};
 

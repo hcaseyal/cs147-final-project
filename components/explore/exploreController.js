@@ -1,3 +1,5 @@
+var centerFunctionsByClass = {};
+
 app.controller('ExploreController', ['$scope', function($scope) {
 	$scope.main.displayHeader = true; 
 	$scope.main.displayFullHeader = true; 
@@ -188,6 +190,9 @@ function hideTip() {
 	    return d.y;
 	  })
 	  .attr('class', function(d) {
+      centerFunctionsByClass[d.data.name] = function() {
+        centerNode(d.x, d.y);
+      }
 	  	return replaceSpaces(d.data.name);
 	  })
 	  .style("visibility", function (d) { // Hide the root
@@ -393,8 +398,8 @@ function getCoords(nodeName) {
       y: circle.node().attributes.cy.value};
 } 
 
-function replaceSpaces(name) {
-	return name.replace(/\s+/g, '-');
-}
 }]);
 
+function replaceSpaces(name) {
+  return name.replace(/\s+/g, '-');
+}
