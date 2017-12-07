@@ -6,7 +6,7 @@
 			<rzslider rz-slider-model="slider.value"
 	          rz-slider-options="slider.options"></rzslider>
 	      </div>
-		<div class="review-class-question">I’m comfortable using these skills after CS106A: </div>
+		<div class="review-class-question">I’m comfortable using these skills after {{selectedClass}}: </div>
 		<div ng-repeat="skill in classSkills">
 			<div>
 				<input type="checkbox" ng-click="toggleSkillsComfortable(skill)">

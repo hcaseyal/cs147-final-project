@@ -1,5 +1,5 @@
 
-var app = angular.module('myApp',['ngResource', 'ngRoute', 'rzModule', 'ngTagsInput', 'chart.js']);
+var app = angular.module('myApp',['ngResource', 'ngRoute', 'rzModule', 'ngTagsInput', 'chart.js', 'ui.bootstrap']);
 
 app.config(function($routeProvider) {
     $routeProvider
