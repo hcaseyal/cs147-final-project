@@ -83,7 +83,7 @@ app.post('/pinFeedback', function (req, res) {
 	else { // Normal review text
 		user.pinnedReviewFeedback[feedback.reviewID] = { polarity: feedback.polarity }
 	}
-	
+
 	users[user.userID] = user;
 	saveUsers();
 });
@@ -117,13 +117,57 @@ app.post('/reviewClass', function (req, res) {
 	})
 	.then(() => {
 		reviews[review.id] = review;
-		review = joinReviewWithUser(review, users, reviews);
+		review = joinReviewWithUser(review, users);
 		addEntryToIndex(classReviewIndex, review, review.classID);
 		saveReviews();
 	})
 	.catch(error => {
 		console.log(error);
 	});
+});
+
+// Returns all pinned feedback for a particular user
+// {classID: {polarity : [{reviewID, type, text, userInfo, ...}, ...
+app.get('/getPinnedFeedback', function(req, res) {
+	let userID = req.query.userID;
+	let user = users[userID];
+	let ret = {};
+
+	// Normal reviews (not "I wish I learnt")
+	for (let reviewID in user.pinnedReviewFeedback) {
+		let info = user.pinnedReviewFeedback[reviewID];
+		let review = reviews[reviewID];
+
+		let classID = review.classID;
+		let polarity = info.polarity;
+		let reviewToSend = Object.assign({}, review);
+		delete reviewToSend.wishText;
+		reviewToSend.type = "review";
+		reviewToSend.text = review.review;
+		delete reviewToSend.review;
+
+		ensureExists(ret, classID);
+		ret[classID][polarity].push(reviewToSend);
+	}
+
+	// I wish I learnt reviews
+	for (let reviewID in user.pinnedWishFeedback) {
+		let info = user.pinnedWishFeedback[reviewID];
+		let review = reviews[reviewID];
+
+		let classID = review.classID;
+		let polarity = info.polarity;
+		let reviewToSend = Object.assign({}, review);
+		delete reviewToSend.review;
+		reviewToSend.type = "review";
+		reviewToSend.text = review.wishText;
+		delete reviewToSend.wishText;
+
+		ensureExists(ret, classID);
+		ret[classID][polarity].push(reviewToSend);
+	}
+
+	res.send(JSON.stringify(ret));
 });
 
 // Returns all reviews for a particular class
@@ -193,7 +237,7 @@ function addEntryToIndex(index, entry, key) {
 	index[key].push(entry);
 }
 
-function joinReviewWithUser(review, allUsers, allReviews) {
+function joinReviewWithUser(review, allUsers) {
 	let user = allUsers[review.userID];
 	review.userInfo = {career: user.career, name: user.name, location: user.location};
 	return review;
@@ -204,7 +248,7 @@ function buildClassReviewIndex() {
 		getAllUsers().then((allUsers) => {
 			for (let reviewID in allReviews) {
 				let review = allReviews[reviewID];
-				review = joinReviewWithUser(review, allUsers, allReviews)
+				review = joinReviewWithUser(review, allUsers)
 				addEntryToIndex(classReviewIndex, review, review.classID);
 			}
 			console.log("Class review index: " + JSON.stringify(classReviewIndex));
@@ -308,6 +352,15 @@ function readFile(filename, onFileContent, onError) {
 			onFileContent(filename, content);
 		}
 	});
+}
+
+function ensureExists(ret, classID) {
+	if (!(classID in ret)) {
+		ret[classID] = {};
+		ret[classID]["positive"] = [];
+		ret[classID]["negative"] = [];
+		ret[classID]["neutral"] = [];
+	}
 }
 
 function saveUsers() {

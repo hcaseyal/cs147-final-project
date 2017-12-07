@@ -17,7 +17,12 @@
     "classYear": "WINTER 13-14",
     "classID": "CS106A",
     "userID": 1,
-    "id": 0
+    "id": 1,
+    "userInfo": {
+      "career": "Product Manager",
+      "name": "Yash T.",
+      "location": "Oracle"
+    }
   },
   "2": {
     "review": "This class helped me learn Java which I used in my internship last summer! I also found the intro to ecursion at the end of the class really helpful for CS106B.",
@@ -42,7 +47,12 @@
     "classYear": "WINTER 13-14",
     "classID": "CS106A",
     "userID": 0,
-    "id": 2
+    "id": 2,
+    "userInfo": {
+      "career": "Front End Dev",
+      "name": "Amy Liu",
+      "location": "LinkedIn"
+    }
   },
   "3": {
     "review": "The Java foundations we learned in 106A helped me better understand the concepts in CS108. Also I got good feedback from my section leader each week on how I could improve.",
@@ -63,7 +73,12 @@
     "classYear": "WINTER 13-14",
     "classID": "CS106A",
     "userID": 0,
-    "id": 3
+    "id": 3,
+    "userInfo": {
+      "career": "Front End Dev",
+      "name": "Amy Liu",
+      "location": "LinkedIn"
+    }
   },
   "8": {
     "review": "test",
@@ -83,7 +98,12 @@
     "classYear": "WINTER 13-14",
     "classID": "CS106A",
     "userID": 0,
-    "id": 8
+    "id": 8,
+    "userInfo": {
+      "career": "Front End Dev",
+      "name": "Amy Liu",
+      "location": "LinkedIn"
+    }
   },
   "9": {
     "review": "hello",
@@ -103,7 +123,12 @@
     "classYear": "WINTER 13-14",
     "classID": "CS106A",
     "userID": 0,
-    "id": 9
+    "id": 9,
+    "userInfo": {
+      "career": "Front End Dev",
+      "name": "Amy Liu",
+      "location": "LinkedIn"
+    }
   },
   "13": {
     "review": "",
@@ -236,6 +261,29 @@
     "classID": "CS106A",
     "userID": 0,
     "id": 18,
+    "userInfo": {
+      "career": "Front End Dev",
+      "name": "Amy Liu",
+      "location": "LinkedIn"
+    }
+  },
+  "19": {
+    "review": "I've been asked to use Java for technical interviews, but I didn't learn the specifics of Java in CS106A that much (e.g., how JAva handles memory management different from other PLs). I guess that's okay for the goal of the class though",
+    "reviewTags": [
+      {
+        "text": "Java"
+      }
+    ],
+    "wishText": "",
+    "usefulValue": 5,
+    "skillsUseful": [
+      "Java"
+    ],
+    "skillsComfortable": [],
+    "classYear": "Winter 13-14",
+    "classID": "CS106A",
+    "userID": 0,
+    "id": 19,
     "userInfo": {
       "career": "Front End Dev",
       "name": "Amy Liu",

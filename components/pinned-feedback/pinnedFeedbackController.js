@@ -1,19 +1,48 @@
+var userID = 0; //TODO: hook this up to a dynamic userID
 
 app.controller('PinnedFeedbackController', ['$scope', function($scope) {
 	$scope.main.displayHeader = true;
 	$scope.main.displayFullHeader = false; 
 	$scope.main.selectedButton = 'teacher'; 
 
-	// TODO: make this dynamic
 	$scope.myClasses = ['CS106A', 'CS107', 'CS109']; 
 	$scope.selectedClass = 'CS106A'; 
 
-	$scope.positiveFeedback = ['Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sit amet venenatis ante, in tristique est. Maecenas sed sem feugiat, lacinia purus sed, rutrum dui. Cras eu nulla in velit rutrum scelerisque.', 
-								'Curabitur faucibus dictum elit ultricies rhoncus. Mauris maximus vestibulum ante, in auctor mauris congue at.'];
-
 	$scope.toggleSelectedClass = function(selectedClass) {
 		$scope.selectedClass = selectedClass;
+		$scope.positiveFeedback = [];
+		$scope.neutralFeedback = [];
+		$scope.negativeFeedback = [];
 
-		// TODO: load relevant feedback based on selectedClass
+		let classFeedback = $scope.feedback[selectedClass];
+		if (classFeedback !== undefined) {
+			$scope.positiveFeedback = classFeedback["positive"];
+			$scope.negativeFeedback = classFeedback["negative"];
+			$scope.neutralFeedback = classFeedback["neutral"];
+
+			// User info is in each review as a userInfo field
+			// On the html template, you can access it as:
+			// {{feedback.userInfo}}
+			/* "userInfo": {
+			      "career": "Front End Dev",
+			      "name": "Amy Liu",
+			      "location": "LinkedIn"
+			    }
+			*/
+
+		}
 	};
+
+	var getPinnedFeedbackUrl = "/getPinnedFeedback?userID=" + userID;
+	remoteServiceGet(getPinnedFeedbackUrl).then((data) => {
+		if (data.length > 0) {
+			let feedback = JSON.parse(data); 
+			$scope.feedback = feedback;
+			$scope.toggleSelectedClass($scope.selectedClass);
+			$scope.$apply();
+		}
+	})
+	.catch((error) => {
+		console.log(error);
+	});
 }]);
