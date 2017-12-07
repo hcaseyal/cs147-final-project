@@ -176,6 +176,7 @@ function hideTip() {
   tip.hide();
 }
 
+
   // hack, but it works
   window.hideTip = hideTip;
 
@@ -233,7 +234,6 @@ function hideTip() {
 	    if(d.data.value !== undefined) { // Class node has been clicked
         tip.show(d, i);
 	    }
-      centerNode(d.x, d.y);
 	  });
 
 
