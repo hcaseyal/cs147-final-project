@@ -1,4 +1,11 @@
 var classID;
+var filterStates = {
+		"iteration": [], 
+		"career": [],
+		"instructor": []
+	};
+var relevantReviews =  [];
+var relevantWishReviews = [];
 
 app.controller('ClassController', ['$scope', '$routeParams', '$route', function($scope, $routeParams, $route) {
 
@@ -54,7 +61,7 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 	function getReviews() {
 		let url = "/getReviews?classID=" + classID;
 		$scope.reviews = []; 
-		var wishReviews = [];
+		$scope.wishReviews = [];
 
 		remoteServiceGet(url).then((reviews) => {
 			if (reviews.length > 0) {
@@ -77,27 +84,18 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 					}
 					classRatingData[review.usefulValue - 1] += 1;
 
-					wishReviews.push({
+					$scope.wishReviews.push({
 						'text': review.wishText,
 						'classYear': review.classYear,
 						'userInfo': review.userInfo,
 					})
 					// also add reviews with no skills tags to "I wish I learnt"
 					if (review.reviewTags.length == 0) {
-						wishReviews.push({
+						$scope.wishReviews.push({
 							'text': review.review,
 							'classYear': review.classYear,
 							'userInfo': review.userInfo,
 						})
-					}
-
-					// by default, show max 4 "I wishes" initially 
-					if (wishReviews.length > 4) {
-						$scope.wishReviews = wishReviews.slice(0,4);
-						$scope.moreWish = true;
-					} else {
-						$scope.wishReviews = wishReviews.slice();
-						$scope.moreWish = false; 
 					}
 				}
 
@@ -119,10 +117,9 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 		});
 	}
 
-	var relevantReviews = [];
-
 	$scope.toggleSelectedSkills = function(skill){
 		relevantReviews = [];
+		relevantWishReviews = [];
 
 	    $scope.selectedSkill = skill;
 	    $scope.comfortableCount = comfortableMap.get(skill); 
@@ -136,11 +133,21 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 			var review = $scope.reviews[r]; 
 
 			for (t in review.reviewTags) {
-				if (review.reviewTags[t].text == skill) {
+				if (review.reviewTags[t].text == skill && filterReviews(review)) {
 					relevantReviews.push(review);
 				}
 			}
 		}
+
+		// find reviews filtered to the filter criteria
+	    for (r in $scope.wishReviews) {
+			let review = $scope.wishReviews[r]; 
+
+			if (filterReviews(review)) {
+				relevantWishReviews.push(review);
+			}
+		}
+
 		// by default, show max 2 reviews initially 
 		if (relevantReviews.length > 2) {
 			$scope.relevantReviews = relevantReviews.slice(0,2);
@@ -148,6 +155,15 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 		} else {
 			$scope.relevantReviews = relevantReviews.slice();
 			$scope.moreReviews = false; 
+		}
+
+		// by default, show max 4 "I wishes" initially 
+		if (relevantWishReviews.length > 4) {
+			$scope.relevantWishReviews = relevantWishReviews.slice(0,4);
+			$scope.moreWish = true;
+		} else {
+			$scope.relevantWishReviews = relevantWishReviews.slice();
+			$scope.moreWish = false; 
 		}
 	}
 
@@ -159,12 +175,44 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 
 	// load all of the remaining I wish I learnts
 	$scope.loadMoreWish = function() {
-		$scope.wishReviews = wishReviews.slice();
+		$scope.relevantWishReviews = relevantWishReviews.slice();
 		$scope.moreWish = false; 
 	}
 
 
 	$scope.CloseClick = function(){
 	    $scope.modalOn = false;
+	}
+
+	$scope.setFilterState = function($event) {
+		var checkbox = $event.target;
+		let filterType = checkbox.attributes.class.value;
+		let value = checkbox.attributes.name.value;
+
+		console.log(checkbox.attributes.class);
+		console.log(filterType);
+		console.log(value);
+		if (checkbox.checked) {
+			filterStates[filterType].push(value);
+		} else {
+			let array = filterStates[filterType];
+			let index = array.indexOf(value);
+			if (index > -1) {
+    			array.splice(index, 1);
+			}
+		}
+		$scope.toggleSelectedSkills($scope.selectedSkill);
+	}
+
+	function filterReviews(review) {
+		if (filterStates["iteration"].length > 0 && 
+			!(filterStates["iteration"].includes(review.classYear))) {
+			return false;
+		}
+		if (filterStates["career"].length > 0 && 
+			!(filterStates["career"].includes(review.userInfo.career))) {
+			return false;
+		}
+		return true;
 	}
 }]);
