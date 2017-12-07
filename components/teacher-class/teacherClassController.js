@@ -1,4 +1,5 @@
 var classID;
+var userID = 0; // TODO: Make this hook up to the current user id
 
 app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', function($scope, $routeParams, $route) {
 
@@ -46,6 +47,7 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 			var classRatingData = [0, 0, 0, 0, 0];
 			for (r in $scope.reviews) {
 				var review = $scope.reviews[r];
+				review.type = "review";
 				var comfortable = review.skillsComfortable; 
 				var useful = review.skillsUseful;
 				for (s in $scope.classSkills) {
@@ -60,6 +62,8 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 				classRatingData[review.usefulValue - 1] += 1;
 
 				wishReviews.push({
+					'id' : review.id,
+					'type' : "wish",
 					'text': review.wishText,
 					'classYear': review.classYear,
 					'userInfo': review.userInfo,
@@ -67,6 +71,8 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 				// also add reviews with no skills tags to "I wish I learnt"
 				if (review.reviewTags.length == 0) {
 					wishReviews.push({
+						'id' : review.id,
+						'type' : "wish",
 						'text': review.review,
 						'classYear': review.classYear,
 						'userInfo': review.userInfo,
@@ -145,18 +151,31 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 		$scope.moreWish = false; 
 	}
 
-	$scope.pinFeedback = function(text) {
+	$scope.pinFeedback = function(review) {
 	    $scope.modalOn = true;
-	    $scope.pinnedReview = text;
+	    $scope.pinnedReview = review;
 	}
 
 	$scope.CloseClick = function(){
 	    $scope.modalOn = false;
+	    $scope.successfulPin = false;
 	}
 
-	$scope.saveFeedback = function(text) {
-		console.log(text, $scope.selectedPolarity); 
-		// save feedback to backend
-		$scope.successfulPin = true;
+	$scope.saveFeedback = function(review, selectedPolarity) {
+		var pinnedFeedback = {reviewID: review.id, 
+			polarity: selectedPolarity, 
+			userID: userID,
+			type: review.type}; // Either "wish" or "review"
+
+		remoteServicePostJson(pinnedFeedback, "/pinFeedback")
+		.then((response) => {
+			$scope.successfulPin = true;
+			$scope.$apply();
+		})
+		.catch(error => {
+			console.log(error);
+			$scope.successfulPin = false;
+			$scope.$apply();
+		});
 	}
 }]);

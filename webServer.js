@@ -42,6 +42,52 @@ var server = app.listen(portno, function () {
 /// START BACKEND API ///  
 //////////////////////////
 
+// Bookmark class
+// Request should send a json object in the form:
+// { "classID" : "CS106A",
+//	 "userID" : "0"
+// },
+
+app.post('/bookmarkClass', function (req, res) {
+	res.send("Received bookmark class request");
+	var bookmark = req.body;
+	var userID = bookmark.userID;
+	var user = users[userID];
+
+	if (!user.bookmarkedClasses) {
+		user.bookmarkedClasses = {};
+	}
+	user.bookmarkedClasses[bookmark.classID] = {};
+
+	users[user.userID] = user;
+	saveUsers();
+});
+
+app.post('/pinFeedback', function (req, res) {
+	res.send("Received pin feedback request");
+	var feedback = req.body;
+	var userID = feedback.userID;
+	var user = users[userID];
+	var type = feedback.type;
+
+	if (!user.pinnedReviewFeedback) {
+		user.pinnedReviewFeedback = {};
+	}
+	if (!user.pinnedWishFeedback) {
+		user.pinnedWishFeedback = {};
+	}
+
+	if (type === "wish") { // I wish I learnt...
+		user.pinnedWishFeedback[feedback.reviewID] = { polarity: feedback.polarity }
+	}
+	else { // Normal review text
+		user.pinnedReviewFeedback[feedback.reviewID] = { polarity: feedback.polarity }
+	}
+	
+	users[user.userID] = user;
+	saveUsers();
+});
+
 // For teachers editing their feedback form page
 app.post('/editForm', function (req, res) {
 	res.send("Received edit form request");
@@ -58,8 +104,9 @@ app.post('/editForm', function (req, res) {
 	}
 	
 	classes[edit.classID].iterations[key] = classToAdd;
-	fs.writeFile("data/classes", JSON.stringify(classes));
+	saveClasses();
 });
+
 
 app.post('/reviewClass', function (req, res) {
 	var review = req.body;
@@ -72,7 +119,7 @@ app.post('/reviewClass', function (req, res) {
 		reviews[review.id] = review;
 		review = joinReviewWithUser(review, users, reviews);
 		addEntryToIndex(classReviewIndex, review, review.classID);
-		fs.writeFile("data/reviews", JSON.stringify(reviews));
+		saveReviews();
 	})
 	.catch(error => {
 		console.log(error);
@@ -137,6 +184,7 @@ app.get('/getUser', function(req, res) {
 /////////////////////////
 /// END BACKEND API ///
 ////////////////////////
+
 
 function addEntryToIndex(index, entry, key) {
 	if (!(key in index)) {
@@ -260,4 +308,16 @@ function readFile(filename, onFileContent, onError) {
 			onFileContent(filename, content);
 		}
 	});
+}
+
+function saveUsers() {
+	fs.writeFile("data/users", JSON.stringify(users));
+}
+
+function saveClasses() {
+	fs.writeFile("data/classes", JSON.stringify(classes));
+}
+
+function saveReviews() {
+	fs.writeFile("data/reviews", JSON.stringify(reviews));
 }
