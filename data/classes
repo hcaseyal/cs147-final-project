@@ -20,13 +20,15 @@
     "description": "Introduction to the engineering of computer applications emphasizing modern software engineering principles: object-oriented design, decomposition, encapsulation, abstraction, and testing. Emphasis is on good programming style and the built-in facilities of respective languages. No prior programming experience required. Summer quarter enrollment is limited. Alternative versions of CS106A are available which cover most of the same material but in different programming languages: Java [Fall, Win, Spr, or Sum qtr enroll in CS106A Section 1] Javascript [Fall qtr enroll in CS 106A Section 2] Python [Winter or Spring qtr enroll in CS 106A Section 3]"
   },
   "MATH51": {
-    "classID": "MATH51",
-    "Winter 13-14": {
-        "skills": [
-     		"Linear algebra"
-    	],
-    "description": "Geometry and algebra of vectors, matrices and linear transformations, eigenvalues of symmetric matrices, vector-valued functions and functions of several variables, partial derivatives and gradients, derivative as a matrix, chain rule in several variables, critical points and Hessian, least-squares, , constrained and unconstrained optimization in several variables, Lagrange multipliers. Prerequisite: 21, 42, or the math placement diagnostic (offered through the Math Department website) in order to register for this course."
+	"classID": "MATH51",
+	"iterations": {
+		"Winter 13-14": {
+	        "skills": [
+	     		"Linear algebra"
+	    	],
+		    "description": "Geometry and algebra of vectors, matrices and linear transformations, eigenvalues of symmetric matrices, vector-valued functions and functions of several variables, partial derivatives and gradients, derivative as a matrix, chain rule in several variables, critical points and Hessian, least-squares, , constrained and unconstrained optimization in several variables, Lagrange multipliers. Prerequisite: 21, 42, or the math placement diagnostic (offered through the Math Department website) in order to register for this course."
+		}
 	},
 	 "description": "Geometry and algebra of vectors, matrices and linear transformations, eigenvalues of symmetric matrices, vector-valued functions and functions of several variables, partial derivatives and gradients, derivative as a matrix, chain rule in several variables, critical points and Hessian, least-squares, , constrained and unconstrained optimization in several variables, Lagrange multipliers. Prerequisite: 21, 42, or the math placement diagnostic (offered through the Math Department website) in order to register for this course."
-  }
+	}
 }
