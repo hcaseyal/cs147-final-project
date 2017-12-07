@@ -17,10 +17,16 @@
 			</a>
 		</div>
 		<div class="full-header-item search-bar-container">
-			<form name="searchForm">
-				<input ng-if="main.selectedButton == 'explore'" class="search-bar" type="text" name="searchQuery" placeholder="find careers, skills, classes..."></input>
-				<input ng-if="main.selectedButton == 'review'" class="search-bar" type="text" name="searchQuery" placeholder="find courses to review..."></input>
-			</form>
+			<input type="text" class="search-bar" 
+				   ng-if="main.selectedButton == 'explore'" 
+				   ng-model="selected" uib-typeahead="item for item in searchGraph | filter:$viewValue | limitTo:8" 
+				   placeholder="find careers, skills, classes..."
+				   typeahead-on-select="onSelect($item, $model, $label)"></input>
+			<input type="text" class="search-bar" 
+				   ng-if="main.selectedButton == 'review'" 
+				   ng-model="selected" uib-typeahead="item for item in searchClasses | filter:$viewValue | limitTo:8" 
+				   placeholder="find courses to review..."
+				   typeahead-on-select="onSelect($item, $model, $label)"></input>
 			<img class="search-icon" src="img/search-icon.png">
 		</div>
 	</div>
