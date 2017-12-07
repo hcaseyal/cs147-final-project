@@ -189,9 +189,6 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 		let filterType = checkbox.attributes.class.value;
 		let value = checkbox.attributes.name.value;
 
-		console.log(checkbox.attributes.class);
-		console.log(filterType);
-		console.log(value);
 		if (checkbox.checked) {
 			filterStates[filterType].push(value);
 		} else {
