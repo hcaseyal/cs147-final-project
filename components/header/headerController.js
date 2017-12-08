@@ -41,4 +41,8 @@ app.controller('HeaderController', ['$scope', '$location', function($scope, $loc
 	$scope.goToMyReviews = function() {
 		$location.path('my-reviews');
 	}
+
+	$scope.goToProfile = function() {
+		$location.path('profile');
+	}
 }]);
