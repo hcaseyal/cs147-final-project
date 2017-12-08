@@ -151,7 +151,16 @@
 					<div class="skill-anecdote-meta-separator">|</div>
 					<div>{{review.userInfo.career}} at {{review.userInfo.location}}</div>
 				</div>
-				<div class="pin-feedback-toggle" ng-click="pinFeedback(review)">PIN FEEDBACK</div>
+				<div class="pin-feedback-toggle" 
+					 ng-click="pinFeedback(review)"
+					 ng-if="pinnedText.indexOf(review.review) == -1">
+					PIN FEEDBACK
+				</div>
+				<div class="pin-feedback-toggle"
+					 ng-click="removePin(review)"
+					 ng-if="pinnedText.indexOf(review.review) > -1">
+					REMOVE PIN
+				</div>
 			</div>
 			<div class="more-reviews-toggle" ng-show="moreReviews" ng-click="loadMoreReviews()">Load more</div>
 		</div>
