@@ -181,7 +181,9 @@
 .skill-tab {
 	width: 200px;
 	height: 60px;
-	line-height: 60px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	text-align: center;
 	letter-spacing: 1px;
 	border-radius: 5px;
