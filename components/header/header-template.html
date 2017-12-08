@@ -42,7 +42,7 @@
 				   ng-if="main.selectedButton == 'review'" 
 				   ng-model="selected" uib-typeahead="item for item in searchClasses | filter:$viewValue | limitTo:8" 
 				   placeholder="find courses to review..."
-				   typeahead-on-select="onSelect($item, $model, $label)"></input>
+				   typeahead-on-select="onSelectClass($item, $model, $label)"></input>
 			<img class="search-icon" src="img/search-icon.png">
 		</div>
 	</div>
@@ -66,7 +66,7 @@
 				   ng-if="main.selectedButton == 'review'" 
 				   ng-model="selected" uib-typeahead="item for item in searchClasses | filter:$viewValue | limitTo:8" 
 				   placeholder="find courses to review..."
-				   typeahead-on-select="onSelect($item, $model, $label)"></input>
+				   typeahead-on-select="onSelectClass($item, $model, $label)"></input>
 				<input type="text" class="search-bar" 
 				   ng-if="main.selectedButton == 'teacher'" 
 				   ng-model="selected" uib-typeahead="item for item in searchTeacherClasses | filter:$viewValue | limitTo:8" 

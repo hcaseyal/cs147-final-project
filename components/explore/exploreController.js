@@ -11,70 +11,7 @@ var ROOT_NAME = "All careers/skills/classes";
 var data = {
   "name": ROOT_NAME,
   "depth": 0,
-  "children": [
-    {
-      "name": "A1",
-      "depth": "1",
-      "children": [
-        {
-          "name": "B1",
-          "depth": "2",   
-          "children": [
-            {
-              "name": "CS106A",
-               "depth": "3",
-              "value": "CS106A"
-            },
-            {
-              "name": "C2",
-              "depth": "3",
-              "value": "CS106A"
-            },
-            {
-              "name": "C3",
-              "depth": "3",
-              "value": "CS106A"
-            }
-          ]
-        },
-        {
-          "name": "B2",
-          "depth": "2",
-          "children": [
-            {
-              "name": "C4",
-              "depth": "3",
-              "value": "CS106A"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "name" : "A2",
-      "depth": "1",
-      "children": [
-        {
-          "name" : "B2",
-          "depth": "2",
-          "children": [
-          ]
-        },
-        {
-          "name" : "B3", 
-          "depth": "2",
-          "children": [
-          {
-            "name" : "C5",
-            "depth": "3",
-            "children": [
-            ]
-          }
-          ]
-        }
-      ]
-    }
-  ]
+  "children" : []
 }
 
 var svg = d3.select('svg'),
@@ -90,7 +27,7 @@ var zoom = d3.zoom()
   var zoomer = svg.append("rect")
   .attr("width", width)
   .attr("height", height)
-  .style("stroke", "black")
+  .style("stroke", "#D3D3D3")
   .style("stroke-width", "5px")
   .style("fill", "none")
   .style("pointer-events", "all")
@@ -214,6 +151,7 @@ function hideTip() {
 	    svg.selectAll('.activeLink')
 	      .classed('activeLink', false)
 	      .classed('link', true);
+
 
 	    if (!resetCircleToNonActive) {
 	      var circle = d3.select(this)

@@ -34,7 +34,6 @@ app.controller('EditFormController', ['$scope', '$routeParams', function($scope,
 					selectedYear: $scope.selectedYear,
 					classID: $scope.selectedClass,
 					userID: userID };
-
 		remoteServicePostJson(post, "/editForm")
 		.then((response) => {
 			console.log(response);

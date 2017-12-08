@@ -14,7 +14,6 @@ app.controller('HeaderController', ['$scope', '$location', function($scope, $loc
 		if (centerFunction !== undefined) {
 			centerFunction();
 		}
-	    console.log($item);
 	};
 
 	// after selecting a class from the class search bar, should redirect to that class page

@@ -20,7 +20,7 @@
 			<div>WRITE A REVIEW</div>
 		</div>
 	</a>
-	<div class="class-page-button" ng-click="modalOn = true">
+	<div class="class-page-button" ng-click="bookmarkClass()">
 		<img class="class-button-icon" src="img/bookmark-icon.png">
 		<div>BOOKMARK CLASS</div>
 	</div>
@@ -47,15 +47,15 @@
 		</tr>
 		<tr>
 			<td class="class-filter-item"></td>
-			<td class="class-filter-item"><input type="checkbox" name="spring-16"> Spring 2016</td>
-			<td class="class-filter-item"><input type="checkbox" name="developer"> Developer</td>
-			<td class="class-filter-item"><input type="checkbox" name="marty-stepp"> Marty Stepp</td>
+			<td class="class-filter-item"><input type="checkbox" name="Spring 13-14" class="iteration" ng-click="setFilterState($event)"> Spring 13-14</td>
+			<td class="class-filter-item"><input type="checkbox" name="Front End Dev" class="career" ng-click="setFilterState($event)"> Front End Dev</td>
+			<td class="class-filter-item"><input type="checkbox" name="marty-stepp" class="instructor" ng-click="setFilterState($event)"> Marty Stepp</td>
 		</tr>
 		<tr>
 			<td class="class-filter-item"></td>
-			<td class="class-filter-item"><input type="checkbox" name="winter-16"> Winter 2016</td>
-			<td class="class-filter-item"><input type="checkbox" name="data-scientist"> Data Scientist</td>
-			<td class="class-filter-item"><input type="checkbox" name="mehran-sahami"> Mehran Sahami</td>
+			<td class="class-filter-item"><input type="checkbox" name="Winter 13-14" class="iteration" ng-click="setFilterState($event)"> Winter 13-14</td>
+			<td class="class-filter-item"><input type="checkbox" name="data-scientist" class="career" ng-click="setFilterState($event)"> Data Scientist</td>
+			<td class="class-filter-item"><input type="checkbox" name="mehran-sahami" class="instructor" ng-click="setFilterState($event)"> Mehran Sahami</td>
 		</tr>
 		<tr>
 			<td class="class-filter-item"></td>
@@ -100,16 +100,16 @@
 			</div>
 		</div>
 		<div class="skills-detail">
-			<div class="skills-detail-title">I'm comfortable using this skill after {{selectedClass}}:</div>
-			<div class="skill-bar">
+			<div class="skills-detail-title" ng-show="displayComfortableMap == true">I'm comfortable using this skill after {{selectedClass}}:</div>
+			<div class="skill-bar" ng-show="displayComfortableMap == true">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
 					<div class="percentage-bar-fill" style="width: {{comfortableWidth}}px"></div>
 				</div>
 				<div class="percentage-number">{{comfortableCount}} / {{reviewCount}} students</div>
 			</div>
-			<div class="skills-detail-title">I've used this skill in future classes or jobs:</div>
-			<div class="skill-bar">
+			<div class="skills-detail-title" ng-show="displayComfortableMap == true">I've used this skill in future classes or jobs:</div>
+			<div class="skill-bar" ng-show="displayComfortableMap == true">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
 					<div class="percentage-bar-fill" style="width: {{usefulWidth}}px"></div>
@@ -133,7 +133,7 @@
 
 		<div class="wish-container">
 			<div class="wish-reviews">
-				<div class="skill-anecdote wish-anecdote" ng-repeat="review in wishReviews">
+				<div class="skill-anecdote wish-anecdote" ng-repeat="review in relevantWishReviews">
 					<div>{{review.text}}</div>
 					<div class="skill-anecdote-meta">
 						<div>{{review.classYear}}</div>
