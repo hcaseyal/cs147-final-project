@@ -262,6 +262,19 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 	}
 
 	$scope.removePin = function(review) {
+		var feedback = {reviewID: review.id, 
+			userID: userID,
+			type: review.type}; // Either "wish" or "review"
+
+		remoteServicePostJson(feedback, "/unpinFeedback")
+		.then((response) => {
+			$scope.$apply();
+		})
+		.catch(error => {
+			console.log(error);
+			$scope.$apply();
+		});
+
 		var idx = $scope.pinnedText.indexOf(review.review); 
 		$scope.pinnedText.splice(idx, 1);
 	}
