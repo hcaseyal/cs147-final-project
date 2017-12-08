@@ -84,13 +84,17 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 					}
 					classRatingData[review.usefulValue - 1] += 1;
 
-					$scope.wishReviews.push({
-						'text': review.wishText,
-						'classYear': review.classYear,
-						'userInfo': review.userInfo,
-					})
+					// Don't add empty reviews
+					if (review.wishText !== "") {
+						$scope.wishReviews.push({
+							'text': review.wishText,
+							'classYear': review.classYear,
+							'userInfo': review.userInfo,
+						});
+					}
+					
 					// also add reviews with no skills tags to "I wish I learnt"
-					if (review.reviewTags.length == 0) {
+					if (review.reviewTags.length == 0 && review.review !== "") {
 						$scope.wishReviews.push({
 							'text': review.review,
 							'classYear': review.classYear,
@@ -133,7 +137,8 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 			var review = $scope.reviews[r]; 
 
 			for (t in review.reviewTags) {
-				if (review.reviewTags[t].text == skill && filterReviews(review)) {
+				if (review.reviewTags[t].text == skill && 
+					review.review !== "" && filterReviews(review)) {
 					relevantReviews.push(review);
 				}
 			}
