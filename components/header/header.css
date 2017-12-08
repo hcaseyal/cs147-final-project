@@ -20,8 +20,17 @@
 }
 
 .dropdown-menu {
-	left: -110px;
+	left: -180px;
 	top: 40px;
+	background-color: #D0EAF9;
+}
+
+.dropdown-item {
+	cursor: pointer;
+}
+
+.dropdown-item:hover {
+	background-color: #78C5F1;
 }
 
 .full-header-name {

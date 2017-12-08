@@ -25,4 +25,16 @@ app.controller('HeaderController', ['$scope', '$location', function($scope, $loc
 	$scope.onSelectTeacherClass = function ($item, $model, $label) {
 		$location.path('teacher-class/' + $item);
 	};
+
+	$scope.goToBookmarked = function() {
+		$location.path('bookmarks');
+	}
+
+	$scope.logout = function() {
+		$location.path('');
+	}
+
+	$scope.goToPinned = function() {
+		$location.path('pinned-feedback');
+	}
 }]);

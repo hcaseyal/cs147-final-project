@@ -8,17 +8,11 @@
 					<img class="header-item header-menu-icon" src="img/menu-icon.png">
 				</a>
 				<ul class="dropdown-menu" dropdown-menu>
-		          <li> 
-		            <a ng-click="action1()">My Bookmarked Classes</a>
+		          <li class="dropdown-item" ng-click="goToBookmarked()"> 
+		            My Bookmarked Classes
 		          </li>
-		          <li>
-		            <a ng-click="action2()">My Profile</a>
-		          </li>
-		          <li>
-		            <a ng-click="action3()">My Reviews</a>
-		          </li>
-		          <li>
-		            <a ng-click="action4()">Logout</a>
+		          <li class="dropdown-item" ng-click="logout()">
+		          	Logout
 		          </li>
 		        </ul>
 			</span>
@@ -75,8 +69,21 @@
 			</form>
 			<img class="search-icon" src="img/search-icon.png">
 		</div>
-		<a onclick="hideTip()" href="/">
-			<img class="header-item header-menu-icon" src="img/menu-icon.png">
-		</a>
+		<span class="dropdown" dropdown>
+			<a href="" class="dropdown-toggle" dropdown-toggle>
+				<img class="header-item header-menu-icon" src="img/menu-icon.png">
+			</a>
+			<ul class="dropdown-menu" dropdown-menu>
+	          <li class="dropdown-item" ng-if="main.selectedButton != 'teacher'" ng-click="goToBookmarked()"> 
+	            My Bookmarked Classes
+	          </li>
+	          <li class="dropdown-item" ng-if="main.selectedButton == 'teacher'" ng-click="goToPinned()"> 
+	            My Pinned Feedback
+	          </li>
+	          <li class="dropdown-item" ng-click="logout()">
+	          	Logout
+	          </li>
+	        </ul>
+		</span>
 	</div>
 </div>
