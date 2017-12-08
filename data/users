@@ -1,1 +1,60 @@
-{"0":{"userID":"0","name":"Amy Liu","career":"Front End Dev","location":"LinkedIn","bookmarkedClasses":{"CS106A":{},"MATH51":{}},"pinnedReviewFeedback":{"1":{"polarity":"positive"},"3":{"polarity":"positive"},"18":{"polarity":"neutral"},"21":{"polarity":"positive"}},"pinnedWishFeedback":{"1":{"polarity":"neutral"},"2":{"polarity":"negative"},"3":{"polarity":"negative"},"8":{"polarity":"neutral"},"13":{"polarity":"negative"},"14":{"polarity":"negative"},"15":{"polarity":"neutral"}}},"1":{"userID":"1","name":"Yash T.","career":"Product Manager","location":"Oracle","bookmarkedClasses":[],"pinnedReviewFeedback":{}}}
+{
+  "0": {
+     "userID": "0",
+     "name": "Amy Liu",
+     "career": "Front End Dev",
+     "location": "LinkedIn",
+     "bookmarkedClasses": {
+       "CS106A": {},
+       "MATH51": {}
+     },
+     "pinnedReviewFeedback": {
+       "1": {
+         "polarity": "positive"
+       },
+       "2": {
+         "polarity": "positive"
+       },
+       "3": {
+         "polarity": "positive"
+       },
+       "18": {
+         "polarity": "neutral"
+       },
+       "21": {
+         "polarity": "positive"
+       }
+     },
+     "pinnedWishFeedback": {
+       "1": {
+         "polarity": "neutral"
+       },
+       "2": {
+         "polarity": "negative"
+       },
+       "3": {
+         "polarity": "negative"
+       },
+       "8": {
+         "polarity": "neutral"
+       },
+       "13": {
+         "polarity": "negative"
+       },
+       "14": {
+         "polarity": "negative"
+       },
+       "15": {
+         "polarity": "neutral"
+       }
+     }
+   },
+   "1": {
+     "userID": "1",
+     "name": "Yash T.",
+     "career": "Product Manager",
+     "location": "Oracle",
+     "bookmarkedClasses": [],
+     "pinnedReviewFeedback": {}
+   }
+ }
