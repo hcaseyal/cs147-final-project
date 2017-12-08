@@ -12,6 +12,8 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 	$scope.main.displayHeader = true;
 	$scope.main.displayFullHeader = false;
 	$scope.main.selectedButton = 'explore';
+	$scope.main.reviewRedirect = '#!/class/' + $scope.selectedClass; 
+
 	$scope.displayFilters = false;
 	$scope.modalOn = false;
 	$scope.classRatingLabels = ['Very Useful', '', '', '', 'Not Useful']; 

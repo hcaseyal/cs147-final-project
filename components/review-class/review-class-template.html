@@ -35,7 +35,7 @@
 			<textarea ng-model="wishText" class="review-input-box"></textarea>
 		</div>
 
-	<a href="#!/review" ng-click="main.reviewSubmitted = true">
+	<a href="{{main.reviewRedirect}}" ng-click="main.reviewSubmitted = true">
 		<button type="button" ng-click="submitReview()" class="submit-review-button">
 			SUBMIT
 		</button>
