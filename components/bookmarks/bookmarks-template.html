@@ -2,14 +2,8 @@
 	<div class="bookmarks-header">MY BOOKMARKED CLASSES:</div>
 
 	<div class="bookmarked-courses-container">
-		<a href="#!/class/CS106A">
-			<div class="course-button">CS106A</div>
-		</a>
-		<a href="#!/class/CS107">
-			<div class="course-button">CS107</div>
-		</a>
-		<a href="#!/class/CS106B">
-			<div class="course-button">CS106B</div>
+		<a ng-repeat="bookmark in bookmarks" href={{bookmark.url}}>
+			<div class="course-button">{{bookmark.name}}</div>
 		</a>
 	</div>
 </div>

@@ -184,6 +184,24 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 	    $scope.modalOn = false;
 	}
 
+	$scope.bookmarkClass = function() {
+		$scope.modalOn = true;
+		var bookmark = {
+			classID: classID, 
+			userID: userID 
+		};
+
+		remoteServicePostJson(bookmark, "/bookmarkClass")
+		.then((response) => {
+			$scope.$apply();
+		})
+		.catch(error => {
+			console.log(error);
+			$scope.$apply();
+		});
+		
+	}
+
 	$scope.setFilterState = function($event) {
 		var checkbox = $event.target;
 		let filterType = checkbox.attributes.class.value;
