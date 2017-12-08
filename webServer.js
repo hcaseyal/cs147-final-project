@@ -155,7 +155,33 @@ app.post('/editForm', function (req, res) {
 	saveClasses();
 });
 
+// Editing a review
+// Request should send a JSON object in the form:
+// 
+// { "id" : , // This is the id of the review you want edited!
+//	 ...      // The rest of the review
+// }
 
+// Basically, just change the text and skill tags of the old review, 
+// and send it here
+app.post('/editReview', function (req, res) {
+	var review = req.body;
+	res.send("Received post request");
+
+	reviews[review.id] = review;
+	review = joinReviewWithUser(review, users);
+
+	let classID = review.classID;
+	for (let i in classReviewIndex[classID] ) {
+		let storedReview = classReviewIndex[classID][i];
+		if (storedReview.id === review.id) {
+			buildClassReviewIndex[classID][i] = review;
+		}
+	}
+	saveReviews();
+});
+
+// For submitting a new review
 app.post('/reviewClass', function (req, res) {
 	var review = req.body;
 	res.send("Received post request");
