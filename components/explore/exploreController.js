@@ -164,6 +164,9 @@ function hideTip() {
 
 
 	    if (!resetCircleToNonActive) {
+        if(lastSelectedTextNode !== undefined) {
+          lastSelectedTextNode.style('color', '#5fb6eb');
+        }
         lastSelectedTextNode = d3.select("#text-" + replaceSpaces(d.data.name));
         lastSelectedTextNode.style('color', 'white');
 
