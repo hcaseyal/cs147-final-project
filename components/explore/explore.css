@@ -10,7 +10,6 @@
 .activeLink {
   stroke: #949393;
   stroke-width: 10px;
-  opacity: 0.2;
 }
 
 .node {
