@@ -201,15 +201,15 @@ function centerNode(xx, yy) {
     .on("end", function(){ zoomer.call(zoom.transform, d3.zoomIdentity.translate((width/2 - xx),(height/2 - yy)).scale(1))});
 }
 
-  var side = 2 * 40 * Math.cos(Math.PI / 4);
+  var side = 80;
 	var text = node.append("foreignObject")
 	  .data(nodes)
 	  .attr("dy", 6)
 	  .attr("x", function(d) {
-	    return d.x - 30;
+	    return d.x - side / 2;
 	  })
 	  .attr('y', function(d) {
-	    return d.y - 30;
+	    return d.y - side / 2;
 	  })
     .attr("width", side)
     .attr("height", side)
@@ -217,8 +217,8 @@ function centerNode(xx, yy) {
 	  .style("visibility", function (d) { // Hide the root's text
 	    return d.data.name === ROOT_NAME ? "hidden" : "visible";
 	  })
-    .text(function(d) {
-      return d.data.name;
+    .html(function(d) {
+      return "<div class='divNodeText'> <p class=spanNodeText>" + d.data.name + "</p></div>";
     })
     .attr("id", function(d) {return "text-" + replaceSpaces(d.data.name); });
 
