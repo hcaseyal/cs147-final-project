@@ -47,7 +47,8 @@
 }
 
 #nodes-svg-container {
-	position:absolute;
-	top: 250px;
-	left: 100px;
+    display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 }
