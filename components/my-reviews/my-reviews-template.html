@@ -1,0 +1,13 @@
+<div class="bookmarks-page-container">
+	<div class="bookmarks-header">MY REVIEWS</div>
+	<div class="my-reviews-container">
+		<div class="skill-anecdote" ng-repeat="review in myReviews">
+			<div>{{review.review}}</div>
+			<div class="skill-anecdote-meta">
+				<div>{{review.class}}</div>
+				<div class="skill-anecdote-meta-separator">|</div>
+				<div>{{review.classYear}}</div>
+			</div>
+		</div>
+	</div>
+</div>

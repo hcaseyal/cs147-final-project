@@ -43,6 +43,14 @@ app.config(function($routeProvider) {
 	        templateUrl : 'components/pinned-feedback/pinned-feedback-template.html',
 	        controller: 'PinnedFeedbackController'
 	    })
+	    .when('/profile', {
+	        templateUrl : 'components/profile/profile-template.html',
+	        controller: 'ProfileController'
+	    })
+	    .when('/my-reviews', {
+	        templateUrl : 'components/my-reviews/my-reviews-template.html',
+	        controller: 'MyReviewsController'
+	    })
 	    .otherwise({
             redirectTo: '/login'
         });

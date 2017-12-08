@@ -37,4 +37,8 @@ app.controller('HeaderController', ['$scope', '$location', function($scope, $loc
 	$scope.goToPinned = function() {
 		$location.path('pinned-feedback');
 	}
+
+	$scope.goToMyReviews = function() {
+		$location.path('my-reviews');
+	}
 }]);

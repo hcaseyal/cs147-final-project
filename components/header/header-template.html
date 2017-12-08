@@ -8,8 +8,14 @@
 					<img class="header-item header-menu-icon" src="img/menu-icon.png">
 				</a>
 				<ul class="dropdown-menu" uib-dropdown-menu>
-		          <li class="dropdown-item" ng-click="goToBookmarked()"> 
+		          <li class="dropdown-item" ng-if="main.selectedButton != 'teacher'" ng-click="goToBookmarked()"> 
 		            My Bookmarked Classes
+		          </li>
+		          <li class="dropdown-item" ng-if="main.selectedButton == 'teacher'" ng-click="goToPinned()"> 
+		            My Pinned Feedback
+		          </li>
+		          <li class="dropdown-item" ng-if="main.selectedButton != 'teacher'" ng-click="goToMyReviews()"> 
+		            My Reviews
 		          </li>
 		          <li class="dropdown-item" ng-click="logout()">
 		          	Logout
@@ -79,6 +85,9 @@
 	          </li>
 	          <li class="dropdown-item" ng-if="main.selectedButton == 'teacher'" ng-click="goToPinned()"> 
 	            My Pinned Feedback
+	          </li>
+	          <li class="dropdown-item" ng-if="main.selectedButton != 'teacher'" ng-click="goToMyReviews()"> 
+	            My Reviews
 	          </li>
 	          <li class="dropdown-item" ng-click="logout()">
 	          	Logout
