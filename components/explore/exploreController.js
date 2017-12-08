@@ -152,6 +152,7 @@ function hideTip() {
 	      .classed('activeLink', false)
 	      .classed('link', true);
 
+
 	    if (!resetCircleToNonActive) {
 	      var circle = d3.select(this)
 	        .classed('activeCircle', true)
