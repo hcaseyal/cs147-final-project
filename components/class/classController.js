@@ -244,7 +244,19 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 	}
 
 	$scope.removeBookmark = function() {
-		// possibly do something in backend? 
+		var bookmark = {
+			classID: classID, 
+			userID: userID 
+		};
+		
+		remoteServicePostJson(bookmark, "/unbookmarkClass")
+		.then((response) => {
+			$scope.$apply();
+		})
+		.catch(error => {
+			console.log(error);
+			$scope.$apply();
+		});
 
 		$scope.classBookmarked = false;
 	}
