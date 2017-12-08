@@ -1,5 +1,5 @@
 .activeCircle {
-  fill: green;
+  fill: #094BC0;
   r: 50;
 }
 
@@ -8,13 +8,13 @@
 }
 
 .activeLink {
-  stroke: green;
+  stroke: #949393;
   stroke-width: 10px;
   opacity: 0.2;
 }
 
 .node {
-  fill: steelblue;
+  fill: #cfe9f9;
   stroke: none;
 }
 
@@ -25,12 +25,13 @@
 }
 
 .nodeText {
-  font: 12px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: 12px "Open Sans", Helvetica, Arial, sans-serif;
   text-anchor: middle;
   pointer-events: none;
-  line-height: 50px;
   text-align: center;
-  color: white;
+  line-height: 50px;
+  color: #5fb6eb;
+  font-weight:bold;
 }
 
 .node:hover {
@@ -42,7 +43,7 @@
 }
 
 .node:hover {
-  fill: orange;
+  fill: #2d78fb;
 }
 
 #nodes-svg-container {
