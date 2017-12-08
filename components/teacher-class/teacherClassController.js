@@ -25,7 +25,7 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 	var comfortableMap = new Map();	
 	var usefulMap = new Map(); 
 
-	getSkills().then((skills) => getReviews());
+	getSkills().then((skills) => getReviews()).then(() => getPinnedFeedback());
 
 	function getSkills() {
 		return new Promise((resolve, reject) => {
@@ -134,6 +134,23 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 		});
 	}
 
+	function getPinnedFeedback() {
+		remoteServiceGet('/getPinnedFeedback?userID=0').then((data) => {
+			if (data.length > 0) {
+				let pinned = JSON.parse(data)[$scope.selectedClass];
+				var combinedPins = pinned['negative'].concat(pinned['neutral']).concat(pinned['positive']);
+				$scope.pinnedText = [];
+				for (p in combinedPins) {
+					$scope.pinnedText.push(combinedPins[p].text);
+				}
+			}
+			$scope.$apply();
+		})
+		.catch((error) => {
+			console.log(error);
+		});
+	}
+
 	$scope.toggleSelectedSkills = function(skill){
 		relevantReviews = [];
 		relevantWishReviews = [];
@@ -210,23 +227,6 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 	    $scope.modalOn = false;
 	}
 
-	$scope.bookmarkClass = function() {
-		$scope.modalOn = true;
-		var bookmark = {
-			classID: classID, 
-			userID: userID 
-		};
-
-		remoteServicePostJson(bookmark, "/bookmarkClass")
-		.then((response) => {
-			$scope.$apply();
-		})
-		.catch(error => {
-			console.log(error);
-			$scope.$apply();
-		});
-	}
-
 	$scope.setFilterState = function($event) {
 		var checkbox = $event.target;
 		let filterType = checkbox.attributes.class.value;
@@ -261,12 +261,31 @@ app.controller('TeacherClassController', ['$scope', '$routeParams', '$route', fu
 	    $scope.pinnedReview = review;
 	}
 
+	$scope.removePin = function(review) {
+		var feedback = {reviewID: review.id, 
+			userID: userID,
+			type: review.type}; // Either "wish" or "review"
+
+		remoteServicePostJson(feedback, "/unpinFeedback")
+		.then((response) => {
+			$scope.$apply();
+		})
+		.catch(error => {
+			console.log(error);
+			$scope.$apply();
+		});
+
+		var idx = $scope.pinnedText.indexOf(review.review); 
+		$scope.pinnedText.splice(idx, 1);
+	}
+
 	$scope.CloseClick = function(){
 	    $scope.modalOn = false;
 	    $scope.successfulPin = false;
 	}
 
 	$scope.saveFeedback = function(review, selectedPolarity) {
+		$scope.pinnedText.push(review.review);
 		var pinnedFeedback = {reviewID: review.id, 
 			polarity: selectedPolarity, 
 			userID: userID,
