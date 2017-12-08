@@ -2,10 +2,11 @@
 	<div class="review-class-container">
 		<div class="review-header">REVIEWING: {{selectedClass}} {{classYear}}</div>
 		<div class="review-class-question">Was this class useful to you? <span class="required-field">* (required)</span></div>
-		<div class="slider-bar">
+		<div class="slider-bar" ng-if="showFakeSlider == false">
 			<rzslider rz-slider-model="slider.value"
 	          rz-slider-options="slider.options"></rzslider>
-	      </div>
+	    </div>
+	    <img ng-if="showFakeSlider == true" src="img/fake-slider.png">
 		<div class="review-class-question">I’m comfortable using these skills after {{selectedClass}}: </div>
 		<div ng-repeat="skill in classSkills">
 			<div>

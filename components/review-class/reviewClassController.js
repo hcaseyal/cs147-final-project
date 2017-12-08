@@ -11,6 +11,7 @@ app.controller('ReviewClassController', ['$scope', '$routeParams', function($sco
 	$scope.reviewCount = 0;
 	$scope.averageRating = 0;
 	$scope.classYear = "Winter 13-14"; 
+	$scope.showFakeSlider = false;
 
 	$scope.slider = {
 	    value: 3,

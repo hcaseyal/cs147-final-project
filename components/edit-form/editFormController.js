@@ -11,6 +11,7 @@ app.controller('EditFormController', ['$scope', '$routeParams', function($scope,
 	$scope.quarterList = ['Fall', 'Winter', 'Spring', 'Summer']; 
 	$scope.yearList = ['13-14', '14-15', '15-16', '16-17'];
 	$scope.skillTags = [];
+	$scope.showFakeSlider = true;
 
 	$scope.slider = {
 	    value: 3,
