@@ -104,9 +104,9 @@ var node = nodeG
 
 var tip = d3.tip()
         .attr('class', 'd3-tip')
-        .offset([-10, 0])
+        .offset([155, 0])
         .html(function(d) {
-          return '<a onclick="hideTip()" href="#!/class/' + d.data.name + '">Class page  </a> <span style="color:black"> for ' + d.data.name + '</span>';
+          return '<a class="course-button" onclick="hideTip()" href="#!/class/' + d.data.name + '"> Class page for ' + d.data.name + '</a>' ;
         });
 
 function hideTip() {
