@@ -16,13 +16,14 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 	$scope.modalOn = false;
 	$scope.classRatingLabels = ['Very Useful', '', '', '', 'Not Useful']; 
 	$scope.chartRatingColors = [ '#024AC1', '#2F6FD7', '#5D90E3', '#97BBF5', '#B3C9EC'];
+	$scope.classBookmarked = false;
 
 	classID = $scope.selectedClass;
 	const percentageBarWidth = 250;
 	var comfortableMap = new Map();	
 	var usefulMap = new Map(); 
 
-	getSkills().then((skills) => getReviews());
+	getSkills().then((skills) => getReviews()).then(() => getUser());
 
 	function getSkills() {
 		return new Promise((resolve, reject) => {
@@ -130,6 +131,24 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 		});
 	}
 
+	function getUser() {
+		remoteServiceGet('/getUser?userID=0').then((data) => {
+			if (data.length > 0) {
+			let user = JSON.parse(data); 
+
+			for (bookmark in user.bookmarkedClasses) {
+				if (bookmark == $scope.selectedClass) {
+					$scope.classBookmarked = true;
+				}
+			}
+		}
+		$scope.$apply();
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+	}
+
 	$scope.toggleSelectedSkills = function(skill){
 		relevantReviews = [];
 		relevantWishReviews = [];
@@ -215,12 +234,19 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 
 		remoteServicePostJson(bookmark, "/bookmarkClass")
 		.then((response) => {
+			$scope.classBookmarked = true;
 			$scope.$apply();
 		})
 		.catch(error => {
 			console.log(error);
 			$scope.$apply();
 		});
+	}
+
+	$scope.removeBookmark = function() {
+		// possibly do something in backend? 
+
+		$scope.classBookmarked = false;
 	}
 
 	$scope.setFilterState = function($event) {
