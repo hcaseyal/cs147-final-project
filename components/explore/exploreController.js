@@ -1,4 +1,5 @@
 var centerFunctionsByClass = {};
+var lastSelectedTextNode;
 
 app.controller('ExploreController', ['$scope', function($scope) {
 	$scope.main.displayHeader = true; 
@@ -137,6 +138,15 @@ function hideTip() {
 	    return d.data.name === ROOT_NAME ? "hidden" : "visible";
 	  })
 	  .classed('node', true)
+    .on('mouseover', function(d, i) {
+      d3.select("#text-" + replaceSpaces(d.data.name)).style('color', 'white');
+    })
+    .on('mouseout', function(d, i) {
+      let mousedOutNode = d3.select("#text-" + replaceSpaces(d.data.name));
+      if (lastSelectedTextNode === undefined || mousedOutNode.node().id !== lastSelectedTextNode.node().id) {
+        mousedOutNode.style('color', '#5fb6eb');
+      }
+    })
 	  .on('click', function(d, i) {
       tip.hide();
 
@@ -154,6 +164,9 @@ function hideTip() {
 
 
 	    if (!resetCircleToNonActive) {
+        lastSelectedTextNode = d3.select("#text-" + replaceSpaces(d.data.name));
+        lastSelectedTextNode.style('color', 'white');
+
 	      var circle = d3.select(this)
 	        .classed('activeCircle', true)
 	        .classed('node', false);
@@ -168,8 +181,11 @@ function hideTip() {
 	          .classed('link', false);
 	      });
 	    }
+      else {
+        lastSelectedTextNode = undefined;
+      }
 
-	    if(d.data.value !== undefined) { // Class node has been clicked
+	    if(d.data.value !== undefined && !resetCircleToNonActive) { // Class node has been clicked
         tip.show(d, i);
 	    }
 	  });
@@ -200,7 +216,8 @@ function centerNode(xx, yy) {
 	  })
     .text(function(d) {
       return d.data.name;
-    });
+    })
+    .attr("id", function(d) {return "text-" + replaceSpaces(d.data.name); });
 
 	let links = getLinks(data);
 
