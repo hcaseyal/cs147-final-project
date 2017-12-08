@@ -11,19 +11,34 @@
 		<div class="feedback-category positive-feedback">
 			<img class="feedback-category-icon" src="img/happy.png" height="65" width="65">
 			<div class="sorted-feedback-container">
-				<div class="pinned-feedback-item" ng-repeat="feedback in positiveFeedback">{{feedback.text}}</div>
+				<div class="pinned-feedback-item" ng-repeat="feedback in positiveFeedback">
+					<div>{{feedback.text}}</div>
+					<div class="skill-anecdote-meta">
+						<div>- {{feedback.userInfo.career}} at {{feedback.userInfo.location}}</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="feedback-category neutral-feedback">
-			<img src="img/neutral.png" height="65" width="65">
+			<img class="feedback-category-icon" src="img/neutral.png" height="65" width="65">
 			<div class="sorted-feedback-container">
-				<div class="pinned-feedback-item" ng-repeat="feedback in neutralFeedback">{{feedback.text}}</div>
+				<div class="pinned-feedback-item" ng-repeat="feedback in neutralFeedback">
+					<div>{{feedback.text}}</div>
+					<div class="skill-anecdote-meta">
+						<div>- {{feedback.userInfo.career}} at {{feedback.userInfo.location}}</div>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="feedback-category negative-feedback">
-			<img src="img/sad.png" height="65" width="65">
+			<img class="feedback-category-icon" src="img/sad.png" height="65" width="65">
 			<div class="sorted-feedback-container">
-				<div class="pinned-feedback-item" ng-repeat="feedback in negativeFeedback">{{feedback.text}}</div>
+				<div class="pinned-feedback-item" ng-repeat="feedback in negativeFeedback">
+					<div>{{feedback.text}}</div>
+					<div class="skill-anecdote-meta">
+						<div>- {{feedback.userInfo.career}} at {{feedback.userInfo.location}}</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

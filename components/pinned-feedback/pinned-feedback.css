@@ -16,6 +16,10 @@
 	align-items: center;
 }
 
+.feedback-category-icon {
+	margin-bottom: 15px;
+}
+
 .sorted-feedback-container {
 	width: 100%;
 	background-color: #E5ECF7;
