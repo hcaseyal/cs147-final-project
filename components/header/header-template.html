@@ -3,9 +3,25 @@
 		<div class="top-header-row">
 			<div></div>
 			<div class="full-header-item full-header-name">ClassLens</div>
-			<a onclick="hideTip()" href="/">
-				<img class="header-item header-menu-icon" src="img/menu-icon.png">
-			</a>
+			<span class="dropdown" dropdown>
+				<a href="" class="dropdown-toggle" dropdown-toggle>
+					<img class="header-item header-menu-icon" src="img/menu-icon.png">
+				</a>
+				<ul class="dropdown-menu" dropdown-menu>
+		          <li> 
+		            <a ng-click="action1()">My Bookmarked Classes</a>
+		          </li>
+		          <li>
+		            <a ng-click="action2()">My Profile</a>
+		          </li>
+		          <li>
+		            <a ng-click="action3()">My Reviews</a>
+		          </li>
+		          <li>
+		            <a ng-click="action4()">Logout</a>
+		          </li>
+		        </ul>
+			</span>
 		</div>
 		<div class="full-header-item review-explore-container">
 			<a onclick="hideTip()" href="#!/review">

@@ -19,6 +19,11 @@
 	height: 21px;
 }
 
+.dropdown-menu {
+	left: -110px;
+	top: 40px;
+}
+
 .full-header-name {
 	font-weight: bold;
 	font-size: 45px;
