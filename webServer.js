@@ -70,7 +70,7 @@ app.post('/bookmarkClass', function (req, res) {
 // },
 
 app.post('/unbookmarkClass', function (req, res) {
-	res.send("Received unbookmark class request");
+	res.send("Received unbookmark request");
 	var bookmark = req.body;
 	var userID = bookmark.userID;
 	var user = users[userID];
@@ -87,17 +87,25 @@ app.post('/unbookmarkClass', function (req, res) {
 });
 
 app.post('/unpinFeedback', function (req, res) {
-	res.send("Received unbookmark class request");
-	var bookmark = req.body;
-	var userID = bookmark.userID;
+	res.send("Received unpinFeedback request");
+	var feedback = req.body;
+	var userID = feedback.userID;
 	var user = users[userID];
+	var type = feedback.type;
 
-	if (!user.bookmarkedClasses) {
-		user.bookmarkedClasses = {};
+	if (!user.pinnedReviewFeedback) {
+		user.pinnedReviewFeedback = {};
+	}
+	if (!user.pinnedWishFeedback) {
+		user.pinnedWishFeedback = {};
 	}
 
-	let className = bookmark.classID;
-	delete user.bookmarkedClasses[className];
+	if (type === "wish") { // I wish I learnt...
+		delete user.pinnedWishFeedback[feedback.reviewID];
+	}
+	else { // Normal review text
+		delete user.pinnedReviewFeedback[feedback.reviewID];
+	}
 
 	users[user.userID] = user;
 	saveUsers();
@@ -118,10 +126,10 @@ app.post('/pinFeedback', function (req, res) {
 	}
 
 	if (type === "wish") { // I wish I learnt...
-		user.pinnedWishFeedback[feedback.reviewID] = { polarity: feedback.polarity }
+		user.pinnedWishFeedback[feedback.reviewID] = { polarity: feedback.polarity };
 	}
 	else { // Normal review text
-		user.pinnedReviewFeedback[feedback.reviewID] = { polarity: feedback.polarity }
+		user.pinnedReviewFeedback[feedback.reviewID] = { polarity: feedback.polarity };
 	}
 
 	users[user.userID] = user;
