@@ -63,6 +63,46 @@ app.post('/bookmarkClass', function (req, res) {
 	saveUsers();
 });
 
+// Unbookmark class
+// Request should send a json object in the form:
+// { "classID" : "CS106A",
+//	 "userID" : "0"
+// },
+
+app.post('/unbookmarkClass', function (req, res) {
+	res.send("Received unbookmark class request");
+	var bookmark = req.body;
+	var userID = bookmark.userID;
+	var user = users[userID];
+
+	if (!user.bookmarkedClasses) {
+		user.bookmarkedClasses = {};
+	}
+
+	let className = bookmark.classID;
+	delete user.bookmarkedClasses[className];
+
+	users[user.userID] = user;
+	saveUsers();
+});
+
+app.post('/unpinFeedback', function (req, res) {
+	res.send("Received unbookmark class request");
+	var bookmark = req.body;
+	var userID = bookmark.userID;
+	var user = users[userID];
+
+	if (!user.bookmarkedClasses) {
+		user.bookmarkedClasses = {};
+	}
+
+	let className = bookmark.classID;
+	delete user.bookmarkedClasses[className];
+
+	users[user.userID] = user;
+	saveUsers();
+});
+
 app.post('/pinFeedback', function (req, res) {
 	res.send("Received pin feedback request");
 	var feedback = req.body;
