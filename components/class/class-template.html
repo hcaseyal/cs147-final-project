@@ -10,8 +10,7 @@
 	</div>
 </div>
 <div class="class-page-container">
-<div class="class-title">{{selectedClass}}</div>
-<div>{{test}}</div>
+<div class="class-title">{{selectedClass}} <img ng-if="classBookmarked == true" src="img/course-bookmark.png"></div>
 
 <div class="class-button-container">
 	<a href="#!/review/{{selectedClass}}">
@@ -20,9 +19,13 @@
 			<div>WRITE A REVIEW</div>
 		</div>
 	</a>
-	<div class="class-page-button" ng-click="bookmarkClass()">
+	<div class="class-page-button" ng-click="bookmarkClass()" ng-if="classBookmarked == false">
 		<img class="class-button-icon" src="img/bookmark-icon.png">
 		<div>BOOKMARK CLASS</div>
+	</div>
+	<div class="class-page-button" ng-click="removeBookmark()" ng-if="classBookmarked == true">
+		<img class="class-button-icon" src="img/bookmark-icon.png">
+		<div>REMOVE BOOKMARK</div>
 	</div>
 </div>
 

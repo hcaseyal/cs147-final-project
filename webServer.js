@@ -63,6 +63,54 @@ app.post('/bookmarkClass', function (req, res) {
 	saveUsers();
 });
 
+// Unbookmark class
+// Request should send a json object in the form:
+// { "classID" : "CS106A",
+//	 "userID" : "0"
+// },
+
+app.post('/unbookmarkClass', function (req, res) {
+	res.send("Received unbookmark request");
+	var bookmark = req.body;
+	var userID = bookmark.userID;
+	var user = users[userID];
+
+	if (!user.bookmarkedClasses) {
+		user.bookmarkedClasses = {};
+	}
+
+	let className = bookmark.classID;
+	delete user.bookmarkedClasses[className];
+
+	users[user.userID] = user;
+	saveUsers();
+});
+
+app.post('/unpinFeedback', function (req, res) {
+	res.send("Received unpinFeedback request");
+	var feedback = req.body;
+	var userID = feedback.userID;
+	var user = users[userID];
+	var type = feedback.type;
+
+	if (!user.pinnedReviewFeedback) {
+		user.pinnedReviewFeedback = {};
+	}
+	if (!user.pinnedWishFeedback) {
+		user.pinnedWishFeedback = {};
+	}
+
+	if (type === "wish") { // I wish I learnt...
+		delete user.pinnedWishFeedback[feedback.reviewID];
+	}
+	else { // Normal review text
+		delete user.pinnedReviewFeedback[feedback.reviewID];
+	}
+
+	users[user.userID] = user;
+	saveUsers();
+});
+
 app.post('/pinFeedback', function (req, res) {
 	res.send("Received pin feedback request");
 	var feedback = req.body;
@@ -78,10 +126,10 @@ app.post('/pinFeedback', function (req, res) {
 	}
 
 	if (type === "wish") { // I wish I learnt...
-		user.pinnedWishFeedback[feedback.reviewID] = { polarity: feedback.polarity }
+		user.pinnedWishFeedback[feedback.reviewID] = { polarity: feedback.polarity };
 	}
 	else { // Normal review text
-		user.pinnedReviewFeedback[feedback.reviewID] = { polarity: feedback.polarity }
+		user.pinnedReviewFeedback[feedback.reviewID] = { polarity: feedback.polarity };
 	}
 
 	users[user.userID] = user;
@@ -107,7 +155,33 @@ app.post('/editForm', function (req, res) {
 	saveClasses();
 });
 
+// Editing a review
+// Request should send a JSON object in the form:
+// 
+// { "id" : , // This is the id of the review you want edited!
+//	 ...      // The rest of the review
+// }
 
+// Basically, just change the text and skill tags of the old review, 
+// and send it here
+app.post('/editReview', function (req, res) {
+	var review = req.body;
+	res.send("Received post request");
+
+	reviews[review.id] = review;
+	review = joinReviewWithUser(review, users);
+
+	let classID = review.classID;
+	for (let i in classReviewIndex[classID] ) {
+		let storedReview = classReviewIndex[classID][i];
+		if (storedReview.id === review.id) {
+			buildClassReviewIndex[classID][i] = review;
+		}
+	}
+	saveReviews();
+});
+
+// For submitting a new review
 app.post('/reviewClass', function (req, res) {
 	var review = req.body;
 	res.send("Received post request");
