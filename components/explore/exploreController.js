@@ -88,7 +88,10 @@ remoteServiceGet(url).then((allReviews) => {
 	var dataWithoutDuplicates = removeDuplicates(data);
 
 	var root = d3.hierarchy(dataWithoutDuplicates);
-	var tree = d3.layout.tree();
+	var tree = d3.layout.tree().separation(function(a, b) { 
+    return (a.depth == b.depth) ? 2 : 1; 
+  });
+
 	var nodes = tree.nodes(root).reverse();
 
 for (let i in nodes) {
