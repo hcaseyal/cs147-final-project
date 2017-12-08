@@ -100,16 +100,16 @@
 			</div>
 		</div>
 		<div class="skills-detail">
-			<div class="skills-detail-title">I'm comfortable using this skill after {{selectedClass}}:</div>
-			<div class="skill-bar">
+			<div class="skills-detail-title" ng-show="displayComfortableMap == true">I'm comfortable using this skill after {{selectedClass}}:</div>
+			<div class="skill-bar" ng-show="displayComfortableMap == true">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
 					<div class="percentage-bar-fill" style="width: {{comfortableWidth}}px"></div>
 				</div>
 				<div class="percentage-number">{{comfortableCount}} / {{reviewCount}} students</div>
 			</div>
-			<div class="skills-detail-title">I've used this skill in future classes or jobs:</div>
-			<div class="skill-bar">
+			<div class="skills-detail-title" ng-show="displayComfortableMap == true">I've used this skill in future classes or jobs:</div>
+			<div class="skill-bar" ng-show="displayComfortableMap == true">
 				<div class="percentage-bar">
 					<div class="percentage-bar-background"></div>
 					<div class="percentage-bar-fill" style="width: {{usefulWidth}}px"></div>

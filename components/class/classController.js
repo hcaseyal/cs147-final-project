@@ -8,7 +8,6 @@ var relevantReviews =  [];
 var relevantWishReviews = [];
 
 app.controller('ClassController', ['$scope', '$routeParams', '$route', function($scope, $routeParams, $route) {
-
 	$scope.selectedClass = $routeParams.classID;
 	$scope.main.displayHeader = true;
 	$scope.main.displayFullHeader = false;
@@ -40,14 +39,14 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 					// Transform object into array
 					let classSkillsArray = [];
 					for (let skill in classSkills) {
-						classSkillsArray.push(skill);
+						classSkillsArray.push(skill.toUpperCase());
 					}
 					$scope.classSkills = classSkillsArray;
 					$scope.classDescription = classData.description;
 
-					for (skill in $scope.classSkills) {
-						comfortableMap.set($scope.classSkills[skill], 0); 
-						usefulMap.set($scope.classSkills[skill], 0);
+					for (skillIndex in $scope.classSkills) {
+						comfortableMap.set($scope.classSkills[skillIndex], 0); 
+						usefulMap.set($scope.classSkills[skillIndex], 0);
 					}
 				}
 				resolve($scope.classSkills)
@@ -71,10 +70,20 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 				var classRatingData = [0, 0, 0, 0, 0];
 				for (r in $scope.reviews) {
 					var review = $scope.reviews[r];
-					var comfortable = review.skillsComfortable; 
-					var useful = review.skillsUseful;
+					var comfortable = review.skillsComfortable.map(skill => skill.toUpperCase()); 
+					var useful = review.skillsUseful.map(skill => skill.toUpperCase());
+
+					// Include student-added skills
+					$scope.studentAddedClassSkills = [];
+					review.reviewTags.forEach(tag => {
+						if (!($scope.classSkills.includes(tag.text.toUpperCase()))) {
+							$scope.classSkills.push(tag.text.toUpperCase());
+							$scope.studentAddedClassSkills.push(tag.text.toUpperCase());
+						}
+					});
+
 					for (s in $scope.classSkills) {
-						var skill = $scope.classSkills[s]; 
+						var skill = $scope.classSkills[s].toUpperCase(); 
 						if (comfortable.indexOf(skill) > -1) {
 							comfortableMap.set(skill, comfortableMap.get(skill) + 1); 
 						}
@@ -83,7 +92,7 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 						}
 					}
 					classRatingData[review.usefulValue - 1] += 1;
-
+		
 					// Don't add empty reviews
 					if (review.wishText !== "") {
 						$scope.wishReviews.push({
@@ -126,18 +135,26 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 		relevantWishReviews = [];
 
 	    $scope.selectedSkill = skill;
-	    $scope.comfortableCount = comfortableMap.get(skill); 
-	    $scope.comfortableWidth = percentageBarWidth * ($scope.comfortableCount / $scope.reviewCount);
 
-	    $scope.usefulCount = usefulMap.get(skill); 
-	    $scope.usefulWidth = percentageBarWidth * ($scope.usefulCount / $scope.reviewCount);
+	    // Student-added skill, so don't include the comfortable and useful maps
+	    if ($scope.studentAddedClassSkills.includes(skill)) {
+	    	$scope.displayComfortableMap = false;
+	    }
+	    else {
+	    	$scope.displayComfortableMap = true;
+	    	$scope.comfortableCount = comfortableMap.get(skill); 
+		    $scope.comfortableWidth = percentageBarWidth * ($scope.comfortableCount / $scope.reviewCount);
 
+		    $scope.usefulCount = usefulMap.get(skill); 
+		    $scope.usefulWidth = percentageBarWidth * ($scope.usefulCount / $scope.reviewCount);
+	    }
+	   
 	    // find reviews tagged with the selected skill 
 	    for (r in $scope.reviews) {
 			var review = $scope.reviews[r]; 
 
 			for (t in review.reviewTags) {
-				if (review.reviewTags[t].text == skill && 
+				if (review.reviewTags[t].text.toUpperCase() == skill.toUpperCase() && 
 					review.review !== "" && filterReviews(review)) {
 					relevantReviews.push(review);
 				}
@@ -204,7 +221,6 @@ app.controller('ClassController', ['$scope', '$routeParams', '$route', function(
 			console.log(error);
 			$scope.$apply();
 		});
-		
 	}
 
 	$scope.setFilterState = function($event) {
