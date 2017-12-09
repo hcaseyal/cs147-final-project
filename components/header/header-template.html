@@ -46,7 +46,7 @@
 				   ng-model="selected" uib-typeahead="item for item in searchClasses | filter:$viewValue | limitTo:8" 
 				   placeholder="find courses to review..."
 				   typeahead-on-select="onSelectClass($item, $model, $label)"></input>
-			<img class="search-icon" src="img/search-icon.png">
+			<img class="search-icon" src="img/search-icon.png" ng-click="searchClassMaybeFromGraph()">
 		</div>
 	</div>
 </div>
@@ -76,7 +76,7 @@
 				   placeholder="find feedback on classes..."
 				   typeahead-on-select="onSelectTeacherClass($item, $model, $label)"></input>
 			</form>
-			<img class="search-icon" src="img/search-icon.png">
+			<img class="search-icon" src="img/search-icon.png" ng-click="searchClassNotFromGraph()">
 		</div>
 		<span class="dropdown" uib-dropdown>
 			<a href="" class="dropdown-toggle" uib-dropdown-toggle>

@@ -1,18 +1,61 @@
 
 app.controller('HeaderController', ['$scope', '$location', function($scope, $location) {
-	$scope.searchCareers = ['Software Developer', 'Data Scientist']; 
-	$scope.searchSkills = ['Recursion', 'Java', 'Python'];
-	$scope.searchClasses = ['CS106A', 'MATH51', 'BIO150', 'CS142', 'CS145', 'MATH110', 'ENGR50', 'STS200L', 
-							'CS255', 'CS124', 'COMM154', 'CS168', 'CS247', 'CS161'];
+	$scope.searchCareers = ['Front End Dev', 'Marketing', 'PR', 'Product Manager']; 
+	$scope.searchSkills = ['Recursion', 'Visual Design', 'Speaking', 'Code compilation', 'Linear algebra', 'Java', 'Algorithms'];
+	$scope.searchClasses = ['CS106A', 'CS147', 'PWR1', 'EDUC193A', 'MATH51', 'CS142', 'CS145',
+							 'CS161'];
 	$scope.searchGraph = $scope.searchCareers.concat($scope.searchSkills).concat($scope.searchClasses);
 	$scope.searchTeacherClasses = ['CS106A', 'CS107', 'CS109']; 
+
+	//TODO: flesh out the search classes with all the available classes
 
 	// after selecting a class/career/skill, should zoom in to the appropriate node
 	$scope.onSelect = function ($item, $model, $label) {
 		// $item is the selected item from the search dropdown
+		console.log("In on select function");
+		// TODO: this is case sensitive
 		let centerFunction = centerFunctionsByClass[$item];
 		if (centerFunction !== undefined) {
 			centerFunction();
+		}
+	};
+
+	$scope.searchClassMaybeFromGraph = function() {
+		let inputText = d3.select(".search-bar").node().value;
+		console.log("Searching class. Button clicked");
+		console.log(inputText);
+
+		// On the explore page
+		if ($scope.main.selectedButton === 'explore') {
+			if ($scope.searchGraph.includes(inputText)) {
+				$scope.onSelect(inputText); // Center to the corresponding node
+			}
+			else {
+				// Display error message
+			}
+		}
+		else { // Not on the graph page
+			if ($scope.searchClasses.includes(inputText) 
+				|| $scope.searchTeacherClasses.includes(inputText)) {
+				$scope.onSelectClass(inputText);
+			}
+			else {
+				// Display error message
+			}
+		}
+	};
+
+	$scope.searchClassNotFromGraph = function() {
+		let inputText = d3.select(".search-bar").node().value;
+
+
+		if ($scope.searchClasses.includes(inputText) 
+			|| $scope.searchTeacherClasses.includes(inputText)) {
+
+			$scope.onSelectClass(inputText);
+		}
+		else {
+			// Display error message
 		}
 	};
 
