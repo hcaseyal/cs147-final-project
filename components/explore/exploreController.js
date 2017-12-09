@@ -97,10 +97,12 @@ remoteServiceGet(url).then((allReviews) => {
 for (let i in nodes) {
   nodes[i].x *= 1000;
   nodes[i].y *= 500;
+
+  nodes[i].x += 75;
+  nodes[i].y -= 100;
 }
 
 // Nodes
-
 var node = nodeG
   .selectAll('g.nodeContainer')
   .data(nodes)
