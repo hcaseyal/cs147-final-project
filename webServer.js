@@ -29,9 +29,9 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname));
 
-var server = app.listen(portno, function () {
+var server = app.listen(proess.env.PORT || portno, function () {
 	var port = server.address().port;
-	console.log('Listening at http://localhost:' + port + ' exporting the directory ' + __dirname);
+	console.log('Listening on' + port + ' exporting the directory ' + __dirname);
 	buildClassReviewIndex();
 	buildReviewList();
 	buildClassList();
