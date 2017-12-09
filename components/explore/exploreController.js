@@ -74,11 +74,11 @@ remoteServiceGet(url).then((allReviews) => {
 			let review = reviewsForClass[j];
 			let career = review.userInfo.career;
 			let skills = review.skillsUseful;
-			let elem = {"name": career, "depth": 1, "children": []};
+			let elem = {"name": career, "type": "career", "depth": 1, "children": []};
 
 			for (let i = 0; i < skills.length; i++) {
 				let skill = skills[i];
-				let skillElem = {"name": skill, "depth": 2, "children" : [{"name": classID, "depth": 3, "value": classID}]};
+				let skillElem = {"name": skill, "type": "skill", "depth": 2, "children" : [{"name": classID, "type": "classNode", "depth": 3, "value": classID}]};
 				elem.children.push(skillElem);
 			}	
 			data.children.push(elem);
@@ -142,14 +142,23 @@ function hideTip() {
 	  .style("visibility", function (d) { // Hide the root
 	    return d.data.name === ROOT_NAME ? "hidden" : "visible";
 	  })
-	  .classed('node', true)
+	  .classed('career', function(d) {
+      return d.data.type === "career";
+    })
+    .classed('skill', function(d) {
+      return d.data.type === "skill";
+    })
+    .classed('classNode', function(d) {
+      return d.data.type === "classNode";
+    })
+    .classed('node', true)
     .on('mouseover', function(d, i) {
       d3.select("#text-" + replaceSpaces(d.data.name)).style('color', 'white');
     })
     .on('mouseout', function(d, i) {
       let mousedOutNode = d3.select("#text-" + replaceSpaces(d.data.name));
       if (lastSelectedTextNode === undefined || mousedOutNode.node().id !== lastSelectedTextNode.node().id) {
-        mousedOutNode.style('color', '#5fb6eb');
+        mousedOutNode.style('color', getTextColor(d.data.type));
       }
     })
 	  .on('click', function(d, i) {
@@ -160,24 +169,36 @@ function hideTip() {
 	    // De-select all active nodes
 	    svg.selectAll('.activeCircle')
 	      .classed('activeCircle', false)
-	      .classed('node', true);
+	      .classed('node', true)
+        .classed('career', function(d) {
+          return d.data.type === "career";
+        })
+        .classed('skill', function(d) {
+          return d.data.type === "skill";
+        })
+        .classed('classNode', function(d) {
+          return d.data.type === "classNode";
+        });
 
 	    // De-select all active links
 	    svg.selectAll('.activeLink')
 	      .classed('activeLink', false)
 	      .classed('link', true);
 
-
+        //5fb6eb
 	    if (!resetCircleToNonActive) {
         if(lastSelectedTextNode !== undefined) {
-          lastSelectedTextNode.style('color', '#5fb6eb');
+          lastSelectedTextNode.style('color', getTextColor(d.data.type));
         }
         lastSelectedTextNode = d3.select("#text-" + replaceSpaces(d.data.name));
         lastSelectedTextNode.style('color', 'white');
 
 	      var circle = d3.select(this)
 	        .classed('activeCircle', true)
-	        .classed('node', false);
+	        .classed('node', false)
+          .classed('career', false)
+          .classed('skill', false)
+          .classed('classNode', false);
 
 	      var links = svg.selectAll("line").filter(function(lineData) {
 	        if (lineData.source.name === d.data.name || lineData.target.name === d.data.name) {
@@ -219,6 +240,15 @@ function centerNode(xx, yy) {
     .attr("width", side)
     .attr("height", side)
 	  .classed("nodeText", true)
+    .classed('careerText', function(d) {
+      return d.data.type === "career";
+    })
+    .classed('skillText', function(d) {
+      return d.data.type === "skill";
+    })
+    .classed('classText', function(d) {
+      return d.data.type === "classNode";
+    })
 	  .style("visibility", function (d) { // Hide the root's text
 	    return d.data.name === ROOT_NAME ? "hidden" : "visible";
 	  })
@@ -254,7 +284,7 @@ var clusterLayout = d3.cluster()
   .size([width, height])
 
 function nodeNoChildren(node) {
-  return {"name": node.name, "children": []};
+  return {"name": node.name, "type": node.type, "children": []};
 }
 
 function removeDuplicates(data) {
@@ -362,6 +392,30 @@ function getCoords(nodeName) {
 } 
 
 }]);
+
+function getNodeColor(type) {
+  if (type === "career") {
+    return "#cfe9f9";
+  }
+  else if (type === "skill") {
+    return "#C9DDFE";
+  }
+  else { //classNode 
+    return "#C0D2F0";
+  }
+}
+
+function getTextColor(type) {
+  if (type === "careerText") {
+    return "#5fb6eb";
+  }
+  else if (type === "skillText") {
+    return "#2E7CFB";
+  }
+  else {
+    return "#5283D5";
+  }
+} 
 
 function replaceSpaces(name) {
   return name.replace(/\s+/g, '-');
