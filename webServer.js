@@ -29,7 +29,7 @@ app.use(function (req, res, next) {
 
 app.use(express.static(__dirname));
 
-var server = app.listen(proess.env.PORT || portno, function () {
+var server = app.listen(process.env.PORT || portno, function () {
 	var port = server.address().port;
 	console.log('Listening on' + port + ' exporting the directory ' + __dirname);
 	buildClassReviewIndex();
